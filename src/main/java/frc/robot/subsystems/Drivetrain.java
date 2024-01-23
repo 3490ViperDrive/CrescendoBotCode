@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -89,20 +90,29 @@ public class Drivetrain extends SubsystemBase {
     //TODO args could probably be more descriptive
     //TODO change SwerveModuleIO.ControlMode to ControlMode once odometry is added
     public void drive(double x, double y, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
-        SmartDashboard.putNumber("commanded Xspeed mps", x);
-        SmartDashboard.putNumber("commanded Yspeed mps", y);
-        SmartDashboard.putNumber("commanded Thetaspeed mps", theta);
         ChassisSpeeds desiredChassisSpeeds;
         if (fieldRelative) {
             desiredChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(x, y, theta, getGyroYaw());
         } else {
             desiredChassisSpeeds = new ChassisSpeeds(x, y, theta);
         }
+        if (controlMode == SwerveModuleIO.ControlMode.kOpenLoop) {
+            x *= kMaxTranslationSpeed;
+            y *= kMaxTranslationSpeed;
+            theta *= kMaxRotationSpeed;
+        }
+        SmartDashboard.putNumber("commanded Xspeed mps", x);
+        SmartDashboard.putNumber("commanded Yspeed mps", y);
+        SmartDashboard.putNumber("commanded Thetaspeed mps", theta);
         setModuleStates(kKinematics.toSwerveModuleStates(desiredChassisSpeeds), controlMode);
     }
 
+    public void drive (Translation2d translation, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
+        drive(translation.getX(), translation.getY(), theta, fieldRelative, controlMode);
+    }
+
     public Command driveOpenLoopCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
-        return this.run(() -> drive(x.getAsDouble() * kMaxTranslationSpeed, y.getAsDouble() * kMaxTranslationSpeed, theta.getAsDouble() * kMaxRotationSpeed, fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
+        return this.run(() -> drive(filterXY(x.getAsDouble(), y.getAsDouble()), filterAxis(theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
     }
 
     public Command zeroGyroCommand(double offset) {
@@ -111,6 +121,11 @@ public class Drivetrain extends SubsystemBase {
 
     public Command toggleFieldOrientedCommand() {
         return this.runOnce(() -> {this.fieldOriented = !fieldOriented;});
+    }
+
+    private Translation2d filterXY(double x, double y) {
+        Translation2d translation = new Translation2d(x, y);
+        return new Translation2d(filterAxis(translation.getNorm()), translation.getAngle());
     }
 
     private double filterAxis(double value) {
