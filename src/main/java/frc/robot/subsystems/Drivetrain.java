@@ -1,21 +1,19 @@
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ControllerConstants;
+import frc.robot.io.GyroIO;
 import frc.robot.io.SwerveModuleIO;
-import frc.robot.swervemodule.CTRESwerveModule;
-import frc.robot.swervemodule.SimSwerveModule;
+import frc.robot.io.gyro.NavXGyro;
+import frc.robot.io.swervemodule.CTRESwerveModule;
+import frc.robot.io.swervemodule.SimSwerveModule;
 import edu.wpi.first.math.MathUtil;
 import monologue.Logged;
 import monologue.Annotations.Log;
@@ -27,7 +25,7 @@ import java.util.function.DoubleSupplier;
 
 public class Drivetrain extends SubsystemBase implements Logged {
     
-    private AHRS m_gyro;
+    private GyroIO m_gyro;
     private SwerveModuleIO[] m_swerveModules;
 
     @Log.NT
@@ -41,8 +39,8 @@ public class Drivetrain extends SubsystemBase implements Logged {
     } 
 
     public Drivetrain() {
-        m_gyro = new AHRS(SPI.Port.kMXP, (byte) 200); //No gyro interface boowomp
-        zeroGyro();
+        m_gyro = new NavXGyro();
+        m_gyro.zeroGyro();
         fieldOriented = false;
         if (RobotBase.isReal()) {
             m_swerveModules = new SwerveModuleIO[] {
@@ -80,28 +78,12 @@ public class Drivetrain extends SubsystemBase implements Logged {
         */
     }
 
-    //TODO move gyro code to independent IO class at some point
-    public void zeroGyro() {
-        zeroGyro(0);
-    }
-    
-    public void zeroGyro(double offset){
-        DataLogManager.log("Gyro zeroed with offset " + offset);
-        m_gyro.zeroYaw();
-        m_yawOffset = Rotation2d.fromDegrees(offset);
-    }
-
-    @Log.NT
-    public Rotation2d getGyroYaw() {
-        return m_gyro.getRotation2d().minus(m_yawOffset);
-    }
-
     //TODO args could probably be more descriptive
     //TODO change SwerveModuleIO.ControlMode to ControlMode once odometry is added
     public void drive(double x, double y, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
         ChassisSpeeds desiredChassisSpeeds;
         if (fieldRelative) {
-            desiredChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(x, y, theta, getGyroYaw());
+            desiredChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(x, y, theta, m_gyro.getYaw());
         } else {
             desiredChassisSpeeds = new ChassisSpeeds(x, y, theta);
         }
@@ -131,7 +113,7 @@ public class Drivetrain extends SubsystemBase implements Logged {
     }
 
     public Command zeroGyroCommand(double offset) {
-        return this.runOnce(() -> zeroGyro(offset));
+        return this.runOnce(() -> m_gyro.zeroGyro(offset));
     }
 
     public Command toggleFieldOrientedCommand() {

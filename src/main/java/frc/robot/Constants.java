@@ -63,7 +63,7 @@ public final class Constants {
         public static final double kMaxRotationSpeed = 10; //m/s; test on robot
         public static final double kMaxModuleSpeed = 10; //m/s; guessed
 
-        //TODO ensure PID constants are appropriate (these come from last year's code and were converted from native units)
+        //TODO ensure PID constants are appropriate
         public static final class DriveMotorClosedLoopConstants {
             public static final double kP = 6;
             public static final double kI = 0;
