@@ -15,6 +15,36 @@
   },
   "NetworkTables": {
     "transitory": {
+      "Robot": {
+        "m_robotContainer": {
+          "m_drivetrain": {
+            "ChassisSpeeds##v_/Robot/m_robotContainer/m_drivetrain/Desired ChassisSpeeds": {
+              "open": true
+            },
+            "double[]##v_/Robot/m_robotContainer/m_drivetrain/getAdvantageScopeSwerveState": {
+              "open": true
+            },
+            "m_swerveModules": {
+              "SimSwerveModule[0]": {
+                "open": true
+              },
+              "SimSwerveModule[1]": {
+                "open": true
+              },
+              "SimSwerveModule[2]": {
+                "open": true
+              },
+              "SimSwerveModule[3]": {
+                "open": true
+              },
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      },
       "Shuffleboard": {
         ".metadata": {
           "open": true
@@ -24,6 +54,39 @@
         }
       },
       "SmartDashboard": {
+        "open": true
+      },
+      "notfound": {
+        "ChassisSpeeds##v_notfound/Desired ChassisSpeeds": {
+          "open": true
+        },
+        "SwerveModuleState[]##v_notfound/Desired SwerveModuleStates": {
+          "SwerveModuleState##v_[0]": {
+            "Rotation2d##v_angle": {
+              "open": true
+            },
+            "open": true
+          },
+          "SwerveModuleState##v_[1]": {
+            "Rotation2d##v_angle": {
+              "open": true
+            },
+            "open": true
+          },
+          "SwerveModuleState##v_[2]": {
+            "Rotation2d##v_angle": {
+              "open": true
+            },
+            "open": true
+          },
+          "SwerveModuleState##v_[3]": {
+            "Rotation2d##v_angle": {
+              "open": true
+            },
+            "open": true
+          },
+          "open": true
+        },
         "open": true
       }
     }

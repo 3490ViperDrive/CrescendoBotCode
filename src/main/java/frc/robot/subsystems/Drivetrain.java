@@ -10,25 +10,29 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ControllerConstants;
 import frc.robot.io.SwerveModuleIO;
 import frc.robot.swervemodule.CTRESwerveModule;
-import frc.robot.swervemodule.SimSwerveModuleLogging;
+import frc.robot.swervemodule.SimSwerveModule;
 import edu.wpi.first.math.MathUtil;
+import monologue.Logged;
+import monologue.Annotations.Log;
 
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 import java.util.function.DoubleSupplier;
 
-public class Drivetrain extends SubsystemBase {
+
+public class Drivetrain extends SubsystemBase implements Logged {
     
     private AHRS m_gyro;
     private SwerveModuleIO[] m_swerveModules;
 
+    @Log.NT
     Rotation2d m_yawOffset;
+    @Log.NT
     boolean fieldOriented;
 
     public enum ControlMode {
@@ -49,27 +53,31 @@ public class Drivetrain extends SubsystemBase {
             };
         } else {
             m_swerveModules = new SwerveModuleIO[] {
-            new SimSwerveModuleLogging(kFrontLeftModule),
-            new SimSwerveModuleLogging(kFrontRightModule),
-            new SimSwerveModuleLogging(kBackRightModule),
-            new SimSwerveModuleLogging(kBackLeftModule)
+            new SimSwerveModule(kFrontLeftModule),
+            new SimSwerveModule(kFrontRightModule),
+            new SimSwerveModule(kBackRightModule),
+            new SimSwerveModule(kBackLeftModule)
             };
         }
         
 
         //TODO ADD ODOMETRY
 
+        /*
         for (SwerveModuleIO module : m_swerveModules) {
             module.dashboardInit();
         }
+        */
     }
 
     @Override
     public void periodic() {
+        /*
         for (SwerveModuleIO module : m_swerveModules) {
             module.dashboardPeriodic();
         }
         SmartDashboard.putBoolean("Field Oriented?", fieldOriented);
+        */
     }
 
     //TODO move gyro code to independent IO class at some point
@@ -83,6 +91,7 @@ public class Drivetrain extends SubsystemBase {
         m_yawOffset = Rotation2d.fromDegrees(offset);
     }
 
+    @Log.NT
     public Rotation2d getGyroYaw() {
         return m_gyro.getRotation2d().minus(m_yawOffset);
     }
@@ -101,10 +110,15 @@ public class Drivetrain extends SubsystemBase {
             y *= kMaxTranslationSpeed;
             theta *= kMaxRotationSpeed;
         }
-        SmartDashboard.putNumber("commanded Xspeed mps", x);
-        SmartDashboard.putNumber("commanded Yspeed mps", y);
-        SmartDashboard.putNumber("commanded Thetaspeed mps", theta);
-        setModuleStates(kKinematics.toSwerveModuleStates(desiredChassisSpeeds), controlMode);
+        log("Desired ChassisSpeeds", desiredChassisSpeeds);
+        SwerveModuleState[] desiredModuleStates = kKinematics.toSwerveModuleStates(desiredChassisSpeeds);
+        setModuleStates(desiredModuleStates, controlMode);
+        //Only needed for AdvantageScope
+        log("Desired Swerve State", new double[] {
+            desiredModuleStates[0].angle.getDegrees(), desiredModuleStates[0].speedMetersPerSecond,
+            desiredModuleStates[1].angle.getDegrees(), desiredModuleStates[1].speedMetersPerSecond,
+            desiredModuleStates[2].angle.getDegrees(), desiredModuleStates[2].speedMetersPerSecond,
+            desiredModuleStates[3].angle.getDegrees(), desiredModuleStates[3].speedMetersPerSecond});
     }
 
     public void drive (Translation2d translation, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
@@ -112,7 +126,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public Command driveOpenLoopCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
-        return this.run(() -> drive(filterXY(x.getAsDouble(), y.getAsDouble()), filterAxis(theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
+        //Fwd, left, and CCW are postive for ChassisSpeeds
+        return this.run(() -> drive(filterXY(-x.getAsDouble(), -y.getAsDouble()), filterAxis(-theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
     }
 
     public Command zeroGyroCommand(double offset) {
@@ -139,6 +154,16 @@ public class Drivetrain extends SubsystemBase {
         for (int i = 0; i <= 3; i++) {
             m_swerveModules[i].setState(states[i], controlMode);
         }
+    }
+
+    //Only needed for AdvantageScope
+    @Log.NT
+    double[] getTrueSwerveState() {
+        return new double[]{
+            m_swerveModules[0].getAzimuthDegrees(), m_swerveModules[0].getVelocity(),
+            m_swerveModules[1].getAzimuthDegrees(), m_swerveModules[1].getVelocity(),
+            m_swerveModules[2].getAzimuthDegrees(), m_swerveModules[2].getVelocity(),
+            m_swerveModules[3].getAzimuthDegrees(), m_swerveModules[3].getVelocity()};
     }
 }
 

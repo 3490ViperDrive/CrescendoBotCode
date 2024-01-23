@@ -11,7 +11,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class Robot extends TimedRobot {
+import monologue.Logged;
+import monologue.Monologue;
+
+public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -22,11 +25,15 @@ public class Robot extends TimedRobot {
     DriverStation.silenceJoystickConnectionWarning(true);
     //Comment this out if SysID testing needs to be run; this should save some overhead in most cases
     SignalLogger.stop();
+    Monologue.setupMonologue(this, "Robot", false, false);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    //Save bandwidth by not broadcasting to NT in a competition environment
+    Monologue.setFileOnly(DriverStation.isFMSAttached());
+    Monologue.updateAll();
   }
 
   @Override

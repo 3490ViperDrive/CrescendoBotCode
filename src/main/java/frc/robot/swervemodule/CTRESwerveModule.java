@@ -8,10 +8,11 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.ModuleConstants;
 import frc.robot.CTREConfigurer;
 import frc.robot.io.SwerveModuleIO;
+import monologue.Annotations.Log;
+
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 public class CTRESwerveModule extends SwerveModuleIO {
@@ -34,7 +35,7 @@ public class CTRESwerveModule extends SwerveModuleIO {
         CTREConfigurer.configureModule(m_driveMotor, m_azimuthMotor, m_absEncoder, moduleConstants.absEncoderOffset, moduleConstants.moduleName);
         m_driveMotor.setPosition(0);
         m_azimuthMotor.setPosition(getAzimuth().getRotations()); //"Seed" the integrated sensor's position via the abs encoder
-        super.dashboardInit();
+        //super.dashboardInit();
     }
 
     public void setState(SwerveModuleState state, ControlMode controlMode) {
@@ -58,6 +59,7 @@ public class CTRESwerveModule extends SwerveModuleIO {
         return Rotation2d.fromRotations(m_absEncoder.getAbsolutePosition().getValueAsDouble());
     }
 
+    @Log.NT
     public Rotation2d getMotorAzimuth() {
         return Rotation2d.fromRotations(m_azimuthMotor.getPosition().getValueAsDouble());
     }
@@ -68,13 +70,5 @@ public class CTRESwerveModule extends SwerveModuleIO {
 
     public double getVelocity() {
         return m_driveMotor.getVelocity().getValueAsDouble() * kWheelCircumference;
-    }
-
-    @Override
-    public void dashboardPeriodic () {
-        SmartDashboard.putNumber(moduleConstants.moduleName + " Traveled Distance", getDistance());
-        SmartDashboard.putNumber(moduleConstants.moduleName + " Velocity", getVelocity());
-        SmartDashboard.putNumber(moduleConstants.moduleName + " Azimuth (Degrees)", getAzimuth().getDegrees());
-        SmartDashboard.putNumber(moduleConstants.moduleName + " Motor Azimuth", getMotorAzimuth().getDegrees());
     }
 }
