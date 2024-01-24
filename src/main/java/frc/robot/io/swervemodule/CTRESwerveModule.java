@@ -42,10 +42,10 @@ public class CTRESwerveModule extends SwerveModuleIO {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(state, getMotorAzimuth());
         switch(controlMode) {
             case kOpenLoop:
-            m_driveMotor.setControl(openLoopDriveRequest.withOutput(optimizedState.speedMetersPerSecond * kWheelCircumference)); //TODO are these conversions right
+            m_driveMotor.setControl(openLoopDriveRequest.withOutput(optimizedState.speedMetersPerSecond * kWheelCircumference * kDriveGearing)); //TODO are these conversions right
             break;
             case kClosedLoop:
-            m_driveMotor.setControl(closedLoopDriveRequest.withVelocity(optimizedState.speedMetersPerSecond * kWheelCircumference));
+            m_driveMotor.setControl(closedLoopDriveRequest.withVelocity(optimizedState.speedMetersPerSecond * kWheelCircumference * kDriveGearing));
             break;
             default:
             break;

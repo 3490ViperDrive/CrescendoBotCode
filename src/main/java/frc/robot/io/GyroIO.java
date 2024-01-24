@@ -18,6 +18,12 @@ public abstract class GyroIO implements Logged {
     @Log.NT
     public abstract Rotation2d getYaw();
 
+    //Shuffleboard does not know what a struct is
+    @Log.NT
+    public double getYawDegrees() {
+        return getYaw().getDegrees();
+    }
+
     @Log.File
     public abstract Rotation3d getRotation();
 

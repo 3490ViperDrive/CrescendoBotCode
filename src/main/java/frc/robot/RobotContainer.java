@@ -17,7 +17,7 @@ public class RobotContainer implements Logged {
   public RobotContainer() {
     configureBindings();
 
-    m_drivetrain.setDefaultCommand(m_drivetrain.driveOpenLoopCommand(() -> m_driverController.getLeftY(), () -> m_driverController.getLeftX(), () -> m_driverController.getRightX()));
+    m_drivetrain.setDefaultCommand(m_drivetrain.driveOpenLoopThrottleCommand(() -> m_driverController.getLeftY(), () -> m_driverController.getLeftX(), () -> m_driverController.getRightX(), () -> m_driverController.getLeftTriggerAxis()));
   }
 
   private void configureBindings() {

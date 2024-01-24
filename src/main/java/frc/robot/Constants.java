@@ -40,7 +40,7 @@ public final class Constants {
         public static final double kDriveGearing = 6.75; //6.75 : 1; MK4 L2 ratio
         public static final double kAzimuthGearing = 12.8; //12.8 : 1; steering ratio for all SDS modules
 
-        public static final InvertedValue kInvertDriveMotor = InvertedValue.CounterClockwise_Positive;
+        public static final InvertedValue kInvertDriveMotor = InvertedValue.Clockwise_Positive;
         public static final InvertedValue kInvertAzimuthMotor = InvertedValue.CounterClockwise_Positive;
         public static final SensorDirectionValue kInvertAbsEncoder = SensorDirectionValue.CounterClockwise_Positive; //these all should be default
 
@@ -73,7 +73,7 @@ public final class Constants {
         }
 
         public static final class AzimuthMotorClosedLoopConstants {
-            public static final double kP = 20; //TODO tune this
+            public static final double kP = 30; //TODO tune this
             public static final double kI = 0;
             public static final double kD = 0;
         }

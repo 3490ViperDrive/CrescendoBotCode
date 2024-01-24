@@ -112,6 +112,13 @@ public class Drivetrain extends SubsystemBase implements Logged {
         return this.run(() -> drive(filterXY(-x.getAsDouble(), -y.getAsDouble()), filterAxis(-theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
     }
 
+    //Throttle should be [0, 1]
+    public Command driveOpenLoopThrottleCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta, DoubleSupplier throttle) {
+        DoubleSupplier throttleMultiplier = () -> MathUtil.interpolate(0.4, 1, throttle.getAsDouble());
+        log("throttle multiplier", throttleMultiplier.getAsDouble());
+        return this.run(() -> drive(filterXY(-x.getAsDouble(), -y.getAsDouble()).times(throttleMultiplier.getAsDouble()), filterAxis(-theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop));
+    }
+
     public Command zeroGyroCommand(double offset) {
         return this.runOnce(() -> m_gyro.zeroGyro(offset));
     }
