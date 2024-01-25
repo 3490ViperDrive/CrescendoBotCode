@@ -5,6 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,9 +15,21 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private static final String kDefaultAuto = "Default";
+  private static final String kAuto = "Custome Autonomous"; 
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+
+    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("Right SPosition Auto", kAuto);
+    m_chooser.addOption("Center SPosition Auto", kAuto);
+    m_chooser.addOption("Left SPosition Auto", kAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
+
   }
 
   @Override
@@ -39,10 +53,32 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+
+    m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto selected: " + m_autoSelected);
+
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    switch (m_autoSelected) {
+      case kAuto:
+        // Put custom auto code here
+        break;
+      case kDefaultAuto:
+      default:
+        // Put default auto code here
+        break;
+        /*case :
+        // Put custom auto code here
+        break;
+      case :
+      default:
+        // Put default auto code here
+        break;*/
+
+    }
+  }
 
   @Override
   public void autonomousExit() {}
