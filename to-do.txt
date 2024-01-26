@@ -1,1 +1,8 @@
-This is a quick to-do list for me, this will be taken off once the code is all finished :]
+TO-DO
+
+
+1. Finish GUI and make it pretty
+
+2. Work on cleaning up any code I might write and make it better
+
+3. Nothing else apart from the funny uhhhhh coding
