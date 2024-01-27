@@ -7,6 +7,8 @@ package frc.robot;
 import java.sql.Connection;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -75,7 +77,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
   public void ShuffleBoardUI() {
-   // m_chooser.addOption(null, null); <--- Learn to make more stuff when needed
+   ShuffleboardTab tab = Shuffleboard.getTab("new tab [firefox reference]");
 
   }
 
