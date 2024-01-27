@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   
-
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
 
   @Override
@@ -75,7 +75,7 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
   public void ShuffleBoardUI() {
-
+   // m_chooser.addOption(null, null); <--- Learn to make more stuff when needed
 
   }
 
