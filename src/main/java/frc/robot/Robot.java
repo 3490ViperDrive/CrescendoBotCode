@@ -15,8 +15,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  private static final String kDefaultAuto = "Default";
-  private static final String kAuto = "Custome Autonomous"; 
+  private static final String kDefaultCenterAuto = "Center, Default Autonomous";
+  private static final String kRightAuto = "Right Autonomous";
+  private static final String kLeftAuto = "Left Autonomous"; 
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
@@ -24,10 +25,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("Right SPosition Auto", kAuto);
-    m_chooser.addOption("Center SPosition Auto", kAuto);
-    m_chooser.addOption("Left SPosition Auto", kAuto);
+    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
+    m_chooser.addOption("Right Auto", kRightAuto);
+    m_chooser.addOption("Left Auto", kLeftAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
   }
@@ -62,20 +62,28 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kAuto:
-        // Put custom auto code here
+      case kDefaultCenterAuto:
+        default: 
+        // Shoot the pre-loaded note
+        // Drive and pick up a note from ground
+        // Drive back
+        // Shoot the note into the speaker
         break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
+
+      case kRightAuto:
+        // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
+        // Cross the line as well
         break;
-        /*case :
-        // Put custom auto code here
+
+      case kLeftAuto:
+       // Drive to amp --> turn facing towards the amp
+       // Place in the note
+       // Turn
+       // Drive towards to pick a note
+       // Pick a note
+       // Drive back to amp
+       // Place the note into the amp
         break;
-      case :
-      default:
-        // Put default auto code here
-        break;*/
 
     }
   }
