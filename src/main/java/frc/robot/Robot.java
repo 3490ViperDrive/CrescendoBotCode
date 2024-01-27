@@ -25,11 +25,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
-    m_chooser.addOption("Right Auto", kRightAuto);
-    m_chooser.addOption("Left Auto", kLeftAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
+    dashboardUI();
   }
 
   @Override
@@ -56,7 +52,6 @@ public class Robot extends TimedRobot {
 
     m_autoSelected = m_chooser.getSelected();
     System.out.println("Auto selected: " + m_autoSelected);
-
   }
 
   @Override
@@ -114,4 +109,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+  private void dashboardUI(){
+    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
+    m_chooser.addOption("Right Auto", kRightAuto);
+    m_chooser.addOption("Left Auto", kLeftAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
+
+  }
 }
+
+  
