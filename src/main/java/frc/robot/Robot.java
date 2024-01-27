@@ -8,6 +8,7 @@ import java.sql.Connection;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -77,7 +78,11 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
   public void ShuffleBoardUI() {
-   ShuffleboardTab tab = Shuffleboard.getTab("new tab [firefox reference]");
+   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+
+    Shuffleboard.getTab("ShuffleBoard test")
+      .add("Started?", 1);
+
 
   }
 
