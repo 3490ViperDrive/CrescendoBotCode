@@ -1,8 +1,7 @@
-TO-DO
+TODO -
 
+1. read more of the game manual and make a better automonous skeleton.
 
-1. Finish GUI and make it pretty
+2. Write more gui elements [with Adamya writing more too]
 
-2. Work on cleaning up any code I might write and make it better
-
-3. Nothing else apart from the funny uhhhhh coding
+3. Do code :thumbsup:
