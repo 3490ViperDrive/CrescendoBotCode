@@ -80,6 +80,7 @@ public class Robot extends TimedRobot {
        // Place the note into the amp
         break;
 
+        //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
     }
   }
 
