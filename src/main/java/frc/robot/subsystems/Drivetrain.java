@@ -20,6 +20,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import monologue.Logged;
 import monologue.Annotations.Log;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.DrivetrainConstants.*;
 
@@ -31,7 +33,9 @@ public class Drivetrain extends SubsystemBase implements Logged {
     private GyroIO m_gyro;
     private SwerveModuleIO[] m_swerveModules;
     private SwerveDrivePoseEstimator m_poseEstimator;
+    @Log.File
     private Pose2d m_pose;
+    private Field2d m_poseField;
 
     @Log.NT
     Rotation2d m_yawOffset;
@@ -66,6 +70,7 @@ public class Drivetrain extends SubsystemBase implements Logged {
 
         //TODO FINISh ODOMETRY
         m_pose = new Pose2d(5, 13.5, Rotation2d.fromDegrees(180));
+        m_poseField = new Field2d();
         m_poseEstimator = new SwerveDrivePoseEstimator(kKinematics, m_gyro.getYaw(), getSwerveModulePositions(), m_pose);
 
         /*
@@ -85,6 +90,8 @@ public class Drivetrain extends SubsystemBase implements Logged {
         SmartDashboard.putBoolean("Field Oriented?", fieldOriented);
         */
         m_pose = m_poseEstimator.update(m_gyro.getYaw(), getSwerveModulePositions());
+        m_poseField.setRobotPose(m_pose);
+        SmartDashboard.putData(m_poseField);
     }
 
     //TODO args could probably be more descriptive
