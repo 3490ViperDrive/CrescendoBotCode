@@ -22,7 +22,8 @@ public final class Constants {
         public static final double kWheelbase = Units.inchesToMeters(27); //Guessed
         public static final double kTrackWidth = Units.inchesToMeters(27);
 
-        public static final double kWheelCircumference = Units.inchesToMeters(4);
+        public static final double kWheelDiameter = Units.inchesToMeters(4);
+        public static final double kWheelCircumference = kWheelDiameter * Math.PI;
 
         public static final SwerveDriveKinematics kKinematics = new SwerveDriveKinematics( //Module locations are clockwise starting from the front left module
             new Translation2d(kWheelbase/2, kTrackWidth/2),

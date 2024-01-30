@@ -1,9 +1,11 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,6 +17,7 @@ import frc.robot.io.gyro.NavXGyro;
 import frc.robot.io.swervemodule.CTRESwerveModule;
 import frc.robot.io.swervemodule.SimSwerveModule;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import monologue.Logged;
 import monologue.Annotations.Log;
 
@@ -27,6 +30,8 @@ public class Drivetrain extends SubsystemBase implements Logged {
     
     private GyroIO m_gyro;
     private SwerveModuleIO[] m_swerveModules;
+    private SwerveDrivePoseEstimator m_poseEstimator;
+    private Pose2d m_pose;
 
     @Log.NT
     Rotation2d m_yawOffset;
@@ -59,7 +64,9 @@ public class Drivetrain extends SubsystemBase implements Logged {
         }
         
 
-        //TODO ADD ODOMETRY
+        //TODO FINISh ODOMETRY
+        m_pose = new Pose2d(5, 13.5, Rotation2d.fromDegrees(180));
+        m_poseEstimator = new SwerveDrivePoseEstimator(kKinematics, m_gyro.getYaw(), getSwerveModulePositions(), m_pose);
 
         /*
         for (SwerveModuleIO module : m_swerveModules) {
@@ -70,12 +77,14 @@ public class Drivetrain extends SubsystemBase implements Logged {
 
     @Override
     public void periodic() {
+        
         /*
         for (SwerveModuleIO module : m_swerveModules) {
             module.dashboardPeriodic();
         }
         SmartDashboard.putBoolean("Field Oriented?", fieldOriented);
         */
+        m_pose = m_poseEstimator.update(m_gyro.getYaw(), getSwerveModulePositions());
     }
 
     //TODO args could probably be more descriptive
@@ -154,5 +163,18 @@ public class Drivetrain extends SubsystemBase implements Logged {
             m_swerveModules[2].getAzimuthDegrees(), m_swerveModules[2].getVelocity(),
             m_swerveModules[3].getAzimuthDegrees(), m_swerveModules[3].getVelocity()};
     }
-}
 
+    @Log.File
+    SwerveModulePosition[] getSwerveModulePositions() {
+        return new SwerveModulePosition[]{
+            new SwerveModulePosition(m_swerveModules[0].getDistance(), m_swerveModules[0].getAzimuth()),
+            new SwerveModulePosition(m_swerveModules[1].getDistance(), m_swerveModules[1].getAzimuth()),
+            new SwerveModulePosition(m_swerveModules[2].getDistance(), m_swerveModules[2].getAzimuth()),
+            new SwerveModulePosition(m_swerveModules[3].getDistance(), m_swerveModules[3].getAzimuth())};
+    }
+
+    @Log.File
+    Pose2d getPose() {
+        return m_pose;
+    }
+}
