@@ -1,4 +1,9 @@
 {
+
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo"
+
   "HALProvider": {
     "RoboRIO": {
       "window": {
@@ -45,10 +50,13 @@
         },
         "open": true
       }
+
     }
   },
   "NetworkTables Info": {
     "visible": true
+
+
   },
   "Plot": {
     "Plot <0>": {

@@ -4,15 +4,28 @@
 
 package frc.robot;
 
+import java.sql.Connection;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+
+  private double temp = 123;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
 
   private static final String kDefaultCenterAuto = "Center, Default Autonomous";
@@ -25,7 +38,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
+
+    ShuffleBoardUI();
+
     dashboardUI();
+
   }
 
   @Override
@@ -106,6 +123,24 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {}
+
+  public void ShuffleBoardUI() {
+   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+
+    Shuffleboard.getTab("ShuffleBoard test")
+      .add("Started?", 1);
+
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("testing 2", 1 + 214);
+
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("Variable thing", temp);
+
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("Slider test", 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .getEntry();
+  }
 
   @Override
   public void testExit() {}
