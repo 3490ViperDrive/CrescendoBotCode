@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   private static final String kRightAuto = "Right Autonomous";
   private static final String kLeftAuto = "Left Autonomous"; 
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  //private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   @Override
   public void robotInit() {
