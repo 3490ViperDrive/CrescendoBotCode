@@ -74,6 +74,8 @@ public class Robot extends TimedRobot {
         // Drive and pick up a note from ground
         // Drive back
         // Shoot the note into the speaker
+
+        
         break;
 
       case kRightAuto:
