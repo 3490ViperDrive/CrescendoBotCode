@@ -5,10 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -21,16 +24,24 @@ public class Robot extends TimedRobot {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
+  //double counter = 0.0;
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
     dashboardUI();
+
+    coltonsCode();
+
+    //SmartDashboard.putData(CommandScheduler.getInstance());
   }
 
   @Override
   public void robotPeriodic() {
-    CommandScheduler.getInstance().run();
+    //CommandScheduler.getInstance().run();
+    //Idk what's the difference between these two is but I think I kinda do.
+    //CommandScheduler.getInstance(); //.run();
   }
 
   @Override
@@ -95,14 +106,16 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //SmartDashboard.putNumber("Counter", counter++);
+  }
 
   @Override
   public void teleopExit() {}
 
   @Override
   public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
+    //CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
@@ -116,8 +129,17 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("Right Auto", kRightAuto);
     m_chooser.addOption("Left Auto", kLeftAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+  }
 
+   //Colton's code from github
+  private void coltonsCode(){
+    //ShuffleboardTab tab = 
+    Shuffleboard.getTab("Practice");
+
+      Shuffleboard.getTab("Practice")
+        .add("Slider Test", 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .getEntry();
   }
 }
-
   
