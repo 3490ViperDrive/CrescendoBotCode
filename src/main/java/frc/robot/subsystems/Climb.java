@@ -1,11 +1,16 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
 
-    public void climb(){
+    public Command climb(){
         // The elevator climb command
+
+        // Run the motors so the climb can climb
+
+        return null;
     }
     
 }

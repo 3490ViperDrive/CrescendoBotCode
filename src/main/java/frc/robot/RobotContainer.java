@@ -14,7 +14,12 @@ public class RobotContainer {
     configureBindings();
   }
 
-  private void configureBindings() {}
+  private void configureBindings() {
+
+    // Bind different button to a specific functionality (do the thing)
+
+    // thisButton.onTrue(do this thing)
+  }
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command configured");
