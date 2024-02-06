@@ -14,6 +14,8 @@ public class Arm extends SubsystemBase {
         
         // Run the arm motors?
 
+        System.out.print("Return something");
+        
         return null;
     }
 }

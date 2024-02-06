@@ -10,6 +10,8 @@ public class Shooter extends SubsystemBase {
 
         // Detect if the note is in or not (beam breaker)
 
+        System.out.print("Return something");
+
         return null;
     }
 }

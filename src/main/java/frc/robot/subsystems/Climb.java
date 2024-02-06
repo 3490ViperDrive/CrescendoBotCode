@@ -10,6 +10,8 @@ public class Climb extends SubsystemBase {
 
         // Run the motors so the climb can climb
 
+        System.out.print("Return something");
+
         return null;
     }
     

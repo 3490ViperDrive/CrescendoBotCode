@@ -15,6 +15,8 @@ public class Intake extends SubsystemBase{
 
         // Use pid to run the motors on different speeds?
 
+        System.out.print("Return something");
+
         return null;
 
     }
