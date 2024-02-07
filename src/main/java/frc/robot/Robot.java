@@ -80,24 +80,31 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {}
 
-  public void ShuffleBoardUI() {
-   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
-
-    Shuffleboard.getTab("ShuffleBoard test")
-      .add("Started?", 1);
-
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("testing 2", 1 + 214);
-
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("Variable thing", temp);
-
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("Slider test", 1)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .getEntry();
-  }
-
   @Override
   public void testExit() {}
+
+  public void ShuffleBoardUI() {
+    ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+ 
+     Shuffleboard.getTab("ShuffleBoard test")
+       .add("Started?", 1);
+ 
+       Shuffleboard.getTab("ShuffleBoard test")
+         .add("testing 2", 1 + 214);
+ 
+       Shuffleboard.getTab("ShuffleBoard test")
+         .add("Variable thing", temp);
+ 
+       Shuffleboard.getTab("ShuffleBoard test")
+         .add("Slider test", 1)
+         .withWidget(BuiltInWidgets.kNumberSlider)
+         .getEntry();
+ 
+       Shuffleboard.getTab("ShuffleBoard test")
+       .add("voltage", 50)
+       .withWidget(BuiltInWidgets.kVoltageView)
+       .getEntry();
+   }
+
+   
 }
