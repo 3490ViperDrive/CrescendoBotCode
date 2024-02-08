@@ -1,3 +1,6 @@
+//TODO: Remove the shuffleboard stuff from robot.java and move it 'dashboardUI'
+//TODO: Actually add code for autonomous in/under center(default) autonomous 
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -75,7 +78,6 @@ public class Robot extends TimedRobot {
         // Drive back
         // Shoot the note into the speaker
 
-        
         break;
 
       case kRightAuto:
