@@ -1,3 +1,6 @@
+//TODO: Remove the shuffleboard stuff from robot.java and move it 'dashboardUI'
+//TODO: Actually add code for autonomous in/under center(default) autonomous 
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
@@ -11,6 +14,9 @@ import monologue.Logged;
 import monologue.Monologue;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -18,11 +24,12 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot implements Logged{
   private Command m_autonomousCommand;
@@ -39,6 +46,8 @@ public class Robot extends TimedRobot implements Logged{
   private String m_autoSelected;
 
 
+  //double counter = 0.0;
+
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
@@ -53,10 +62,13 @@ public class Robot extends TimedRobot implements Logged{
 
     dashboardUI();
 
+
+    coltonsCode();
   }
 
   @Override
   public void robotPeriodic() {
+    
     CommandScheduler.getInstance().run();
     Monologue.setFileOnly(DriverStation.isFMSAttached());
     Monologue.updateAll();
@@ -92,6 +104,7 @@ public class Robot extends TimedRobot implements Logged{
         // Drive and pick up a note from ground
         // Drive back
         // Shoot the note into the speaker
+
         break;
 
       case kRightAuto:
@@ -108,6 +121,9 @@ public class Robot extends TimedRobot implements Logged{
        // Drive back to amp
        // Place the note into the amp
         break;
+
+        //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
+
     }
   }
 
@@ -122,14 +138,16 @@ public class Robot extends TimedRobot implements Logged{
   }
 
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //SmartDashboard.putNumber("Counter", counter++);
+  }
 
   @Override
   public void teleopExit() {}
 
   @Override
   public void testInit() {
-    CommandScheduler.getInstance().cancelAll();
+    //CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
@@ -161,8 +179,17 @@ public class Robot extends TimedRobot implements Logged{
     m_chooser.addOption("Right Auto", kRightAuto);
     m_chooser.addOption("Left Auto", kLeftAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+  }
 
+   //Colton's code from github
+  private void coltonsCode(){
+    //ShuffleboardTab tab = 
+    Shuffleboard.getTab("Practice");
+
+      Shuffleboard.getTab("Practice")
+        .add("Slider Test", 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .getEntry();
   }
 }
-
   
