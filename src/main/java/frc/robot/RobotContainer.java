@@ -22,12 +22,16 @@ public class RobotContainer {
   
   public RobotContainer() {
 
-    m_drivetrain.setDefaultCommand(m_drivetrain.driveOpenLoopThrottleCommand(() -> m_driverController.getLeftY(), () -> m_driverController.getLeftX(), () -> m_driverController.getRightX(), () -> m_driverController.getLeftTriggerAxis()));
+    m_drivetrain.setDefaultCommand(m_drivetrain.driveOpenLoopThrottleCommand(
+      () -> m_driverController.getLeftY(), 
+      () -> m_driverController.getLeftX(), 
+      () -> m_driverController.getRightX(), 
+      () -> m_driverController.getLeftTriggerAxis()));
+
     configureBindings();
   }
 
   private void configureBindings() {
-  
   }
 
   public Command getAutonomousCommand() {
