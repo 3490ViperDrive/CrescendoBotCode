@@ -7,25 +7,44 @@
 
 package frc.robot;
 
+import java.sql.Connection;
+import com.ctre.phoenix6.SignalLogger;
+
+import monologue.Logged;
+import monologue.Monologue;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-//import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.Command;
 //import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot implements Logged{
   private Command m_autonomousCommand;
 
+
+  //private double temp = 123;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
 
+  //TODO: declutter the Robot class, move these variables into a more appropriate context
   private static final String kDefaultCenterAuto = "Center, Default Autonomous";
   private static final String kRightAuto = "Right Autonomous";
   private static final String kLeftAuto = "Left Autonomous"; 
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
 
   //double counter = 0.0;
 
@@ -33,18 +52,26 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
+    DriverStation.silenceJoystickConnectionWarning(true);
+    //Comment this out if SysID testing needs to be run; this should save some overhead in most cases
+    SignalLogger.stop();
+    Monologue.setupMonologue(this, "Robot", false, false);
+
+
+    ShuffleBoardUI();
+
     dashboardUI();
 
-    coltonsCode();
 
-    //SmartDashboard.putData(CommandScheduler.getInstance());
+    coltonsCode();
   }
 
   @Override
   public void robotPeriodic() {
-    //CommandScheduler.getInstance().run();
-    //Idk what's the difference between these two is but I think I kinda do.
-    //CommandScheduler.getInstance(); //.run();
+    
+    CommandScheduler.getInstance().run();
+    Monologue.setFileOnly(DriverStation.isFMSAttached());
+    Monologue.updateAll();
   }
 
   @Override
@@ -96,6 +123,7 @@ public class Robot extends TimedRobot {
         break;
 
         //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
+
     }
   }
 
@@ -124,6 +152,24 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testPeriodic() {}
+
+  public void ShuffleBoardUI() {
+   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+
+    Shuffleboard.getTab("ShuffleBoard test")
+      .add("Started?", 1);
+
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("testing 2", 1 + 214);
+
+      // Shuffleboard.getTab("ShuffleBoard test")
+      //   .add("Variable thing", temp);
+
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("Slider test", 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .getEntry();
+  }
 
   @Override
   public void testExit() {}
