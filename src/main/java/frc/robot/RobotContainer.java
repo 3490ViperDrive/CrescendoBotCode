@@ -33,6 +33,7 @@ public class RobotContainer {
 
   private void configureBindings() {
   }
+  //jajaja lolol did i do it right
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command(s) configured");
