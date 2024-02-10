@@ -1,7 +1,7 @@
-TODO -
+TODO 2/10/2024
 
-1. read more of the game manual and make a better automonous skeleton.
+1. More gui
 
-2. Write more gui elements [with Adamya writing more too]
+2. Write more skeleton automonous code
 
-3. Do code :thumbsup:
+3. git gud

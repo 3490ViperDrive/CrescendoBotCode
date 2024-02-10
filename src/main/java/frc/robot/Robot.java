@@ -90,7 +90,8 @@ public class Robot extends TimedRobot {
         .add("testing 2", 1 + 214);
 
       Shuffleboard.getTab("ShuffleBoard test")
-        .add("Variable thing", temp);
+        .add("Variable thing", 5)
+        .getEntry();
 
       Shuffleboard.getTab("ShuffleBoard test")
         .add("Slider test", 1)
