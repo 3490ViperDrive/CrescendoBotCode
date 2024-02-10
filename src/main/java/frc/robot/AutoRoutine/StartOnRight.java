@@ -4,18 +4,21 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drivetrain;
+import java.util.function.DoubleSupplier;
 
 public class StartOnRight extends SequentialCommandGroup {
     
     //basic auto commented out. Will slip back in when needed
     public StartOnRight( Drivetrain drive, shooterSubsystem Shooter, intakeSubsystem intake){
 
+        //find a way to give doubble suppliers a value, then pipe those in
+
         /*addCommands(
             Commands.runOnce(
                 () -> Shooter.ShootymcShootface(1)
             ).withTimeout(1),
             Commands.runOnce(
-                ()-> Drive.driveOpenLoopCommand(2,0,0)
+                ()-> drive.driveOpenLoopCommand(2.0,0.0,0.0)
             ).withTimeout(1),
             Commands.runOnce(
                 () -> intake.intakeNote(1)
