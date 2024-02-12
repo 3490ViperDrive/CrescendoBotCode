@@ -1,3 +1,18 @@
 [
-
+  {
+    "name": "/Preferences/motor 1 speed [-1, 1]",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  },
+  {
+    "name": "/Preferences/motor 2 speed [-1, 1]",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+    }
+  }
 ]

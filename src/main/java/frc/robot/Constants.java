@@ -61,8 +61,8 @@ public final class Constants {
         public static final double kAzimuthSupplyCurrentLimitTime = 0.1; //sec
 
         public static final double kMaxTranslationSpeed = 4.5; //m/s; test on robot
-        public static final double kMaxRotationSpeed = 10; //m/s; test on robot
-        public static final double kMaxModuleSpeed = 10; //m/s; guessed
+        public static final double kMaxRotationSpeed = 10; //rad/s; test on robot
+        public static final double kMaxModuleSpeed = 4.5; //m/s; guessed
 
         //TODO ensure PID constants are appropriate
         public static final class DriveMotorClosedLoopConstants {
