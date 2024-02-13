@@ -6,19 +6,16 @@ package frc.robot;
 
 // import java.lang.reflect.InaccessibleObjectException;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
-// import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 
 public class RobotContainer {
 
   CommandXboxController m_driverController = new CommandXboxController(0);
-
   Drivetrain m_drivetrain = new Drivetrain();
-
+  Shooter m_shoot = new Shooter();
   
   public RobotContainer() {
 
@@ -29,9 +26,14 @@ public class RobotContainer {
       () -> m_driverController.getLeftTriggerAxis()));
 
     configureBindings();
+
+    m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
   }
 
   private void configureBindings() {
+    m_driverController.start().onTrue(m_drivetrain.zeroGyroCommand(0));
+    m_driverController.back().onTrue(m_drivetrain.toggleFieldOrientedCommand());
+    m_driverController.a().whileTrue(m_shoot.shoot());
   }
 
   public Command getAutonomousCommand() {
