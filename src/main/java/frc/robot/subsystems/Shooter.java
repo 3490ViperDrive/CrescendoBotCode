@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public Command stopMotorCommand() {
-        return run(() -> {
+        return runOnce(() -> {
             shooterMotor.stopMotor();
             shooterMotor.set(0);
         });
