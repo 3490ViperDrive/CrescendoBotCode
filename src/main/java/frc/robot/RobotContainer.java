@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-// import java.lang.reflect.InaccessibleObjectException;
-
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
@@ -33,7 +31,7 @@ public class RobotContainer {
   private void configureBindings() {
     m_driverController.start().onTrue(m_drivetrain.zeroGyroCommand(0));
     m_driverController.back().onTrue(m_drivetrain.toggleFieldOrientedCommand());
-    m_driverController.a().whileTrue(m_shoot.shoot());
+    m_driverController.b().whileTrue(m_shoot.shoot());
   }
 
   public Command getAutonomousCommand() {
