@@ -1,3 +1,6 @@
+package frc.robot.subsystems;
+
+
 public class lidarSubsystem extends subsystemBase{
 
     AnalogInput input = new AnalogInput(0);
