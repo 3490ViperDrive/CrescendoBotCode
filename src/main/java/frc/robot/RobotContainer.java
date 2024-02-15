@@ -10,7 +10,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.SpinNEOS;
 import monologue.Logged;
 
-public class RobotContainer {
+public class RobotContainer implements Logged {
   public RobotContainer() {
     configureBindings();
   }
