@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
-
 import frc.lib.ModuleConstants;
 
 public final class Constants {
@@ -79,10 +78,13 @@ public final class Constants {
             public static final double kD = 0;
         }
     }
-
+    
+    public static final class IntakeConstants {
+        public static final int indexSensor = 1;
+        public static final double intakeMotorSpeed = 0.75;
+    }
     public static final class VisionConstants{
             public static final int kLidarPort = 0;
         }
 
-    
 }
