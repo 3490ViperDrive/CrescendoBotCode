@@ -1,5 +1,6 @@
 package frc.robot.AutoRoutine;
 
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -8,8 +9,8 @@ import frc.robot.subsystems.*;
 
 public class StartInMiddle extends SequentialCommandGroup {
     
-    public StartInMiddle(Drivetrain drive, shooterSubsystem shooter, intakeSubsystem intake){
-        addCommands(
+    public StartInMiddle(Drivetrain drive, Shooter shooter, intakeSubsystem intake){
+        /*addCommands(
             Commands.runOnce(
                 () -> shooter.ShootymcShootface(1)
             ).withTimeout(1),
@@ -58,7 +59,8 @@ public class StartInMiddle extends SequentialCommandGroup {
             Commands.runOnce(
                 () -> shooter.ShootymcShootface(1)
             ).withTimeout(1)
-        );
+        );*/
 
     }
+
 }

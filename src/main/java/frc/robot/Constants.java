@@ -80,5 +80,9 @@ public final class Constants {
         }
     }
 
+    public static final class VisionConstants{
+            public static final int kLidarPort = 0;
+        }
+
     
 }

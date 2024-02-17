@@ -1,5 +1,6 @@
 package frc.robot.AutoRoutine;
 
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -7,7 +8,7 @@ import frc.robot.subsystems.*;
 
 public class StartOnLeft extends SequentialCommandGroup {
 
-    public StartOnLeft(Drivetrain drive, shooterSubsystem shooter, intakeSubsystem intake){
+    public StartOnLeft(Drivetrain drive, Shooter shooter, intakeSubsystem intake){
 
         /*addCommands(
             Commands.runOnce(
@@ -55,5 +56,5 @@ public class StartOnLeft extends SequentialCommandGroup {
         );*/
 
     }
-    
 }
+
