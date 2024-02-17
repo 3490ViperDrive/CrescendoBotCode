@@ -12,12 +12,14 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
+import frc.robot.subsystems.vision.Optometrist;
 
 public class RobotContainer {
 
   CommandXboxController m_driverController = new CommandXboxController(0);
 
   Drivetrain m_drivetrain = new Drivetrain();
+  private Optometrist eyedoctor = new Optometrist();
 
   
   public RobotContainer() {
@@ -32,6 +34,7 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+    m_driverController.rightBumper().onTrue(eyedoctor.peek());
   }
 
   public Command getAutonomousCommand() {
