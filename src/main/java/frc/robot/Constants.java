@@ -83,6 +83,11 @@ public final class Constants {
         public static final int indexSensor = 1;
         public static final double intakeMotorSpeed = 0.75;
     }
+    public static final class IndexerConstants {
+        public static final int indexSensor = 1;
+        public static final double indexMotorSpeed = 0.75;
+    }
+
     public static final class VisionConstants{
             public static final int kLidarPort = 0;
         }
