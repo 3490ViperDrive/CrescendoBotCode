@@ -1,13 +1,12 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-public class Shooter extends SubsystemBase {
+import static frc.robot.Constants.ShooterSpeed.*;
 
-    private static final double kShooterSpeed = 0;
+public class Shooter extends SubsystemBase {
 
     int shooterMotorID = 0;
 
@@ -15,18 +14,14 @@ public class Shooter extends SubsystemBase {
     
     public Shooter(){
         shooterMotor = new TalonFX(shooterMotorID);
-        Preferences.initDouble("shooter motor speed [-1, 1]", 0);
     }
 
     @Override
     public void periodic() {};
 
-    // I did nothing wrong ; Everything's correct from my side
-    // If something is goes wrong, it's because of the government
-
     public Command shoot() {
         return run(() -> {
-            shooterMotor.set(0);
+            shooterMotor.set(kShooterSpeed);
         });
     }
 
