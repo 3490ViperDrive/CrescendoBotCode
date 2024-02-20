@@ -15,7 +15,7 @@ public final class Constants {
         // TunerConstants.java may be overwritten in the future
 
         public static final double kMaxTranslationSpeed = 4.5; //m/s
-        public static final double kMaxRotationSpeed = 10; //rad/s
+        public static final double kMaxRotationSpeed = 4.5; //rad/s
         public static final double kMaxModuleSpeed = 4.5; //m/s
 
         public static final double kDrivebaseRadius = Math.hypot(
