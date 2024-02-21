@@ -7,6 +7,9 @@
   },
   "NetworkTables": {
     "transitory": {
+      "Preferences": {
+        "open": true
+      },
       "Robot": {
         "m_robotContainer": {
           "m_drivetrain": {

@@ -7,6 +7,8 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
@@ -17,14 +19,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.Constants.ControllerConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.io.SwerveIO;
 import monologue.Logged;
 
+import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 /**
@@ -33,17 +35,35 @@ import static frc.robot.Constants.DrivetrainConstants.*;
  */
 public class Drivetrain implements Subsystem, Logged {
     private SwerveIO m_swerve;
+    private PhoenixPIDController m_headingPID;
 
-    private SwerveRequest.ApplyChassisSpeeds m_PathPlannerDriveRequest = new SwerveRequest.ApplyChassisSpeeds();
+    private SwerveRequest.ApplyChassisSpeeds m_PathPlannerRequest;
+    private SwerveRequest.RobotCentric m_OpenLoopRobotCentricRequest;
+    private SwerveRequest.FieldCentric m_OpenLoopFieldCentricRequest;
+    private SwerveRequest.FieldCentricFacingAngle m_OpenLoopControlledHeadingRequest;
+    private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
+        m_headingPID = new PhoenixPIDController(15, 0, 0.2);
+        m_headingPID.enableContinuousInput(0, 2 * Math.PI);
+
+        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
+        m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopFieldCentricRequest = new SwerveRequest.FieldCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopControlledHeadingRequest.HeadingController = m_headingPID;
+        m_ClosedLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
+            .withDriveRequestType(DriveRequestType.Velocity);
+        m_ClosedLoopControlledHeadingRequest.HeadingController = m_headingPID; //might need a separate PhoenixPIDController with separate gains for this
+
         AutoBuilder.configureHolonomic(
             m_swerve::getPose,
             m_swerve::resetPose,
             m_swerve::getChassisSpeeds,
             (desiredSpeeds) -> {
-                m_swerve.setControl(m_PathPlannerDriveRequest.withSpeeds(desiredSpeeds).withDriveRequestType(DriveRequestType.Velocity));
+                m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
                 new PIDConstants(5),
@@ -58,27 +78,59 @@ public class Drivetrain implements Subsystem, Logged {
             this);
     }
 
+    @Override
+    public void periodic() {}
+
     public Command applyRequestCommand(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> m_swerve.setControl(requestSupplier.get()));
     }
 
+    //TODO move any xbox controller specific behavior into Omnicontroller 2 if created
     /* Do not use for autonomous routines */
     public Command driveTeleopCommand(
         DoubleSupplier leftStickY,
         DoubleSupplier leftStickX,
         DoubleSupplier rightStickX,
-        DoubleSupplier throttle, // Prob should use LT for this, but RT could work too
-        BooleanSupplier a,
-        BooleanSupplier b,
-        BooleanSupplier x,
-        BooleanSupplier y) {
+        DoubleSupplier crawl, // Prob should use LT for this, but RT could work too
+        BooleanSupplier down,
+        BooleanSupplier right,
+        BooleanSupplier left,
+        BooleanSupplier up,
+        BooleanSupplier robotCentric) {
         return run(() -> {
             double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
-            m_swerve.setControl(new SwerveRequest.FieldCentric()
-                .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
-                .withVelocityX(stickInputs[0] * 12)
-                .withVelocityY(stickInputs[1] * 12)
-                .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            stickInputs[0] *= translationMultiplier;
+            stickInputs[1] *= translationMultiplier;
+            stickInputs[2] *= applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+            if (robotCentric.getAsBoolean()) {
+                m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(-stickInputs[0] * 12) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * 12) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * 12));
+            } else {
+                if (up.getAsBoolean() || down.getAsBoolean() || left.getAsBoolean() || right.getAsBoolean()) {
+                    Rotation2d desiredAngle;
+                    if (down.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(180);
+                    } else if (right.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(300);
+                    } else if (left.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(90);
+                    } else { //Must be up
+                        desiredAngle = Rotation2d.fromDegrees(0);
+                    }
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
+                        .withVelocityX(stickInputs[0] * 12)
+                        .withVelocityY(stickInputs[1] * 12)
+                        .withTargetDirection(desiredAngle));
+                } else {
+                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(stickInputs[0] * 12)
+                        .withVelocityY(stickInputs[1] * 12)
+                        .withRotationalRate(stickInputs[2] * 12));
+                }
+            }
         });
     }
 
@@ -103,31 +155,19 @@ public class Drivetrain implements Subsystem, Logged {
     //TODO move to Omnicontroller 2 lib if created
     public double[] filterXboxControllerInputs(double y, double x, double theta) {
         Translation2d input = new Translation2d(-y, -x); //fix for NW CC+
-        // Translation2d maxInput;
-        // //account for square part of rounded square
-        // if (Math.abs(input.getX()) >= Math.abs(input.getY())) {
-        //     maxInput = new Translation2d(1, Math.abs(input.getY()) * (input.getX() != 0 ? 1 / Math.abs(input.getX()) : 0));
-        // } else {
-        //     maxInput = new Translation2d(Math.abs(input.getX()) * (input.getY() != 0 ? 1 / Math.abs(input.getY()) : 0), 1);
-        // }
-        // //account for rounded part of the rounded square
-        // if (quadrantAngle >= 26 && quadrantAngle <= 63) {
-        //     input = input.div(1.118);
-        // } else {
-        //     input = input.div(maxInput.getNorm());
-        // }
-        // input = new Translation2d(squareInput(applyDeadbandSpecial(input.getNorm())), input.getAngle());
         double quadrantAngle = Math.abs(input.getAngle().getDegrees()) % 90;
-        input = input.div(1);
-        if (Math.abs(x) >= 0.99 || Math.abs(y) >= 0.99) {
-            input = new Translation2d(1, input.getAngle());
-        } else {
-            input = new Translation2d(squareInput(applyDeadbandSpecial(input.getNorm())), input.getAngle());
-        }
+        // input = input.div(1.12);
+        // if (Math.abs(x) >= 0.99 || Math.abs(y) >= 0.99) {
+        //     input = new Translation2d(1, input.getAngle());
+        // } else {
+        //     input = new Translation2d(squareInput(applyDeadbandSpecial(input.getNorm())), input.getAngle());
+        // }
         if (input.getNorm() > 1) {
             input = new Translation2d(1, input.getAngle());
         }
-        double[] newInputs = new double[]{input.getX(), input.getY(), squareInput(applyDeadbandSpecial(-theta))};
+        double newTheta = squareInput(applyDeadbandSpecial(-theta));
+        input = new Translation2d(Math.min(input.getNorm(), applyMultiplier(Math.abs(newTheta), DriverXbox.kRotationDesaturationFactor)), input.getAngle()); //Mildly reduce translation speed to boost rotation speed when moving at full speed
+        double[] newInputs = new double[]{input.getX(), input.getY(), newTheta};
         log("Angle mod 90", quadrantAngle);
         log("Controller X for Ascope", new double[]{-y + 1, input.getX() + 1, 1});
         log("Controller Y for Ascope", new double[]{-x + 1, input.getY() + 1, 1});
@@ -135,11 +175,12 @@ public class Drivetrain implements Subsystem, Logged {
     }
 
     private double applyDeadbandSpecial(double value) {
-        return MathUtil.inverseInterpolate(ControllerConstants.kControllerDeadband, 1, MathUtil.applyDeadband(Math.abs(value), ControllerConstants.kControllerDeadband)) * Math.signum(value);
+        return MathUtil.inverseInterpolate(DriverXbox.kThumbstickDeadband, 1, MathUtil.applyDeadband(Math.abs(value), DriverXbox.kThumbstickDeadband)) * Math.signum(value);
     }
     private double squareInput(double value) {
         return Math.pow(Math.abs(value), 2) * Math.signum(value);
     }
+    private double applyMultiplier(double value, double multiplier) {
+        return 1 - (value * multiplier);
+    }
 }
-
-//TODO add logging and telemetry

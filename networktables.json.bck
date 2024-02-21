@@ -1,10 +1,20 @@
 [
   {
-    "name": "/Shuffleboard/testDrive/testSpeed",
+    "name": "/Preferences/Heading kP",
     "type": "double",
-    "value": 0.0,
+    "value": 18.0,
     "properties": {
-      "persistent": true
+      "persistent": true,
+      "retained": true
+    }
+  },
+  {
+    "name": "/Preferences/Heading kD",
+    "type": "double",
+    "value": 0.2,
+    "properties": {
+      "persistent": true,
+      "retained": true
     }
   }
 ]

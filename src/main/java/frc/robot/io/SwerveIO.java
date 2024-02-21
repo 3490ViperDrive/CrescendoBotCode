@@ -59,17 +59,18 @@ public class SwerveIO extends SwerveDrivetrain implements Logged {
         this.seedFieldRelative(pose);
     }
 
+    @Log
     public ChassisSpeeds getChassisSpeeds() {
-        return this.m_kinematics.toChassisSpeeds(this.getState().ModuleStates);  
+        return this.getState().speeds;
     }
 
     @Log
     private SwerveModuleState[] getModuleStates() {
-        return getState().ModuleStates;
+        return this.getState().ModuleStates;
     }
 
     @Log
     private SwerveModuleState[] getModuleTargets() {
-        return getState().ModuleTargets;
+        return this.getState().ModuleTargets;
     }
 }

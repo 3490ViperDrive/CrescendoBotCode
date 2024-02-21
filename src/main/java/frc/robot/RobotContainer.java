@@ -9,23 +9,25 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Drivetrain;
 import monologue.Logged;
+import static frc.robot.Constants.ControllerConstants.*;
 
 public class RobotContainer implements Logged {
-  CommandXboxController m_controller = new CommandXboxController(0);
+  CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
 
   public RobotContainer() {
     configureBindings();
     m_drivetrain.setDefaultCommand(
       m_drivetrain.driveTeleopCommand(
-        m_controller::getLeftY,
-        m_controller::getLeftX,
-        m_controller::getRightX,
-        m_controller::getLeftTriggerAxis,
-        m_controller.getHID()::getAButton,
-        m_controller.getHID()::getBButton,
-        m_controller.getHID()::getXButton,
-        m_controller.getHID()::getYButton)
+        m_driverController::getLeftY,
+        m_driverController::getLeftX,
+        m_driverController::getRightX,
+        m_driverController::getLeftTriggerAxis,
+        m_driverController.getHID()::getAButton,
+        m_driverController.getHID()::getBButton,
+        m_driverController.getHID()::getXButton,
+        m_driverController.getHID()::getYButton,
+        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
     );
   }
 
@@ -35,7 +37,7 @@ public class RobotContainer implements Logged {
 
     // thisButton.onTrue(do this thing)
 
-    m_controller.start().onTrue(m_drivetrain.zeroYawCommand());
+    m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
   }
 
   public Command getAutonomousCommand() {
