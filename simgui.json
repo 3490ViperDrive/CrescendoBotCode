@@ -1,4 +1,27 @@
 {
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Auto choices": "String Chooser"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Preferences": {
+        "open": true
+      },
+      "Robot": {
+        "m_robotContainer": {
+          "m_drivetrain": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
+
   "HALProvider": {
     "Other Devices": {
       "window": {
@@ -28,25 +51,10 @@
       }
     }
   },
+
   "NetworkTables Info": {
-    "Server": {
-      "Publishers": {
-        "open": true
-      },
-      "Subscribers": {
-        "open": true
-      }
-    },
-    "shuffleboard@1": {
-      "Publishers": {
-        "open": true
-      },
-      "Subscribers": {
-        "open": true
-      },
-      "open": true
-    },
     "visible": true
+
   },
   "NetworkTables View": {
     "visible": false

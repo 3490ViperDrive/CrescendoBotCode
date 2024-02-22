@@ -1,187 +1,186 @@
 package frc.robot.subsystems;
 
+import java.util.Optional;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+import java.util.function.Supplier;
+
+import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
+import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ControllerConstants;
-import frc.robot.io.GyroIO;
-import frc.robot.io.SwerveModuleIO;
-import frc.robot.io.gyro.NavXGyro;
-import frc.robot.io.swervemodule.CTRESwerveModule;
-import frc.robot.io.swervemodule.SimSwerveModule;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.generated.TunerConstants;
+import frc.robot.io.SwerveIO;
 import monologue.Logged;
-import monologue.Annotations.Log;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
-import java.util.function.DoubleSupplier;
+/**
+ * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
+ * so it can be used in command-based projects easily.
+ */
+public class Drivetrain implements Subsystem, Logged {
+    private SwerveIO m_swerve;
+    private PhoenixPIDController m_headingPID;
 
-
-public class Drivetrain extends SubsystemBase implements Logged {
-    
-    private GyroIO m_gyro;
-    private SwerveModuleIO[] m_swerveModules;
-    private SwerveDrivePoseEstimator m_poseEstimator;
-    @Log.File
-    private Pose2d m_pose;
-    private Field2d m_poseField;
-
-    @Log.NT
-    Rotation2d m_yawOffset;
-    @Log.NT
-    boolean fieldOriented;
-
-    public enum ControlMode {
-        kOpenLoop,
-        kClosedLoop
-    } 
+    private SwerveRequest.ApplyChassisSpeeds m_PathPlannerRequest;
+    private SwerveRequest.RobotCentric m_OpenLoopRobotCentricRequest;
+    private SwerveRequest.FieldCentric m_OpenLoopFieldCentricRequest;
+    private SwerveRequest.FieldCentricFacingAngle m_OpenLoopControlledHeadingRequest;
+    private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
 
     public Drivetrain() {
-        m_gyro = new NavXGyro();
-        m_gyro.zeroGyro();
-        fieldOriented = false;
-        if (RobotBase.isReal()) {
-            m_swerveModules = new SwerveModuleIO[] {
-            new CTRESwerveModule(kFrontLeftModule),
-            new CTRESwerveModule(kFrontRightModule),
-            new CTRESwerveModule(kBackRightModule),
-            new CTRESwerveModule(kBackLeftModule)
-            };
-        } else {
-            m_swerveModules = new SwerveModuleIO[] {
-            new SimSwerveModule(kFrontLeftModule),
-            new SimSwerveModule(kFrontRightModule),
-            new SimSwerveModule(kBackRightModule),
-            new SimSwerveModule(kBackLeftModule)
-            };
-        }
-        
+        m_swerve = TunerConstants.Drivetrain;
+        m_headingPID = new PhoenixPIDController(15, 0, 0.2);
+        m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
-        //TODO FINISh ODOMETRY
-        m_pose = new Pose2d(5, 13.5, Rotation2d.fromDegrees(180));
-        m_poseField = new Field2d();
-        m_poseEstimator = new SwerveDrivePoseEstimator(kKinematics, m_gyro.getYaw(), getSwerveModulePositions(), m_pose);
+        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
+        m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopFieldCentricRequest = new SwerveRequest.FieldCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopControlledHeadingRequest.HeadingController = m_headingPID;
+        m_ClosedLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
+            .withDriveRequestType(DriveRequestType.Velocity);
+        m_ClosedLoopControlledHeadingRequest.HeadingController = m_headingPID; //might need a separate PhoenixPIDController with separate gains for this
 
-        /*
-        for (SwerveModuleIO module : m_swerveModules) {
-            module.dashboardInit();
-        }
-        */
+        AutoBuilder.configureHolonomic(
+            m_swerve::getPose,
+            m_swerve::resetPose,
+            m_swerve::getChassisSpeeds,
+            (desiredSpeeds) -> {
+                m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
+            },
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(5),
+                new PIDConstants(5),
+                kMaxModuleSpeed,
+                kDrivebaseRadius,
+                new ReplanningConfig()), //TODO tune PID
+            () -> {
+                Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) return alliance.get() == DriverStation.Alliance.Red; else return false;
+            },
+            this);
     }
 
     @Override
-    public void periodic() {
-        
-        /*
-        for (SwerveModuleIO module : m_swerveModules) {
-            module.dashboardPeriodic();
+    public void periodic() {}
+
+    public Command applyRequestCommand(Supplier<SwerveRequest> requestSupplier) {
+        return run(() -> m_swerve.setControl(requestSupplier.get()));
+    }
+
+    //TODO move any xbox controller specific behavior into Omnicontroller 2 if created
+    /* Do not use for autonomous routines */
+    public Command driveTeleopCommand(
+        DoubleSupplier leftStickY,
+        DoubleSupplier leftStickX,
+        DoubleSupplier rightStickX,
+        DoubleSupplier crawl, // Prob should use LT for this, but RT could work too
+        BooleanSupplier down,
+        BooleanSupplier right,
+        BooleanSupplier left,
+        BooleanSupplier up,
+        BooleanSupplier robotCentric) {
+        return run(() -> {
+            double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
+            double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            stickInputs[0] *= translationMultiplier;
+            stickInputs[1] *= translationMultiplier;
+            stickInputs[2] *= applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+            if (robotCentric.getAsBoolean()) {
+                m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(-stickInputs[0] * 12) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * 12) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * 12));
+            } else {
+                if (up.getAsBoolean() || down.getAsBoolean() || left.getAsBoolean() || right.getAsBoolean()) {
+                    Rotation2d desiredAngle;
+                    if (down.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(180);
+                    } else if (right.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(300);
+                    } else if (left.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(90);
+                    } else { //Must be up
+                        desiredAngle = Rotation2d.fromDegrees(0);
+                    }
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
+                        .withVelocityX(stickInputs[0] * 12)
+                        .withVelocityY(stickInputs[1] * 12)
+                        .withTargetDirection(desiredAngle));
+                } else {
+                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(stickInputs[0] * 12)
+                        .withVelocityY(stickInputs[1] * 12)
+                        .withRotationalRate(stickInputs[2] * 12));
+                }
+            }
+        });
+    }
+
+    /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
+    public Command driveAutoCommand(double x, double y, double angle) {
+        return run(() -> m_swerve.setControl(new SwerveRequest.FieldCentricFacingAngle()
+                .withTargetDirection(Rotation2d.fromDegrees(angle))
+            .withDriveRequestType(DriveRequestType.Velocity)
+            .withVelocityX(x)
+            .withVelocityY(y)));
+    }
+
+    /* Use this in auto routines to set the initial pose of the robot */
+    public Command resetPoseCommand(Pose2d pose) {
+        return runOnce(() -> m_swerve.resetPose(pose));
+    }
+
+    public Command zeroYawCommand() {
+        return runOnce(m_swerve::seedFieldRelative);
+    }
+
+    //TODO move to Omnicontroller 2 lib if created
+    public double[] filterXboxControllerInputs(double y, double x, double theta) {
+        Translation2d input = new Translation2d(-y, -x); //fix for NW CC+
+        double quadrantAngle = Math.abs(input.getAngle().getDegrees()) % 90;
+        // input = input.div(1.12);
+        // if (Math.abs(x) >= 0.99 || Math.abs(y) >= 0.99) {
+        //     input = new Translation2d(1, input.getAngle());
+        // } else {
+        //     input = new Translation2d(squareInput(applyDeadbandSpecial(input.getNorm())), input.getAngle());
+        // }
+        if (input.getNorm() > 1) {
+            input = new Translation2d(1, input.getAngle());
         }
-        SmartDashboard.putBoolean("Field Oriented?", fieldOriented);
-        */
-        m_pose = m_poseEstimator.update(m_gyro.getYaw(), getSwerveModulePositions());
-        m_poseField.setRobotPose(m_pose);
-        SmartDashboard.putData(m_poseField);
+        double newTheta = squareInput(applyDeadbandSpecial(-theta));
+        input = new Translation2d(Math.min(input.getNorm(), applyMultiplier(Math.abs(newTheta), DriverXbox.kRotationDesaturationFactor)), input.getAngle()); //Mildly reduce translation speed to boost rotation speed when moving at full speed
+        double[] newInputs = new double[]{input.getX(), input.getY(), newTheta};
+        log("Angle mod 90", quadrantAngle);
+        log("Controller X for Ascope", new double[]{-y + 1, input.getX() + 1, 1});
+        log("Controller Y for Ascope", new double[]{-x + 1, input.getY() + 1, 1});
+        return newInputs;
     }
 
-    //TODO args could probably be more descriptive
-    //TODO change SwerveModuleIO.ControlMode to ControlMode once odometry is added
-    public void drive(double x, double y, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
-        ChassisSpeeds desiredChassisSpeeds;
-        if (fieldRelative) {
-            desiredChassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(x, y, theta, m_gyro.getYaw());
-        } else {
-            desiredChassisSpeeds = new ChassisSpeeds(x, y, theta);
-        }
-        if (controlMode == SwerveModuleIO.ControlMode.kOpenLoop) {
-            x *= kMaxTranslationSpeed;
-            y *= kMaxTranslationSpeed;
-            theta *= kMaxRotationSpeed;
-        }
-        log("Desired ChassisSpeeds", desiredChassisSpeeds);
-        SwerveModuleState[] desiredModuleStates = kKinematics.toSwerveModuleStates(desiredChassisSpeeds);
-        setModuleStates(desiredModuleStates, controlMode);
-        //Only needed for AdvantageScope
-        log("Desired Swerve State", new double[] {
-            desiredModuleStates[0].angle.getDegrees(), desiredModuleStates[0].speedMetersPerSecond,
-            desiredModuleStates[1].angle.getDegrees(), desiredModuleStates[1].speedMetersPerSecond,
-            desiredModuleStates[2].angle.getDegrees(), desiredModuleStates[2].speedMetersPerSecond,
-            desiredModuleStates[3].angle.getDegrees(), desiredModuleStates[3].speedMetersPerSecond});
+    private double applyDeadbandSpecial(double value) {
+        return MathUtil.inverseInterpolate(DriverXbox.kThumbstickDeadband, 1, MathUtil.applyDeadband(Math.abs(value), DriverXbox.kThumbstickDeadband)) * Math.signum(value);
     }
-
-    public void drive (Translation2d translation, double theta, boolean fieldRelative, SwerveModuleIO.ControlMode controlMode) {
-        drive(translation.getX(), translation.getY(), theta, fieldRelative, controlMode);
+    private double squareInput(double value) {
+        return Math.pow(Math.abs(value), 2) * Math.signum(value);
     }
-
-    public Command driveOpenLoopCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta) {
-        //Fwd, left, and CCW are postive for ChassisSpeeds
-        return this.run(() -> drive(filterXY(-x.getAsDouble(), -y.getAsDouble()), filterAxis(-theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop)); //TODO fix this awful command
-    }
-
-    //Throttle should be [0, 1]
-    public Command driveOpenLoopThrottleCommand(DoubleSupplier x, DoubleSupplier y, DoubleSupplier theta, DoubleSupplier throttle) {
-        DoubleSupplier throttleMultiplier = () -> MathUtil.interpolate(0.4, 1, throttle.getAsDouble());
-        log("throttle multiplier", throttleMultiplier.getAsDouble());
-        return this.run(() -> drive(filterXY(-x.getAsDouble(), -y.getAsDouble()).times(throttleMultiplier.getAsDouble()), filterAxis(-theta.getAsDouble()), fieldOriented, SwerveModuleIO.ControlMode.kOpenLoop));
-    }
-
-    public Command zeroGyroCommand(double offset) {
-        return this.runOnce(() -> m_gyro.zeroGyro(offset));
-    }
-
-    public Command toggleFieldOrientedCommand() {
-        return this.runOnce(() -> {this.fieldOriented = !fieldOriented;});
-    }
-
-    private Translation2d filterXY(double x, double y) {
-        Translation2d translation = new Translation2d(x, y);
-        return new Translation2d(filterAxis(translation.getNorm()), translation.getAngle());
-    }
-
-    private double filterAxis(double value) {
-        double deadbandedValue = MathUtil.inverseInterpolate(ControllerConstants.kControllerDeadband, 1, MathUtil.applyDeadband(Math.abs(value), ControllerConstants.kControllerDeadband));
-        return Math.pow(deadbandedValue, 2) * Math.signum(value);
-    }
-
-    public void setModuleStates(SwerveModuleState[] states, SwerveModuleIO.ControlMode controlMode) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, kMaxModuleSpeed); //TODO should this be kMaxModuleSpeed or kMaxTranslationSpeed?
-
-        for (int i = 0; i <= 3; i++) {
-            m_swerveModules[i].setState(states[i], controlMode);
-        }
-    }
-
-    //Only needed for AdvantageScope
-    @Log.NT
-    double[] getTrueSwerveState() {
-        return new double[]{
-            m_swerveModules[0].getAzimuthDegrees(), m_swerveModules[0].getVelocity(),
-            m_swerveModules[1].getAzimuthDegrees(), m_swerveModules[1].getVelocity(),
-            m_swerveModules[2].getAzimuthDegrees(), m_swerveModules[2].getVelocity(),
-            m_swerveModules[3].getAzimuthDegrees(), m_swerveModules[3].getVelocity()};
-    }
-
-    @Log.File
-    SwerveModulePosition[] getSwerveModulePositions() {
-        return new SwerveModulePosition[]{
-            new SwerveModulePosition(m_swerveModules[0].getDistance(), m_swerveModules[0].getAzimuth()),
-            new SwerveModulePosition(m_swerveModules[1].getDistance(), m_swerveModules[1].getAzimuth()),
-            new SwerveModulePosition(m_swerveModules[2].getDistance(), m_swerveModules[2].getAzimuth()),
-            new SwerveModulePosition(m_swerveModules[3].getDistance(), m_swerveModules[3].getAzimuth())};
-    }
-
-    @Log.File
-    Pose2d getPose() {
-        return m_pose;
+    private double applyMultiplier(double value, double multiplier) {
+        return 1 - (value * multiplier);
     }
 }
