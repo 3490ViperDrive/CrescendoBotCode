@@ -6,8 +6,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import static frc.robot.Constants.IntakeMotor.*;
-import static frc.robot.Constants.IntakeSpeed.*;
+import static frc.robot.Constants.IntakeConstants.*;
 
 public class Intake extends SubsystemBase{
 

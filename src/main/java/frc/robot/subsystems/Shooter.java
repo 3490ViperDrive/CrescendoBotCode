@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj2.command.*;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import static frc.robot.Constants.ShooterSpeed.*;
-import static frc.robot.Constants.ShooterMotor.*;
-
+import static frc.robot.Constants.ShooterConstants.*;
 public class Shooter extends SubsystemBase {
 
     TalonFX shooterMotor; 
