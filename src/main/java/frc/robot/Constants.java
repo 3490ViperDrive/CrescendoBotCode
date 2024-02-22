@@ -13,7 +13,6 @@ import frc.lib.ModuleConstants;
 
 public final class Constants {
 
-
     public static final class ShooterConstants{
         public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 1;
