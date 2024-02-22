@@ -1,5 +1,6 @@
 [
   {
+
     "name": "/Preferences/Heading kP",
     "type": "double",
     "value": 15.0,
@@ -15,6 +16,13 @@
     "properties": {
       "persistent": true,
       "retained": true
+
+    "name": "/Preferences/shooter motor speed [-1, 1]",
+    "type": "double",
+    "value": 0.0,
+    "properties": {
+      "persistent": true
+
     }
   }
 ]

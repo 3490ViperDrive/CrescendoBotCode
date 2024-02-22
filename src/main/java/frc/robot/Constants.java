@@ -4,6 +4,16 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
 
 public final class Constants {
+
+    public static final class ShooterConstants{
+        public static final double kShooterSpeed = 0.5;
+        public static final int kShooterMotorID = 1;
+    }
+    public static final class IntakeConstants{
+        public static final double kIntakeSpeed = 0.75;
+         public static final int kIntakeMotorID = 2;
+    }
+
     public static final class ControllerConstants {
         public static final class DriverXbox {
             public static final int kControllerID = 0;
@@ -45,5 +55,10 @@ public final class Constants {
             public static final double kP = 5;
         }
     }
+
+    public static final class VisionConstants{
+            public static final int kLidarPort = 0;
+        }
+
     
 }

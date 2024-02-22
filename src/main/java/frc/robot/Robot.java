@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+
 import com.ctre.phoenix6.SignalLogger;
 
 import monologue.Logged;
@@ -17,8 +18,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
+
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+
+// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -27,7 +37,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
-
 
   //private double temp = 123;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
@@ -38,7 +47,6 @@ public class Robot extends TimedRobot implements Logged {
   private static final String kRightAuto = "Right Autonomous";
   private static final String kLeftAuto = "Left Autonomous"; 
   private String m_autoSelected;
-
 
   //double counter = 0.0;
 
@@ -51,10 +59,12 @@ public class Robot extends TimedRobot implements Logged {
     DriverStation.startDataLog(DataLogManager.getLog(), true);
     //Comment this out if SysID testing needs to be run; this should save some overhead in most cases
     SignalLogger.stop();
+
+    Monologue.setupMonologue(this, "Robot", false, false);
+
     ShuffleBoardUI();
 
     dashboardUI();
-
 
     coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
@@ -103,6 +113,7 @@ public class Robot extends TimedRobot implements Logged {
       case kRightAuto:
         // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
         // Cross the line as well
+
         break;
 
       case kLeftAuto:
@@ -113,6 +124,7 @@ public class Robot extends TimedRobot implements Logged {
        // Pick a note
        // Drive back to amp
        // Place the note into the amp
+
         break;
 
         //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
@@ -133,6 +145,7 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void teleopPeriodic() {
     //SmartDashboard.putNumber("Counter", counter++);
+
   }
 
   @Override
@@ -146,8 +159,18 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void testPeriodic() {}
 
+  @Override
+  public void testExit() {}
+
+  private void dashboardUI(){
+    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
+    m_chooser.addOption("Right Auto", kRightAuto);
+    m_chooser.addOption("Left Auto", kLeftAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
+  }
+
   public void ShuffleBoardUI() {
-   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+   ShuffleboardTab tab= Shuffleboard.getTab("ShuffleBoard test");
 
     Shuffleboard.getTab("ShuffleBoard test")
       .add("Started?", 1);
@@ -164,21 +187,9 @@ public class Robot extends TimedRobot implements Logged {
         .getEntry();
   }
 
-  @Override
-  public void testExit() {}
-
-  private void dashboardUI(){
-    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
-    m_chooser.addOption("Right Auto", kRightAuto);
-    m_chooser.addOption("Left Auto", kLeftAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-  }
-
    //Colton's code from github
   private void coltonsCode(){
     //ShuffleboardTab tab = 
-    Shuffleboard.getTab("Practice");
-
       Shuffleboard.getTab("Practice")
         .add("Slider Test", 1)
         .withWidget(BuiltInWidgets.kNumberSlider)

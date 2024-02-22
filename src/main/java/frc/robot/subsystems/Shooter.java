@@ -1,17 +1,31 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.*;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
+import static frc.robot.Constants.ShooterConstants.*;
 public class Shooter extends SubsystemBase {
+
+    TalonFX shooterMotor; 
     
-    public Command shoot(){
-        // The command tha runs motors and shoots the note.
+    public Shooter(){
+        shooterMotor = new TalonFX(kShooterMotorID);
+    }
 
-        // Detect if the note is in or not (beam breaker)
+    @Override
+    public void periodic() {};
 
-        System.out.print("Return something");
+    public Command shoot() {
+        return run(() -> {
+            shooterMotor.set(kShooterSpeed);
+        });
+    }
 
-        return null;
+    public Command stopMotorCommand() {
+        return runOnce(() -> {
+            shooterMotor.set(0);
+            shooterMotor.stopMotor();
+        });
     }
 }
