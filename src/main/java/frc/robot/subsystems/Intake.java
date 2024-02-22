@@ -1,24 +1,35 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import static frc.robot.Constants.IntakeConstants.*;
+
 public class Intake extends SubsystemBase{
 
-    public Command intake(){
+    CANSparkMax intakeMotor;
 
-        // Run the motors
+    public Intake(){
+        intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);
+    }
 
-        // Stop the mechanism once the note is in
+    @Override
+    public void periodic() {};
 
-        // Limit switch or beam breaker to check if the note is in so the intake can communicate with the shooter?
+    public Command takeIn() {
+        return run(() -> {
+            intakeMotor.set(kIntakeSpeed);
+        });
+    }
 
-        // Use pid to run the motors on different speeds?
-
-        System.out.print("Return something");
-
-        return null;
-
+    public Command stopMotorCommand() {
+        return runOnce(() -> {
+            intakeMotor.set(0);
+            intakeMotor.stopMotor();
+        });
     }
     
 }

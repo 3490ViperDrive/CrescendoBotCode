@@ -4,21 +4,23 @@
 
 package frc.robot;
 
-// import java.lang.reflect.InaccessibleObjectException;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
+
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
 
+
 public class RobotContainer {
 
   CommandXboxController m_driverController = new CommandXboxController(0);
-
   Drivetrain m_drivetrain = new Drivetrain();
+
+  Shooter m_shoot = new Shooter();
+  Intake m_takeIn = new Intake();
+
   private Optometrist eyedoctor = new Optometrist();
 
   
@@ -31,10 +33,24 @@ public class RobotContainer {
       () -> m_driverController.getLeftTriggerAxis()));
 
     configureBindings();
+
+    m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
+
+    m_takeIn.setDefaultCommand(m_takeIn.stopMotorCommand());
+
   }
 
   private void configureBindings() {
+
+    m_driverController.start().onTrue(m_drivetrain.zeroGyroCommand(0));
+    m_driverController.back().onTrue(m_drivetrain.toggleFieldOrientedCommand());
+    
+    m_driverController.b().onTrue(m_shoot.shoot());
+
+    m_driverController.y().whileTrue(m_takeIn.takeIn());
+    
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
+
   }
 
   public Command getAutonomousCommand() {

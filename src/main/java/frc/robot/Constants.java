@@ -12,6 +12,16 @@ import edu.wpi.first.math.util.Units;
 import frc.lib.ModuleConstants;
 
 public final class Constants {
+
+    public static final class ShooterConstants{
+        public static final double kShooterSpeed = 0.5;
+        public static final int kShooterMotorID = 1;
+    }
+    public static final class IntakeConstants{
+        public static final double kIntakeSpeed = 0.75;
+         public static final int kIntakeMotorID = 2;
+    }
+
     public static final class ControllerConstants {
         public static final int kControllerID = 0;
         public static final double kControllerDeadband = 0.15;
@@ -79,7 +89,7 @@ public final class Constants {
             public static final double kD = 0;
         }
     }
-
+  
     public static final class VisionConstants{
             public static final int kLidarPort = 0;
         }
