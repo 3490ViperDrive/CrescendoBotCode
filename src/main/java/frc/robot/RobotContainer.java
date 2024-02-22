@@ -27,6 +27,8 @@ public class RobotContainer {
 
     m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
 
+    m_takeIn.setDefaultCommand(m_takeIn.stopMotorCommand());
+
   }
 
   private void configureBindings() {
