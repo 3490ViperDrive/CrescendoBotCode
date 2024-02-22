@@ -5,15 +5,14 @@ import edu.wpi.first.wpilibj2.command.*;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import static frc.robot.Constants.ShooterSpeed.*;
+import static frc.robot.Constants.ShooterMotor.*;
 
 public class Shooter extends SubsystemBase {
-
-    int shooterMotorID = 0;
 
     TalonFX shooterMotor; 
     
     public Shooter(){
-        shooterMotor = new TalonFX(shooterMotorID);
+        shooterMotor = new TalonFX(kShooterMotorID);
     }
 
     @Override

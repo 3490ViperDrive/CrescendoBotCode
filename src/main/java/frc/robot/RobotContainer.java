@@ -13,6 +13,7 @@ public class RobotContainer {
   CommandXboxController m_driverController = new CommandXboxController(0);
   Drivetrain m_drivetrain = new Drivetrain();
   Shooter m_shoot = new Shooter();
+  Intake m_takeIn = new Intake();
   
   public RobotContainer() {
 
@@ -25,13 +26,16 @@ public class RobotContainer {
     configureBindings();
 
     m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
+
   }
 
   private void configureBindings() {
     m_driverController.start().onTrue(m_drivetrain.zeroGyroCommand(0));
     m_driverController.back().onTrue(m_drivetrain.toggleFieldOrientedCommand());
     
-    m_driverController.b().whileTrue(m_shoot.shoot());
+    m_driverController.b().onTrue(m_shoot.shoot());
+
+    m_driverController.y().whileTrue(m_takeIn.takeIn());
   }
 
   public Command getAutonomousCommand() {
