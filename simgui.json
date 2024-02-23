@@ -1,27 +1,4 @@
 {
-  "NTProvider": {
-    "types": {
-      "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Auto choices": "String Chooser"
-    }
-  },
-  "NetworkTables": {
-    "transitory": {
-      "Preferences": {
-        "open": true
-      },
-      "Robot": {
-        "m_robotContainer": {
-          "m_drivetrain": {
-            "open": true
-          },
-          "open": true
-        },
-        "open": true
-      }
-    }
-  },
-
   "HALProvider": {
     "Other Devices": {
       "window": {
@@ -47,14 +24,31 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },
-
+  "NetworkTables": {
+    "transitory": {
+      "Preferences": {
+        "open": true
+      },
+      "Robot": {
+        "m_robotContainer": {
+          "m_drivetrain": {
+            "open": true
+          },
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "visible": true
-
   },
   "NetworkTables View": {
     "visible": false
