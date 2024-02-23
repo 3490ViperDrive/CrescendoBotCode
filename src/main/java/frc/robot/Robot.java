@@ -59,13 +59,8 @@ public class Robot extends TimedRobot implements Logged {
     DriverStation.startDataLog(DataLogManager.getLog(), true);
     //Comment this out if SysID testing needs to be run; this should save some overhead in most cases
     SignalLogger.stop();
-
-    Monologue.setupMonologue(this, "Robot", false, false);
-
     ShuffleBoardUI();
-
     dashboardUI();
-
     coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
   }
