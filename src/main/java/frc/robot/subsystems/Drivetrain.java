@@ -45,7 +45,7 @@ public class Drivetrain implements Subsystem, Logged {
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
-        m_headingPID = new PhoenixPIDController(15, 0, 0.2);
+        m_headingPID = new PhoenixPIDController(HeadingPID.kP, 0, HeadingPID.kD);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
         m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
@@ -66,8 +66,8 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
-                new PIDConstants(5),
-                new PIDConstants(5),
+                new PIDConstants(PathPlannerTranslationPID.kP),
+                new PIDConstants(PathPlannerRotationPID.kP),
                 kMaxModuleSpeed,
                 kDrivebaseRadius,
                 new ReplanningConfig()), //TODO tune PID
@@ -136,9 +136,8 @@ public class Drivetrain implements Subsystem, Logged {
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
     public Command driveAutoCommand(double x, double y, double angle) {
-        return run(() -> m_swerve.setControl(new SwerveRequest.FieldCentricFacingAngle()
-                .withTargetDirection(Rotation2d.fromDegrees(angle))
-            .withDriveRequestType(DriveRequestType.Velocity)
+        return run(() -> m_swerve.setControl(m_ClosedLoopControlledHeadingRequest
+            .withTargetDirection(Rotation2d.fromDegrees(angle))
             .withVelocityX(x)
             .withVelocityY(y)));
     }
