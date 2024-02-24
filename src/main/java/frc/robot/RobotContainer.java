@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-
 // import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -20,8 +19,9 @@ public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
 
-  Shooter m_shoot = new Shooter();
-  Intake m_takeIn = new Intake();
+  Shooter m_shooter = new Shooter();
+  Intake m_intake = new Intake();
+  Climb m_climb = new Climb();
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -41,17 +41,21 @@ public class RobotContainer implements Logged {
     );
 
 
-    m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
+    m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
 
-    m_takeIn.setDefaultCommand(m_takeIn.stopMotorCommand());
+    m_intake.setDefaultCommand(m_intake.stopMotorCommand());
+
+    m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
     configureBindings();
   }
 
   private void configureBindings() {
-    m_driverController.b().onTrue(m_shoot.shoot());
+    m_driverController.b().onTrue(m_shooter.shoot());
 
-    m_driverController.y().whileTrue(m_takeIn.takeIn());
+    m_driverController.y().whileTrue(m_intake.takeIn());
+
+    m_driverController.x().onTrue(m_climb.climb());
     
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
 

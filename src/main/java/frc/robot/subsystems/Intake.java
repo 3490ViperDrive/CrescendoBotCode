@@ -30,6 +30,5 @@ public class Intake extends SubsystemBase{
             intakeMotor.set(kIntakeMotorStopSpeed);
             intakeMotor.stopMotor();
         });
-    }
-    
+    } 
 }
