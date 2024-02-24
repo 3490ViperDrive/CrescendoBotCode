@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase {
 
     public Command stopMotorCommand() {
         return runOnce(() -> {
-            shooterMotor.set(0);
+            shooterMotor.set( kShooterMotorStopSpeed);
             shooterMotor.stopMotor();
         });
     }

@@ -8,10 +8,12 @@ public final class Constants {
     public static final class ShooterConstants{
         public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 1;
+        public static final int kShooterMotorStopSpeed = 0;
     }
     public static final class IntakeConstants{
         public static final double kIntakeSpeed = 0.75;
-         public static final int kIntakeMotorID = 2;
+        public static final int kIntakeMotorID = 2;
+        public static final int kIntakeMotorStopSpeed = 0;
     }
 
     public static final class ControllerConstants {
