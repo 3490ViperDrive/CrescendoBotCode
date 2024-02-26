@@ -38,7 +38,6 @@ public final class CTREConfigurer {
             if (status != StatusCode.OK) {
                 DataLogManager.log(name + " failed configuration with status code " + status.toString() + "! Aborting configuration!");
                 configurationSuccess = false;
-                
             }
         }
         if (configurationSuccess) {
@@ -65,7 +64,6 @@ public final class CTREConfigurer {
             if (status != StatusCode.OK) {
                 DataLogManager.log(name + " failed configuration with status code " + status.toString() + "! Aborting configuration!");
                 configurationSuccess = false;
-                
             }
         }
         if (configurationSuccess) {
