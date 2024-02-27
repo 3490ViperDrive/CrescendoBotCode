@@ -17,6 +17,7 @@ import static frc.robot.Constants.ControllerConstants.*;
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
+  
   Drivetrain m_drivetrain = new Drivetrain();
 
   Shooter m_shooter = new Shooter();
@@ -53,7 +54,7 @@ public class RobotContainer implements Logged {
   private void configureBindings() {
     m_driverController.b().onTrue(m_shooter.shoot());
 
-    m_driverController.y().whileTrue(m_intake.takeIn());
+    m_driverController.y().onTrue(m_intake.takeIn());
 
     m_driverController.x().onTrue(m_climb.climb());
     

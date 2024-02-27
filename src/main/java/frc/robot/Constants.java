@@ -26,6 +26,12 @@ public final class Constants {
         public static final double kClimbMotorStopSpeed = 0;
     }
 
+    public static final class DigitalInputConstants {
+        public static final int kDigitalInputPort = 1;
+        public static final int kSparkDIO = 2;
+        public static final int kDigitalInputLimit = 1;
+    }
+
     // Remove zeros and put meaningful int
 
     // kp - The proportional coefficient.
