@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "middlePath1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "testPath2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "testPath3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "testPath4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "testPath5"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
