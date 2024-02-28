@@ -11,19 +11,28 @@ public final class Constants {
         public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 1;
         public static final double kShooterMotorStopSpeed = 0;
+
+        public static final double kPivotSpeed = 0.5;
+        public static final int kPivotMotorID = 2;
+        public static final double kPivotMotorStopSpeed = 0;
     }
 
     public static final class IntakeConstants {
         public static final double kIntakeSpeed = 0.75;
-        public static final int kIntakeMotorID = 2;
+        public static final int kIntakeMotorID = 3;
         public static final double kIntakeMotorStopSpeed = 0;
     }
 
-    public static final class ClimbConstants {
-        public static final double kClimbSpeed = 0.25;
-        public static final int kClimbMotorID0 = 3;
-        public static final int kClimbMotorID1 = 4;
-        public static final double kClimbMotorStopSpeed = 0;
+    public static final class LiftConstants {
+        public static final double kLiftSpeed = 0.25;
+        public static final int kLiftMotorID = 4;
+        public static final double kLiftMotorStopSpeed = 0;
+    }
+
+    public static final class ExtensionConstants {
+        public static final double kExtensionMotorSpeed = .325;
+        public static final int kExtensionMotorID = 5;
+        public static final double kExtensionMotorStop = 0;
     }
 
     public static final class DigitalInputConstants {

@@ -9,6 +9,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Shooter.Pivot;
+import frc.robot.subsystems.Shooter.ShooterExtension;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
@@ -21,8 +23,14 @@ public class RobotContainer implements Logged {
   Drivetrain m_drivetrain = new Drivetrain();
 
   Shooter m_shooter = new Shooter();
+
   Intake m_intake = new Intake();
-  Climb m_climb = new Climb();
+
+  Lift m_lift = new Lift();
+
+  Pivot m_pivot = new Pivot();
+
+  ShooterExtension m_extension = new ShooterExtension();
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -46,7 +54,11 @@ public class RobotContainer implements Logged {
 
     m_intake.setDefaultCommand(m_intake.stopMotorCommand());
 
-    m_climb.setDefaultCommand(m_climb.stopMotorCommand());
+    m_lift.setDefaultCommand(m_lift.stopMotorCommand());
+
+    m_pivot.setDefaultCommand(m_pivot.stopMotorCommand());
+
+    m_extension.setDefaultCommand(m_extension.stopMotorCommand());
 
     configureBindings();
   }
@@ -56,7 +68,11 @@ public class RobotContainer implements Logged {
 
     m_driverController.y().onTrue(m_intake.takeIn());
 
-    m_driverController.x().onTrue(m_climb.climb());
+    m_driverController.x().onTrue(m_lift.lift());
+
+    m_driverController.a().onTrue(m_pivot.pivot());
+
+    m_driverController.leftBumper().onTrue(m_extension.extend());
     
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
