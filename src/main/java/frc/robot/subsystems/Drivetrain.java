@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
@@ -19,7 +18,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Preferences;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.generated.TunerConstants;
@@ -45,14 +43,22 @@ public class Drivetrain implements Subsystem, Logged {
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
-        m_headingPID = new PhoenixPIDController(HeadingPID.kP, 0, HeadingPID.kD);
+        m_headingPID = new PhoenixPIDController(15, 0, 0.2);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
         m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
-        m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-        m_OpenLoopFieldCentricRequest = new SwerveRequest.FieldCentric().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+        m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+            .withDeadband(DriverXbox.kThumbstickDeadband)
+            .withRotationalDeadband(DriverXbox.kThumbstickDeadband);
+        m_OpenLoopFieldCentricRequest = new SwerveRequest.FieldCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+            .withDeadband(DriverXbox.kThumbstickDeadband)
+            .withRotationalDeadband(DriverXbox.kThumbstickDeadband);
         m_OpenLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
+            .withDeadband(DriverXbox.kThumbstickDeadband)
+            .withRotationalDeadband(DriverXbox.kThumbstickDeadband);
         m_OpenLoopControlledHeadingRequest.HeadingController = m_headingPID;
         m_ClosedLoopControlledHeadingRequest = new SwerveRequest.FieldCentricFacingAngle()
             .withDriveRequestType(DriveRequestType.Velocity);
@@ -66,11 +72,11 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
-                new PIDConstants(PathPlannerTranslationPID.kP),
-                new PIDConstants(PathPlannerRotationPID.kP),
+                new PIDConstants(5),
+                new PIDConstants(5),
                 kMaxModuleSpeed,
                 kDrivebaseRadius,
-                new ReplanningConfig()), //TODO tune PID
+                new ReplanningConfig(true, true)), //TODO tune PID
             () -> {
                 Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) return alliance.get() == DriverStation.Alliance.Red; else return false;
@@ -105,9 +111,9 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[2] *= applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
             if (robotCentric.getAsBoolean()) {
                 m_swerve.setControl(m_OpenLoopRobotCentricRequest
-                        .withVelocityX(-stickInputs[0] * 12) //Robot centric will probably just be used for intaking,
-                        .withVelocityY(-stickInputs[1] * 12) //so controls are inverted so driving via intake cam makes sense
-                        .withRotationalRate(stickInputs[2] * 12));
+                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
             } else {
                 if (up.getAsBoolean() || down.getAsBoolean() || left.getAsBoolean() || right.getAsBoolean()) {
                     Rotation2d desiredAngle;
@@ -121,14 +127,14 @@ public class Drivetrain implements Subsystem, Logged {
                         desiredAngle = Rotation2d.fromDegrees(0);
                     }
                     m_swerve.setControl(m_OpenLoopControlledHeadingRequest
-                        .withVelocityX(stickInputs[0] * 12)
-                        .withVelocityY(stickInputs[1] * 12)
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
                         .withTargetDirection(desiredAngle));
                 } else {
                     m_swerve.setControl(m_OpenLoopFieldCentricRequest
-                        .withVelocityX(stickInputs[0] * 12)
-                        .withVelocityY(stickInputs[1] * 12)
-                        .withRotationalRate(stickInputs[2] * 12));
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
                 }
             }
         });
@@ -136,8 +142,9 @@ public class Drivetrain implements Subsystem, Logged {
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
     public Command driveAutoCommand(double x, double y, double angle) {
-        return run(() -> m_swerve.setControl(m_ClosedLoopControlledHeadingRequest
-            .withTargetDirection(Rotation2d.fromDegrees(angle))
+        return run(() -> m_swerve.setControl(new SwerveRequest.FieldCentricFacingAngle()
+                .withTargetDirection(Rotation2d.fromDegrees(angle))
+            .withDriveRequestType(DriveRequestType.Velocity)
             .withVelocityX(x)
             .withVelocityY(y)));
     }
@@ -167,9 +174,9 @@ public class Drivetrain implements Subsystem, Logged {
         double newTheta = squareInput(applyDeadbandSpecial(-theta));
         input = new Translation2d(Math.min(input.getNorm(), applyMultiplier(Math.abs(newTheta), DriverXbox.kRotationDesaturationFactor)), input.getAngle()); //Mildly reduce translation speed to boost rotation speed when moving at full speed
         double[] newInputs = new double[]{input.getX(), input.getY(), newTheta};
-        log("Angle mod 90", quadrantAngle);
         log("Controller X for Ascope", new double[]{-y + 1, input.getX() + 1, 1});
         log("Controller Y for Ascope", new double[]{-x + 1, input.getY() + 1, 1});
+        log("filtered controller inputs x, y, theta", newInputs);
         return newInputs;
     }
 
