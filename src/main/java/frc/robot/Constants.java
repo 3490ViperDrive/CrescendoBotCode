@@ -25,7 +25,7 @@ public final class Constants {
             public static final double kRotationDesaturationFactor = 0.3;
         }
         public static final class OperatorXbox {
-            //Add if necessary
+            public static final int kControllerID = 1;
         }
     }
 
@@ -53,6 +53,42 @@ public final class Constants {
 
         public static final class PathPlannerRotationPID {
             public static final double kP = 5;
+        }
+    }
+
+    public static final class LiftConstants {
+        public static final double kHeightFromGround = 5.94;
+        public static final double kLowerLimitHeight = 12.5; //Relative to height from ground
+        public static final double kUpperLimitHeight = 32.5;
+        public static final double kUpperLimitDistance = kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
+        public static final double kLowerLimitDistance = 0;
+        public static final double kSetpointTolerance = 0.25; //tune this
+    }
+
+    public static final class PivotConstants {
+        public static final double kLowerLimit = -45;
+        public static final double kUpperLimit = 75;
+        public static final double kSetpointTolerance = 2; //tune this
+    }
+
+    public static enum LiftPivotSetpoint {
+        kStowed(0, 45, "Stowed"),
+        kShoot(0, 45, "Shoot"),
+        kAmp(4, -30, "Amp"),
+        kTrap(19, -45, "Trap"); //TODO find empirical setpoints; all of these are guessed
+
+        public final double liftDistance; //inches
+        public final double pivotAngle; //degrees
+        private final String name;
+
+        private LiftPivotSetpoint(double liftDistance, double pivotAngle, String name) {
+            this.liftDistance = liftDistance;
+            this.pivotAngle = pivotAngle;
+            this.name = name;
+        }
+
+        public String toString() {
+            return name;
         }
     }
 

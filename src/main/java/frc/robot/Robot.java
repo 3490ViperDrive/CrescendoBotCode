@@ -63,6 +63,8 @@ public class Robot extends TimedRobot implements Logged {
     dashboardUI();
     coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
   }
 
   @Override
