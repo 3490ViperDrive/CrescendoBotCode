@@ -6,8 +6,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import static frc.robot.Constants.ShooterConstants.*;
 
-import static frc.robot.Constants.ExtensionConstants.*;
-
 public class Shooter extends SubsystemBase {
 
     TalonFX shooterMotor;
@@ -82,5 +80,4 @@ public static class ShooterExtension extends SubsystemBase {
         });
     }
 }
-
 }

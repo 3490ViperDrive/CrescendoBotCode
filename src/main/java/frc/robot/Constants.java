@@ -15,6 +15,10 @@ public final class Constants {
         public static final double kPivotSpeed = 0.5;
         public static final int kPivotMotorID = 2;
         public static final double kPivotMotorStopSpeed = 0;
+
+        public static final double kExtensionMotorSpeed = .325;
+        public static final int kExtensionMotorID = 5;
+        public static final double kExtensionMotorStop = 0;
     }
 
     public static final class IntakeConstants {
@@ -29,16 +33,10 @@ public final class Constants {
         public static final double kLiftMotorStopSpeed = 0;
     }
 
-    public static final class ExtensionConstants {
-        public static final double kExtensionMotorSpeed = .325;
-        public static final int kExtensionMotorID = 5;
-        public static final double kExtensionMotorStop = 0;
-    }
-
     public static final class DigitalInputConstants {
         public static final int kDigitalInputPort = 1;
         public static final int kSparkDIO = 2;
-        public static final int kDigitalInputLimit = 1;
+        //public static final int kDigitalInputLimit = 1;
     }
 
     // Remove zeros and put meaningful int
