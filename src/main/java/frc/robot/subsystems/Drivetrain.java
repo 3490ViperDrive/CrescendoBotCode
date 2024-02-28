@@ -43,7 +43,7 @@ public class Drivetrain implements Subsystem, Logged {
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
-        m_headingPID = new PhoenixPIDController(15, 0, 0.2);
+        m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
         m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);

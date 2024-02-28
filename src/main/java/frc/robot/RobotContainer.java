@@ -49,11 +49,12 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
-    m_driverController.b().onTrue(m_shoot.shoot());
+    //m_driverController.b().onTrue(m_shoot.shoot());
 
-    m_driverController.y().whileTrue(m_takeIn.takeIn());
+    m_driverController.leftBumper().whileTrue(m_takeIn.takeIn());
+    m_driverController.rightBumper().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_takeIn.takeOut());
     
-    m_driverController.rightBumper().onTrue(eyedoctor.peek());
+    //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
     // thisButton.onTrue(do this thing)
 
