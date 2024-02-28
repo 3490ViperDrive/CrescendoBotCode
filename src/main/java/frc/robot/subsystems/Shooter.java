@@ -29,8 +29,6 @@ public class Shooter extends SubsystemBase {
         });
     }
 
-    // This could go in its separate file if this is wrong
-
     public static class Pivot extends SubsystemBase {
 
     TalonFX pivotMotor;
@@ -56,7 +54,7 @@ public class Shooter extends SubsystemBase {
     }
 }
 
-// I was just wondering if I could put this here; this could go in its separate file if this is wrong
+// I was just wondering if I could put this here; this could go in it's own class if this is wrong
 
 public static class ShooterExtension extends SubsystemBase {
 
