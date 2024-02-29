@@ -40,25 +40,33 @@ public class RobotContainer implements Logged {
         m_driverController.getHID()::getYButton,
         () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
     );
+    
+    // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
+    //m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
 
-    m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
+    //m_intake.setDefaultCommand(m_intake.stopMotorCommand());
 
-    m_intake.setDefaultCommand(m_intake.stopMotorCommand());
-
-    m_climb.setDefaultCommand(m_climb.stopMotorCommand());
+    //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
     configureBindings();
   }
 
   private void configureBindings() {
-    m_driverController.b().onTrue(m_shooter.shoot());
 
-    m_driverController.y().onTrue(m_intake.takeIn());
+    //m_driverController.b().onTrue(m_shoot.shoot());
 
-    m_driverController.x().onTrue(m_climb.climb());
+    m_driverController.leftBumper().whileTrue(m_intake.takeIn());
+    m_driverController.rightBumper().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
+
+//     m_driverController.b().onTrue(m_shooter.shoot());
+
+//     m_driverController.y().onTrue(m_intake.takeIn());
+
+//     m_driverController.x().onTrue(m_climb.climb());
+
     
-    m_driverController.rightBumper().onTrue(eyedoctor.peek());
+    //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
     // thisButton.onTrue(do this thing)
 

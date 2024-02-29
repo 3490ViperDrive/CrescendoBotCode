@@ -9,7 +9,7 @@ public final class Constants {
 
     public static final class ShooterConstants {
         public static final double kShooterSpeed = 0.5;
-        public static final int kShooterMotorID = 1;
+        public static final int kShooterMotorID = 13;
         public static final double kShooterMotorStopSpeed = 0;
     }
 
@@ -48,9 +48,9 @@ public final class Constants {
             public static final double kThumbstickDeadband = 0.15;
             public static final double kTriggerDeadband = 0.3;
 
-            public static final double kCrawlTranslationMultiplier = 0.65;
+            public static final double kCrawlTranslationMultiplier = 0.2;
             public static final double kCrawlRotationMultiplier = 0.3;
-            public static final double kRotationDesaturationFactor = 0.3;
+            public static final double kRotationDesaturationFactor = 0.1;
         }
         public static final class OperatorXbox {
             //Add if necessary
