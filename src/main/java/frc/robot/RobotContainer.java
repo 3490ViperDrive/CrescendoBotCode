@@ -27,20 +27,21 @@ public class RobotContainer implements Logged {
 
   public RobotContainer() {
 
-    // m_drivetrain.setDefaultCommand(
-    //   m_drivetrain.driveTeleopCommand(
-    //     m_driverController::getLeftY,
-    //     m_driverController::getLeftX,
-    //     m_driverController::getRightX,
-    //     m_driverController::getLeftTriggerAxis,
-    //     m_driverController.getHID()::getAButton,
-    //     m_driverController.getHID()::getBButton,
-    //     m_driverController.getHID()::getXButton,
-    //     m_driverController.getHID()::getYButton,
-    //     () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
-    // );
+    m_drivetrain.setDefaultCommand(
+      m_drivetrain.driveTeleopCommand(
+        m_driverController::getLeftY,
+        m_driverController::getLeftX,
+        m_driverController::getRightX,
+        m_driverController::getLeftTriggerAxis,
+        m_driverController.getHID()::getAButton,
+        m_driverController.getHID()::getBButton,
+        m_driverController.getHID()::getXButton,
+        m_driverController.getHID()::getYButton,
+        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
+    );
 
-    m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
+    //TODO REMOVE BEFORE DEPLOYING TO ROBOT
+    // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
     m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
 
