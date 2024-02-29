@@ -39,8 +39,7 @@ public class RobotContainer implements Logged {
         m_driverController.getHID()::getYButton,
         () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
     );
-
-    //TODO REMOVE BEFORE DEPLOYING TO ROBOT
+    
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
     m_shoot.setDefaultCommand(m_shoot.stopMotorCommand());
