@@ -27,6 +27,8 @@ import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
+import static edu.wpi.first.units.Units.*;
+
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
  * so it can be used in command-based projects easily.
@@ -142,11 +144,15 @@ public class Drivetrain implements Subsystem, Logged {
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
     public Command driveAutoCommand(double x, double y, double angle) {
-        return run(() -> m_swerve.setControl(new SwerveRequest.FieldCentricFacingAngle()
-                .withTargetDirection(Rotation2d.fromDegrees(angle))
-            .withDriveRequestType(DriveRequestType.Velocity)
+        return run(() -> m_swerve.setControl(m_ClosedLoopControlledHeadingRequest
+            .withTargetDirection(Rotation2d.fromDegrees(angle))
             .withVelocityX(x)
             .withVelocityY(y)));
+    }
+
+    public Command sysIDTranslationCommand(double volts) {
+        return run(() -> m_swerve.setControl(new SwerveRequest.SysIdSwerveTranslation()
+            .withVolts(Volts.of(volts))));
     }
 
     /* Use this in auto routines to set the initial pose of the robot */
@@ -161,7 +167,7 @@ public class Drivetrain implements Subsystem, Logged {
     //TODO move to Omnicontroller 2 lib if created
     public double[] filterXboxControllerInputs(double y, double x, double theta) {
         Translation2d input = new Translation2d(-y, -x); //fix for NW CC+
-        double quadrantAngle = Math.abs(input.getAngle().getDegrees()) % 90;
+        //double quadrantAngle = Math.abs(input.getAngle().getDegrees()) % 90;
         // input = input.div(1.12);
         // if (Math.abs(x) >= 0.99 || Math.abs(y) >= 0.99) {
         //     input = new Translation2d(1, input.getAngle());
