@@ -15,6 +15,20 @@ import static frc.robot.Constants.DigitalInputConstants.*;
 // import static frc.robot.Constants.IntakeConstants.*;
 
 public class Optometrist extends SubsystemBase{
+
+    DigitalInput input = new DigitalInput(kDigitalInputPort); 
+
+    public void DigitalInput(){
+        Shuffleboard.getTab("Digital Input").add(input);
+    }
+    
+        public Command DIValue() {
+            return(run(
+                () -> {
+                    SmartDashboard.getBoolean("Digital Input", input.get());
+                }
+            ));
+        }
     
     AnalogPotentiometer lidar = new AnalogPotentiometer(kLidarPort);
 
@@ -30,20 +44,6 @@ public class Optometrist extends SubsystemBase{
         ));
     }
 
-        DigitalInput input = new DigitalInput(kDigitalInputPort); 
-
-        public void DigitalInput(){
-        Shuffleboard.getTab("Digital Input").add(input);
-    }
-
-        public Command DIValue() {
-            return(run(
-                () -> {
-                    SmartDashboard.getBoolean("Digital Input", input.get());
-                }
-            ));
-        }
-
         // DigitalInput limit = new DigitalInput(kDigitalInputLimit);
 
         // Spark spark = new Spark(kSparkDIO);
@@ -56,7 +56,4 @@ public class Optometrist extends SubsystemBase{
         //         spark.set(kIntakeMotorStopSpeed);
         //     }
         // };
-
-
-
 }
