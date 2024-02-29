@@ -43,25 +43,25 @@ public class RobotContainer implements Logged {
     );
 
 
-    m_shooter.setDefaultCommand(m_shooter.shoot());
+    // m_shooter.setDefaultCommand(m_shooter.shoot());
 
-    m_intake.setDefaultCommand(m_intake.takeIn());
+    // m_intake.setDefaultCommand(m_intake.takeIn());
 
-    m_lift.setDefaultCommand(m_lift.lift());
+    // m_lift.setDefaultCommand(m_lift.lift());
 
     configureBindings();
   }
 
   private void configureBindings() {
-    m_driverController.b().onTrue(m_shooter.shoot());
+    // m_driverController.b().onTrue(m_shooter.shoot());
 
-    m_driverController.y().onTrue(m_intake.takeIn());
+    // m_driverController.y().onTrue(m_intake.takeIn());
 
-    m_driverController.x().onTrue(m_lift.lift());
+    // m_driverController.x().onTrue(m_lift.lift());
     
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    // thisButton.onTrue(do this thing)
+   // thisButton.onTrue(do this thing)
 
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
   }
