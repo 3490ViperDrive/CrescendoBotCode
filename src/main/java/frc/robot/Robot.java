@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-
 import com.ctre.phoenix6.SignalLogger;
 
 import monologue.Logged;
@@ -18,17 +17,14 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
 
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -163,7 +159,7 @@ public class Robot extends TimedRobot implements Logged {
   }
 
   public void ShuffleBoardUI() {
-   ShuffleboardTab tab= Shuffleboard.getTab("ShuffleBoard test");
+   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
 
     Shuffleboard.getTab("ShuffleBoard test")
       .add("Started?", 1);
