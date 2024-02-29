@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 // import java.lang.reflect.InaccessibleObjectException;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +24,10 @@ public class RobotContainer {
 
   Drivetrain m_drivetrain = new Drivetrain();
   private Optometrist eyedoctor = new Optometrist();
+
+  public Command getAutonomusCommand() {
+      return new PathPlannerAuto("yetAnotherTestAuto");
+  }
 
   
   public RobotContainer() {

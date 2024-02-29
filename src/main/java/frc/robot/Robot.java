@@ -9,6 +9,7 @@ package frc.robot;
 
 // import java.sql.Connection;
 import com.ctre.phoenix6.SignalLogger;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import monologue.Logged;
 import monologue.Monologue;
@@ -79,8 +80,11 @@ public class Robot extends TimedRobot implements Logged{
 
   @Override
   public void autonomousInit() {
+    
+    
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

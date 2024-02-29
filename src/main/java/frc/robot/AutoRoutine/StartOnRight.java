@@ -19,7 +19,7 @@ public class StartOnRight extends SequentialCommandGroup {
     
     //basic auto commented out. Will slip back in when needed
 
-    public StartOnRight( Drivetrain drive, shooterSubsystem Shooter, intakeSubsystem intake){
+    public StartOnRight( Drivetrain drive, Shooter Shooter, intakeSubsystem intake){
 
         //find a way to give doubble suppliers a value, then pipe those in
 

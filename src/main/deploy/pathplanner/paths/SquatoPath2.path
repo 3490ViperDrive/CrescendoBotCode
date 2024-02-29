@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.23001793221846,
+        "y": 7.0
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.23001793221846,
+        "y": 6.979658581285779
+      },
+      "isLocked": false,
+      "linkedName": "squato1"
+    },
+    {
+      "anchor": {
+        "x": 4.23001793221846,
+        "y": 5.6212015419751244
+      },
+      "prevControl": {
+        "x": 4.265168374074263,
+        "y": 5.6212015419751244
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "squato2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Squato",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

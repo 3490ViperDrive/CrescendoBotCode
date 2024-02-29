@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -26,6 +27,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import static frc.robot.Constants.DrivetrainConstants.*;
 
 import java.util.function.DoubleSupplier;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 
 public class Drivetrain extends SubsystemBase implements Logged {
@@ -65,8 +71,36 @@ public class Drivetrain extends SubsystemBase implements Logged {
             new SimSwerveModule(kBackRightModule),
             new SimSwerveModule(kBackLeftModule)
             };
+
+            
         }
+
+        AutoBuilder.configureHolonomic(
+            
+            this:: getPose,
+            this:: resetPose,
+            this:: getCurrentSpeeds,
+            this:: drive,
+            
+            new HolonomicPathFollowerConfig(
+                new PIDConstants(5.0, 0.0, 0.0), 
+                new PIDConstants(5.0, 0.0, 0.0), 
+                4.5, 
+                0.4, 
+                new ReplanningConfig()
+            ),
+             () -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()){
+                return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+        },
+        this
         
+        );
+
+       
 
         //TODO FINISh ODOMETRY
         m_pose = new Pose2d(5, 13.5, Rotation2d.fromDegrees(180));
@@ -78,7 +112,7 @@ public class Drivetrain extends SubsystemBase implements Logged {
             module.dashboardInit();
         }
         */
-    }
+            }
 
     @Override
     public void periodic() {
@@ -183,5 +217,15 @@ public class Drivetrain extends SubsystemBase implements Logged {
     @Log.File
     Pose2d getPose() {
         return m_pose;
+    }
+
+    private void resetPose(Pose2d pose2d1) {
+    }
+
+    private ChassisSpeeds getCurrentSpeeds() {
+        return null;
+    }
+
+    private void drive(ChassisSpeeds chassisspeeds1) {
     }
 }
