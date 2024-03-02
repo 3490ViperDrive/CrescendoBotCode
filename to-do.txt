@@ -1,7 +1,1 @@
-TODO 2/10/2024
-
-1. More gui
-
-2. Write more skeleton automonous code
-
-3. git gud
+1. Fix gui code ;w;
