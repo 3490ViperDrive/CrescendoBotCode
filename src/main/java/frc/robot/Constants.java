@@ -5,13 +5,48 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants {
 
-    public static final class ShooterConstants{
+    // My Constant Id's aren't the right ones 
+
+    public static final class ShooterConstants {
         public static final double kShooterSpeed = 0.5;
-        public static final int kShooterMotorID = 1;
+        public static final int kShooterMotorID = 13;
+        public static final double kShooterMotorStopSpeed = 0;
+
+        public static final double kPivotSpeed = 0.5;
+        public static final int kPivotMotorID = 2;
+        public static final double kPivotMotorStopSpeed = 0;
+
+        public static final double kExtensionMotorSpeed = .325;
+        public static final int kExtensionMotorID = 5;
+        public static final double kExtensionMotorStop = 0;
     }
-    public static final class IntakeConstants{
+
+    public static final class IntakeConstants {
         public static final double kIntakeSpeed = 0.75;
-         public static final int kIntakeMotorID = 2;
+        public static final int kIntakeMotorID = 3;
+        public static final double kIntakeMotorStopSpeed = 0;
+    }
+
+    public static final class LiftConstants {
+        public static final double kLiftSpeed = 0.25;
+        public static final int kLiftMotorID = 4;
+        public static final double kLiftMotorStopSpeed = 0;
+    }
+
+    public static final class DigitalInputConstants {
+        public static final int kDigitalInputPort = 1;
+        public static final int kSparkDIO = 2;
+        //public static final int kDigitalInputLimit = 1;
+    }
+
+    // Remove zeros and put meaningful int
+
+    // kp - The proportional coefficient.
+    // ki - The integral coefficient.
+    // kd - The derivative coefficient.
+    public static final class ShooterPID {
+        public static final double kP = 0;
+        public static final double kD = 0;
     }
 
     public static final class ControllerConstants {
@@ -20,9 +55,9 @@ public final class Constants {
             public static final double kThumbstickDeadband = 0.15;
             public static final double kTriggerDeadband = 0.3;
 
-            public static final double kCrawlTranslationMultiplier = 0.65;
+            public static final double kCrawlTranslationMultiplier = 0.2;
             public static final double kCrawlRotationMultiplier = 0.3;
-            public static final double kRotationDesaturationFactor = 0.3;
+            public static final double kRotationDesaturationFactor = 0.1;
         }
         public static final class OperatorXbox {
             public static final int kControllerID = 1;
@@ -95,6 +130,4 @@ public final class Constants {
     public static final class VisionConstants{
             public static final int kLidarPort = 0;
         }
-
-    
 }

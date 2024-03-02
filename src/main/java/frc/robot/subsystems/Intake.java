@@ -25,11 +25,16 @@ public class Intake extends SubsystemBase{
         });
     }
 
-    public Command stopMotorCommand() {
-        return runOnce(() -> {
-            intakeMotor.set(0);
-            intakeMotor.stopMotor();
+    public Command takeOut() {
+        return run(() -> {
+            intakeMotor.set(-kIntakeSpeed);
         });
     }
-    
+
+    public Command stopMotorCommand() {
+        return runOnce(() -> {
+            intakeMotor.set(kIntakeMotorStopSpeed);
+            intakeMotor.stopMotor();
+        });
+    } 
 }
