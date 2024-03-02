@@ -42,7 +42,8 @@ public class RobotContainer {
       () -> m_driverController.getLeftTriggerAxis()));*/
       () -> m_driverJoystick.getRawAxis(1),
       () -> m_driverJoystick.getRawAxis(2),
-      () -> m_driverJoystick.getRawAxis(3)));
+      () -> m_driverJoystick.getRawAxis(3),
+      () -> m_driverJoystick.getRawAxis(4)));
 
     configureBindings();
   }
