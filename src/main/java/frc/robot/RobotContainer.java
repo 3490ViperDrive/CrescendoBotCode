@@ -36,19 +36,20 @@ public class RobotContainer {
   public RobotContainer() {
 
     m_drivetrain.setDefaultCommand(m_drivetrain.driveOpenLoopThrottleCommand(
-      () -> m_driverController.getLeftY(), 
+      /*() -> m_driverController.getLeftY(), 
       () -> m_driverController.getLeftX(), 
       () -> m_driverController.getRightX(), 
-      () -> m_driverController.getLeftTriggerAxis()));
+      () -> m_driverController.getLeftTriggerAxis()));*/
+      () -> m_driverJoystick.getRawAxis(1),
+      () -> m_driverJoystick.getRawAxis(2),
+      () -> m_driverJoystick.getRawAxis(3)));
 
     configureBindings();
   }
 
   private void configureBindings() {
 
-    m_driverJoystick.getRawAxis(1);
-    m_driverJoystick.getRawAxis(2);
-    m_driverJoystick.getRawAxis(3);
+    
     m_driverJoystick.button(1).onTrue(intake.takeIn);
     m_driverJoystick.button(2).onTrue(shooter.shoot);
     m_driverJoystick.button(3).onTrue(lift.lower);
