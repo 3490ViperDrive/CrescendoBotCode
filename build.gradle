@@ -1,6 +1,7 @@
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2024.2.1"
+    //changed from 2024.2.1 to 2024.1.1 to see if build stopped failing
 }
 
 java {
@@ -52,6 +53,8 @@ def includeDesktopSupport = true
 dependencies {
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
+    //Monologue requirese this
+    implementation 'com.github.shueja:Monologue:v1.0.0-beta5'
 
     roborioDebug wpi.java.deps.wpilibJniDebug(wpi.platforms.roborio)
     roborioDebug wpi.java.vendor.jniDebug(wpi.platforms.roborio)
@@ -98,4 +101,9 @@ wpi.java.configureTestTasks(test)
 // Configure string concat to always inline compile
 tasks.withType(JavaCompile) {
     options.compilerArgs.add '-XDstringConcat=inline'
+}
+
+//Monologue requires this
+repositories {
+  maven { url 'https://jitpack.io' }
 }
