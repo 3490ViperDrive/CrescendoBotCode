@@ -144,19 +144,20 @@ public class Robot extends TimedRobot implements Logged {
   public void ShuffleBoardUI() {
    ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
 
-    // Shuffleboard.getTab("ShuffleBoard test")
+    // Shuffleboard.getTab("ShuffleBoard test")   <--- example command
     //   .add("Started?", 1);
+    //      .getEntry();
 
-    //   Shuffleboard.getTab("ShuffleBoard test")
-    //     .add("testing 2", 1 + 214);
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("testing 2", 1 + 214);
 
-    //   Shuffleboard.getTab("ShuffleBoard test")
-    //     .add("Variable thing", temp);
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("Variable thing", temp);
 
-    //   Shuffleboard.getTab("ShuffleBoard test")
-    //     .add("Slider test", 1)
-    //     .withWidget(BuiltInWidgets.kNumberSlider)
-    //     .getEntry();
+      Shuffleboard.getTab("ShuffleBoard test")
+        .add("Slider test", 1)
+        .withWidget(BuiltInWidgets.kNumberSlider)
+        .getEntry();
   }
 
   @Override
