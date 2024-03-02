@@ -81,19 +81,22 @@ public class Robot extends TimedRobot {
   public void testPeriodic() {}
 
   public void ShuffleBoardUI() {
-   ShuffleboardTab tab = Shuffleboard.getTab("Drive tab");
+   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard tab");
 
-   Shuffleboard.getTab("Drive tab")
+   Shuffleboard.getTab("ShuffleBoard tab")
    .add("Speedometer", BuiltInWidgets.k3AxisAccelerometer);
 
-   Shuffleboard.getTab("Drive tab")
+   Shuffleboard.getTab("ShuffleBoard tab")
    .add("random thing", BuiltInWidgets.kGyro);
 
-   Shuffleboard.getTab("Drive tab")
+   Shuffleboard.getTab("ShuffleBoard tab")
    .add("Random thing v2", BuiltInWidgets.kCameraStream);
 
-   Shuffleboard.getTab("Drive tab")
-    .add("other random thing", BuiltInWidgets.kBooleanBox);
+   Shuffleboard.getTab("ShuffleBoard tab")
+    .add("Random widget", BuiltInWidgets.kField);
+
+  Shuffleboard.getTab("ShuffleBoard tab")
+    .add("random code", BuiltInWidgets.kCommand);
   }
 
   @Override
