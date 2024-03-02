@@ -10,6 +10,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.SpinNEOS;
@@ -21,6 +22,8 @@ public class RobotContainer {
   CommandXboxController m_driverController = new CommandXboxController(0);
 
   CommandXboxController m_operatorController = new CommandXboxController(1);
+
+  CommandJoystick m_driverJoystick = new CommandJoystick(1);
 
   Drivetrain m_drivetrain = new Drivetrain();
   private Optometrist eyedoctor = new Optometrist();
@@ -42,32 +45,18 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    m_driverJoystick.button(1).onTrue(intake.takeIn);
+    m_driverJoystick.button(2).onTrue(shooter.shoot);
+    m_driverJoystick.button(3).onTrue(lift.lower);
+    m_driverJoystick.button(5).onTrue(lift.raise);
+    m_driverJoystick.button(6).onTrue(intake.takeOut);
+    m_driverJoystick.button(7).whileTrue(crawlmode);
+    m_driverJoystick.button(8).onTrue(climb.climbUp);
+    m_driverJoystick.button(10).onTrue(climb.climbDown);
+    m_driverJoystick.button(11).onTrue(lift.home);
+    
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
-      //Left stick=Translation2d(Driver)
-      //Rigtht stick=Rotation(Driver)
-      //Left trigger=Crawl mode(Driver)
-      
-      //Right trigger=RobotCentric(Driver)
-      //m_driverController.rightTrigger().whileTrue(Robot Centric)
-      
-      //left or right bumper=intake(Driver)
-      //m_driverController.rightBumber.whileTrue(intake)
-      //m_driverController.leftBumber.whielTrue(intake)
-      
-      //Face buttons=robot rotation presets(Driver)
-        //m_driverController.a().onTrue(Rotation preset 1);
-        //m_driverController.b().onTrue(Rotation preset 2);
-        //m_driverController.y().onTrue(Rotation preset 3);
-        //m_driverController.x().onTrue(Rotation preset 4);
-      
-      
-      //m_operatorController.rightTrigger().whileTrue(Shooter.shoot());
-  
-      //m_operatorController.a().onTrue(default/speaker shooter position)
-      
-      //m _operatorController.b().onTrue(amp shooter position)
-      
-      //m_operatorController.y().onTrue(trap shooter position)
       
 
   }
