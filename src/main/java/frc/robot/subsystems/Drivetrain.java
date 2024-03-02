@@ -214,13 +214,15 @@ public class Drivetrain extends SubsystemBase implements Logged {
             new SwerveModulePosition(m_swerveModules[3].getDistance(), m_swerveModules[3].getAzimuth())};
     }
 
-    @Log.File
+    @Log.File   
     Pose2d getPose() {
         return m_pose;
     }
 
     private void resetPose(Pose2d pose2d1) {
+
     }
+
 
     private ChassisSpeeds getCurrentSpeeds() {
         return null;

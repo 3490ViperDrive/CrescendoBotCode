@@ -51,15 +51,15 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    /*m_driverJoystick.button(1).onTrue(intake.takeIn);
-    m_driverJoystick.button(2).onTrue(shooter.shoot);
-    m_driverJoystick.button(3).onTrue(lift.lower);
-    m_driverJoystick.button(5).onTrue(lift.raise);
-    m_driverJoystick.button(6).onTrue(intake.takeOut);
-    m_driverJoystick.button(7).whileTrue(crawlmode);
-    m_driverJoystick.button(8).onTrue(climb.climbUp);
-    m_driverJoystick.button(10).onTrue(climb.climbDown);
-    m_driverJoystick.button(11).onTrue(lift.home);*/
+    // m_driverJoystick.button(1).onTrue(intake.takeIn);
+    // m_driverJoystick.button(2).onTrue(shooter.shoot);
+    // m_driverJoystick.button(3).onTrue(lift.lower);
+    // m_driverJoystick.button(5).onTrue(lift.raise);
+    // m_driverJoystick.button(6).onTrue(intake.takeOut);
+    // m_driverJoystick.button(7).whileTrue(crawlmode);
+    // m_driverJoystick.button(8).onTrue(climb.climbUp);
+    // m_driverJoystick.button(10).onTrue(climb.climbDown);
+    // m_driverJoystick.button(11).onTrue(lift.home);
     
     m_driverController.rightBumper().onTrue(eyedoctor.peek());
       
