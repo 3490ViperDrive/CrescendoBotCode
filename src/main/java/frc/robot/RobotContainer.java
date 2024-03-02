@@ -8,12 +8,14 @@ package frc.robot;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.io.controlscheme.SingleXboxScheme;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shooter.Pivot;
 import frc.robot.subsystems.Shooter.ShooterExtension;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
+import frc.robot.utils.OmniHID;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 
@@ -34,20 +36,22 @@ public class RobotContainer implements Logged {
 
   private Optometrist eyedoctor = new Optometrist();
 
+  OmniHID m_omniHID = new OmniHID(new SingleXboxScheme());
+
   public RobotContainer() {
 
-    m_drivetrain.setDefaultCommand(
-      m_drivetrain.driveTeleopCommand(
-        m_driverController::getLeftY,
-        m_driverController::getLeftX,
-        m_driverController::getRightX,
-        m_driverController::getLeftTriggerAxis,
-        m_driverController.getHID()::getAButton,
-        m_driverController.getHID()::getBButton,
-        m_driverController.getHID()::getXButton,
-        m_driverController.getHID()::getYButton,
-        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
-    );
+    // m_drivetrain.setDefaultCommand(
+    //   m_drivetrain.driveTeleopCommand(
+    //     m_driverController::getLeftY,
+    //     m_driverController::getLeftX,
+    //     m_driverController::getRightX,
+    //     m_driverController::getLeftTriggerAxis,
+    //     m_driverController.getHID()::getAButton,
+    //     m_driverController.getHID()::getBButton,
+    //     m_driverController.getHID()::getXButton,
+    //     m_driverController.getHID()::getYButton,
+    //     () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
+    // );
     
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 

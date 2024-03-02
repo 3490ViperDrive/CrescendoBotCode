@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.utils;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
