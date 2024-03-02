@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "testAuto",
+  "folder": "testAutos",
   "previewStartingState": {
     "rotation": -177.1386430241758,
     "velocity": 0

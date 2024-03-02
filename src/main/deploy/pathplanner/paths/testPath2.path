@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.2401782006671676,
+        "x": 4.240178200667167,
         "y": 5.573284220930263
       },
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "testAuto",
+  "folder": "testAutos",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

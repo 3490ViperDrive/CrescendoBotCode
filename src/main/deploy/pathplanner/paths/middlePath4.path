@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.5058601948502455,
-        "y": 6.977667407055125
+        "x": 2.5085249599885775,
+        "y": 6.956236908194216
       },
       "isLocked": false,
       "linkedName": "mplink2"
@@ -20,8 +20,8 @@
         "y": 5.573284220930263
       },
       "prevControl": {
-        "x": 1.174908809307075,
-        "y": 5.564105245857552
+        "x": 1.3491521419562087,
+        "y": 5.597779868883561
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,13 +32,13 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": 0,
     "rotateFast": false
   },
@@ -48,5 +48,5 @@
     "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
