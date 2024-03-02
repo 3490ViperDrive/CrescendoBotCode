@@ -83,9 +83,14 @@ public class Robot extends TimedRobot {
   public void ShuffleBoardUI() {
    ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
 
-   Shuffleboard.getTab("Shuffleboard test")
-   .add("ending racism", 1);
-   
+   Shuffleboard.getTab("ShuffleBoard test")
+   .add("Speedometer", BuiltInWidgets.k3AxisAccelerometer);
+
+   Shuffleboard.getTab("ShuffleBoard test")
+   .add("random thing", BuiltInWidgets.kGyro);
+
+   Shuffleboard.getTab("ShuffleBoard test")
+   .add("Random thing v2", BuiltInWidgets.kCameraStream);
   }
 
   @Override
