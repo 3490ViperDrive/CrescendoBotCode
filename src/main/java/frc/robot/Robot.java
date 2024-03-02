@@ -1,5 +1,6 @@
 //TODO: Remove the shuffleboard stuff from robot.java and move it 'dashboardUI'
 //TODO: Actually add code for autonomous in/under center(default) autonomous 
+//TODO: Fix the added "ShuffleBoard stuff" into "dashboardUI"
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
@@ -30,7 +31,7 @@ public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
 
   //private double temp = 123;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  // private final SendableChooser<String> m_chooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
 
   private static final String kDefaultCenterAuto = "Center, Default Autonomous";
@@ -131,33 +132,16 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void testPeriodic() {}
 
-  @Override
-  public void testExit() {}
-
-  private void dashboardUI(){
-    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
-    m_chooser.addOption("Right Auto", kRightAuto);
-    m_chooser.addOption("Left Auto", kLeftAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-  }
-
   public void ShuffleBoardUI() {
-   ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
+    // THIS IS OLDER CODE AND USED AS AN EXAMPLE FOR RANDOM SHUFFLEBOARD
 
-    // Shuffleboard.getTab("ShuffleBoard test")   <--- example command
-    //   .add("Started?", 1);
-    //      .getEntry();
+  //  ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
 
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("testing 2", 1 + 214);
+  //    Shuffleboard.getTab("ShuffleBoard test")   <--- example command
+  //      .add("Started?", 1);
+  //         .getEntry();   <----  Sometimes needs this
 
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("Variable thing", temp);
-
-      Shuffleboard.getTab("ShuffleBoard test")
-        .add("Slider test", 1)
-        .withWidget(BuiltInWidgets.kNumberSlider)
-        .getEntry();
+                                                                                                                                                    sneaky();
   }
 
   @Override
@@ -168,8 +152,18 @@ public class Robot extends TimedRobot implements Logged {
     m_chooser.addOption("Right Auto", kRightAuto);
     m_chooser.addOption("Left Auto", kLeftAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+    
+  // Colton's code below ;w;
+    
+    SmartDashboard.
+
 
   }
-}
-
+   
   
+  private void sneaky() {
+    System.out.println("Colton was here ;w;");
+  }
+
+
+}
