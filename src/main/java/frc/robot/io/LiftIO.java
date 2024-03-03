@@ -6,6 +6,8 @@ import monologue.Annotations.Log;
 public abstract class LiftIO implements Logged {
     
     public abstract void setDistance(double distance);
+    
+    public void moveOpenLoop(double volts) {}
 
     @Log
     public abstract double getDistance();

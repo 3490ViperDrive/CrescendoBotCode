@@ -5,16 +5,16 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.*;
 
-import static frc.robot.Constants.LiftConstants.*;
+import static frc.robot.Constants.ClimberConstants.*;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
-public class Lift extends SubsystemBase {
+public class Climber extends SubsystemBase {
 
     CANSparkMax liftMotor;
 
-    public Lift() {
+    public Climber() {
         liftMotor = new CANSparkMax(kLiftMotorID, MotorType.kBrushless);
     }
 

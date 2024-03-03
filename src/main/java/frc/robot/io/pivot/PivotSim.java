@@ -12,6 +12,10 @@ public class PivotSim extends PivotIO {
 
     }
 
+    public void moveOpenLoop(double volts) {
+        
+    }
+
     public void setAngle(Rotation2d angle) {
         this.angle = Rotation2d.fromDegrees(Math.max(kLowerLimit, Math.min(kUpperLimit, angle.getDegrees())));
     }

@@ -11,14 +11,6 @@ public final class Constants {
         public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 13;
         public static final double kShooterMotorStopSpeed = 0;
-
-        public static final double kPivotSpeed = 0.5;
-        public static final int kPivotMotorID = 2;
-        public static final double kPivotMotorStopSpeed = 0;
-
-        public static final double kExtensionMotorSpeed = .325;
-        public static final int kExtensionMotorID = 5;
-        public static final double kExtensionMotorStop = 0;
     }
 
     public static final class IntakeConstants {
@@ -27,7 +19,7 @@ public final class Constants {
         public static final double kIntakeMotorStopSpeed = 0;
     }
 
-    public static final class LiftConstants {
+    public static final class ClimberConstants {
         public static final double kLiftSpeed = 0.25;
         public static final int kLiftMotorID = 4;
         public static final double kLiftMotorStopSpeed = 0;
@@ -92,18 +84,49 @@ public final class Constants {
     }
 
     public static final class LiftConstants {
-        public static final double kHeightFromGround = 5.94;
+        public static final int kMotorID = 14;
+
+        public static final double kHeightFromGround = 5.94; //All in inches
         public static final double kLowerLimitHeight = 12.5; //Relative to height from ground
         public static final double kUpperLimitHeight = 32.5;
         public static final double kUpperLimitDistance = kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
         public static final double kLowerLimitDistance = 0;
         public static final double kSetpointTolerance = 0.25; //tune this
+
+        public static final double kGearRatio = 70; //Guessed because nobody knows
+        public static final double kInchesToRotationsRatio = Math.PI * 1.790 * 2; //Circumference of sprocket pitch diameter x2 for two stage
+        public static final double kRotationsToInchesRatio = 1/kInchesToRotationsRatio;
+
+        public static final class PIDGains {
+            public static final double kP = 0.1;
+            public static final double kD = 0;
+        }
+
+        public static final class FFGains {
+            public static final double kG = 0;
+        }
     }
 
     public static final class PivotConstants {
+        public static final int kMotorID = 15;
+        public static final int kEncoderChannel = 0;
+        public static final double kEncoderOffset = 0; //degrees; adjust such that 0 degrees matches with horizontal
+
         public static final double kLowerLimit = -45;
         public static final double kUpperLimit = 75;
+
         public static final double kSetpointTolerance = 2; //tune this
+
+        public static final double kGearRatio = 100; //2 10:1 versaplanetary stages
+
+        public static final class PIDGains {
+            public static final double kP = 1;
+            public static final double kD = 0;
+        }
+
+        public static final class FFGains {
+            
+        }
     }
 
     public static enum LiftPivotSetpoint {

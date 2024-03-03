@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,6 +44,16 @@ public class LiftPivot extends SubsystemBase implements Logged {
             pivot.setAngle(Rotation2d.fromDegrees(setpoint.pivotAngle));
             lastSetpoint = setpoint;
         }).withName("Set lift/pivot position to " + setpoint);
+    }
+
+    public Command runOpenLoop(DoubleSupplier liftSup, DoubleSupplier pivotSup) {
+        return run(() -> {
+            lift.moveOpenLoop(liftSup.getAsDouble() * 12);
+            pivot.moveOpenLoop(pivotSup.getAsDouble() * 12);
+        }).andThen(() -> {
+            lift.moveOpenLoop(0);
+            pivot.moveOpenLoop(0);
+        });
     }
 
     public Command setPositionAndWait(LiftPivotSetpoint setpoint) {

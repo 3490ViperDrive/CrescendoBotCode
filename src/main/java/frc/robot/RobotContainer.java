@@ -10,11 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
-import frc.robot.io.LiftIO;
-import frc.robot.io.lift.LiftSim;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Shooter.Pivot;
-import frc.robot.subsystems.Shooter.ShooterExtension;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
@@ -32,11 +28,7 @@ public class RobotContainer implements Logged {
 
   Intake m_intake = new Intake();
 
-  Lift m_lift = new Lift();
-
-  Pivot m_pivot = new Pivot();
-
-  ShooterExtension m_extension = new ShooterExtension();
+  Climber m_lift = new Climber();
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -52,9 +44,12 @@ public class RobotContainer implements Logged {
         m_driverController.getHID()::getBButton,
         m_driverController.getHID()::getXButton,
         m_driverController.getHID()::getYButton,
-        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
-    );
+        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
     
+    //Temp
+    m_liftPivot.setDefaultCommand(
+      m_liftPivot.runOpenLoop(
+        m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
     //m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
@@ -87,6 +82,7 @@ public class RobotContainer implements Logged {
 
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
+    //Temp
     m_operatorController.a().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
     m_operatorController.b().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
     m_operatorController.x().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));

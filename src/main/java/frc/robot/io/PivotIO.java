@@ -8,6 +8,8 @@ public abstract class PivotIO implements Logged {
     
     public abstract void setAngle(Rotation2d angle);
 
+    public abstract void moveOpenLoop(double volts);
+
     @Log
     public abstract Rotation2d getAngle();
 

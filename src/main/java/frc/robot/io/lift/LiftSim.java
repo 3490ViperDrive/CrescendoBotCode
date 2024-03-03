@@ -15,7 +15,7 @@ public class LiftSim extends LiftIO {
     }
 
     public boolean atLowerLimit() {
-        return distance <= 0;
+        return distance <= kLowerLimitDistance;
     }
 
     public boolean atUpperLimit() {

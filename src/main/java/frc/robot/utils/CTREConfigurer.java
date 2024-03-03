@@ -3,18 +3,50 @@ package frc.robot.utils;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANcoderConfigurator;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
+
+import frc.robot.Constants.LiftConstants;
+import frc.robot.Constants.PivotConstants;
 
 public final class CTREConfigurer {
 
     private static final CTREConfigurer instance = new CTREConfigurer();
 
-    private CTREConfigurer() {}
+    public final TalonFXConfiguration pivotConfig = new TalonFXConfiguration();
+    public final TalonFXConfiguration liftConfig = new TalonFXConfiguration();
+
+    private CTREConfigurer() {
+        pivotConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        pivotConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
+
+        pivotConfig.Feedback.SensorToMechanismRatio = PivotConstants.kGearRatio;
+
+        pivotConfig.Slot0 = new Slot0Configs()
+            .withGravityType(GravityTypeValue.Arm_Cosine)
+            .withKP(PivotConstants.PIDGains.kP)
+            .withKD(PivotConstants.PIDGains.kD);
+
+        liftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+
+        liftConfig.Feedback.SensorToMechanismRatio = LiftConstants.kGearRatio * LiftConstants.kRotationsToInchesRatio;
+
+        liftConfig.Slot0 = new Slot0Configs()
+            .withGravityType(GravityTypeValue.Elevator_Static)
+            .withKP(LiftConstants.PIDGains.kP)
+            .withKD(LiftConstants.PIDGains.kD)
+            .withKG(LiftConstants.FFGains.kG);
+    }
 
     public static CTREConfigurer getInstance() {
         return instance;
