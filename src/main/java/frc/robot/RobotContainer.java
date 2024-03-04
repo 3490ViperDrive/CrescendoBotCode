@@ -32,6 +32,8 @@ public class RobotContainer implements Logged {
 
   ShooterExtension m_extension = new ShooterExtension();
 
+  BackupCamera m_camera = new BackupCamera();
+
   private Optometrist eyedoctor = new Optometrist();
 
   public RobotContainer() {

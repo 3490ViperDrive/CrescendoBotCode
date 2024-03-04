@@ -94,4 +94,9 @@ public final class Constants {
     public static final class VisionConstants{
             public static final int kLidarPort = 0;
         }
+
+    public static final class BackupCameraConstants {
+        public static final int kResolutionWidth = 640;
+        public static final int kResolutionHeight = (kResolutionWidth * 3)/4;
+    }
 }
