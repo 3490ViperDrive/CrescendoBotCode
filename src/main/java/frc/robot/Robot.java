@@ -57,7 +57,7 @@ public final SendableChooser<String> m_controllerchoice = new SendableChooser<>(
     ShuffleBoardUI();
 
     dashboardUI();
-    coltonsCode();
+   // coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
   }
 
