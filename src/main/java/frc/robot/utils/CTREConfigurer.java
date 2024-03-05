@@ -4,14 +4,17 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CANcoderConfigurator;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.configs.VoltageConfigs;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -36,6 +39,16 @@ public final class CTREConfigurer {
             .withKP(PivotConstants.PIDGains.kP)
             .withKD(PivotConstants.PIDGains.kD);
 
+        pivotConfig.Voltage = new VoltageConfigs()
+            .withPeakForwardVoltage(PivotConstants.kFwdVoltageLimit)
+            .withPeakReverseVoltage(PivotConstants.kBkwdVoltageLimit);
+
+        pivotConfig.SoftwareLimitSwitch = new SoftwareLimitSwitchConfigs()
+            .withForwardSoftLimitEnable(true)
+            .withForwardSoftLimitThreshold(Units.degreesToRotations(PivotConstants.kUpperLimit))
+            .withReverseSoftLimitEnable(true)
+            .withReverseSoftLimitThreshold(Units.degreesToRotations(PivotConstants.kLowerLimit));
+
         liftConfig.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
         liftConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
@@ -46,6 +59,14 @@ public final class CTREConfigurer {
             .withKP(LiftConstants.PIDGains.kP)
             .withKD(LiftConstants.PIDGains.kD)
             .withKG(LiftConstants.FFGains.kG);
+        
+        liftConfig.Voltage = new VoltageConfigs()
+            .withPeakForwardVoltage(LiftConstants.kFwdVoltageLimit)
+            .withPeakReverseVoltage(LiftConstants.kBkwdVoltageLimit);
+
+        liftConfig.SoftwareLimitSwitch = new SoftwareLimitSwitchConfigs()
+            .withReverseSoftLimitEnable(true)
+            .withForwardSoftLimitThreshold(LiftConstants.kLowerLimitDistance);
     }
 
     public static CTREConfigurer getInstance() {

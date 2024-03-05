@@ -13,7 +13,7 @@ import edu.wpi.first.math.MathUtil;
 public class LiftFalcon extends LiftIO {
     TalonFX m_motor;
 
-    LiftFalcon() {
+    public LiftFalcon() {
         m_motor = new TalonFX(kMotorID);
         CTREConfigurer.configureMotor(
             CTREConfigurer.getInstance().liftConfig,
@@ -30,7 +30,7 @@ public class LiftFalcon extends LiftIO {
     }
     
     public void moveOpenLoop(double volts) {
-        m_motor.setControl(new VoltageOut(MathUtil.applyDeadband(volts, 0.1)));
+        m_motor.setControl(new VoltageOut(MathUtil.applyDeadband(volts, 0.1) + FFGains.kG));
     }
 
     public double getDistance() {

@@ -15,13 +15,13 @@ public final class Constants {
 
     public static final class IntakeConstants {
         public static final double kIntakeSpeed = 0.75;
-        public static final int kIntakeMotorID = 3;
+        public static final int kIntakeMotorID = 20;
         public static final double kIntakeMotorStopSpeed = 0;
     }
 
     public static final class ClimberConstants {
         public static final double kLiftSpeed = 0.25;
-        public static final int kLiftMotorID = 4;
+        public static final int kLiftMotorID = 21;
         public static final double kLiftMotorStopSpeed = 0;
     }
 
@@ -93,34 +93,40 @@ public final class Constants {
         public static final double kLowerLimitDistance = 0;
         public static final double kSetpointTolerance = 0.25; //tune this
 
-        public static final double kGearRatio = 70; //Guessed because nobody knows
-        public static final double kInchesToRotationsRatio = Math.PI * 1.790 * 2; //Circumference of sprocket pitch diameter x2 for two stage
+        public static final double kGearRatio = 70;
+        public static final double kInchesToRotationsRatio = Math.PI * 1.790 * 2 * 3.854; //Circumference of sprocket pitch diameter x2 for two stage times dark number
         public static final double kRotationsToInchesRatio = 1/kInchesToRotationsRatio;
 
+        public static final double kFwdVoltageLimit = 4; //Voltage limits are used as a simple 'speed limit' for the lift.
+        public static final double kBkwdVoltageLimit = -2;
+
         public static final class PIDGains {
-            public static final double kP = 0.1;
-            public static final double kD = 0;
+            public static final double kP = 6;
+            public static final double kD = 0.1;
         }
 
         public static final class FFGains {
-            public static final double kG = 0;
+            public static final double kG = 0.7;
         }
     }
 
     public static final class PivotConstants {
         public static final int kMotorID = 15;
         public static final int kEncoderChannel = 0;
-        public static final double kEncoderOffset = 0; //degrees; adjust such that 0 degrees matches with horizontal
+        public static final double kEncoderOffset = 273; //degrees; adjust such that 0 degrees matches with horizontal
 
         public static final double kLowerLimit = -45;
-        public static final double kUpperLimit = 75;
+        public static final double kUpperLimit = 58;
 
         public static final double kSetpointTolerance = 2; //tune this
 
         public static final double kGearRatio = 100; //2 10:1 versaplanetary stages
 
+        public static final double kFwdVoltageLimit = 8;
+        public static final double kBkwdVoltageLimit = -8;
+
         public static final class PIDGains {
-            public static final double kP = 1;
+            public static final double kP = 128;
             public static final double kD = 0;
         }
 
@@ -130,8 +136,8 @@ public final class Constants {
     }
 
     public static enum LiftPivotSetpoint {
-        kStowed(0, 45, "Stowed"),
-        kShoot(0, 45, "Shoot"),
+        kStowed(0, 55, "Stowed"),
+        kShoot(0, 55, "Shoot"),
         kAmp(4, -30, "Amp"),
         kTrap(19, -45, "Trap"); //TODO find empirical setpoints; all of these are guessed
 

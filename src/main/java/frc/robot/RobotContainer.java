@@ -47,9 +47,9 @@ public class RobotContainer implements Logged {
         () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
     
     //Temp
-    m_liftPivot.setDefaultCommand(
-      m_liftPivot.runOpenLoop(
-        m_operatorController::getLeftY, m_operatorController::getRightY));
+    // m_liftPivot.setDefaultCommand(
+    //   m_liftPivot.runOpenLoop(
+    //     m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
     //m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
@@ -83,10 +83,10 @@ public class RobotContainer implements Logged {
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
-    m_operatorController.a().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
-    m_operatorController.b().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
-    m_operatorController.x().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));
-    m_operatorController.y().onTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
+    m_operatorController.a().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
+    m_operatorController.b().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
+    m_operatorController.x().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));
+    m_operatorController.y().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
   }
 
   public Command getAutonomousCommand() {

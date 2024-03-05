@@ -2,12 +2,14 @@ package frc.robot.io.pivot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.io.PivotIO;
 import frc.robot.utils.CTREConfigurer;
 import monologue.Annotations.Log;
 import static frc.robot.Constants.PivotConstants.*;
 
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
@@ -15,7 +17,7 @@ public class PivotFalcon extends PivotIO {
     DutyCycleEncoder m_absEncoder;
     TalonFX m_motor;
     
-    PivotFalcon() {
+    public PivotFalcon() {
         m_motor = new TalonFX(kMotorID);
         m_absEncoder = new DutyCycleEncoder(kEncoderChannel);
         m_absEncoder.setDutyCycleRange(0, 1);
@@ -31,7 +33,7 @@ public class PivotFalcon extends PivotIO {
     }
 
     public void setAngle(Rotation2d angle) {
-        //TODO add once numbers look good
+        m_motor.setControl(new PositionVoltage(angle.getRotations()).withSlot(0));
     }
 
     public Rotation2d getAngle() {
@@ -39,8 +41,28 @@ public class PivotFalcon extends PivotIO {
     }
 
     @Log
+    public double getAngleDegrees() {
+        return ((m_absEncoder.getAbsolutePosition() * 360) - kEncoderOffset) % 360;
+    }
+
+    @Log
     public Rotation2d getFalconAngle() {
         return Rotation2d.fromRotations(m_motor.getPosition().getValueAsDouble());
+    }
+
+    @Log
+    public double getFalconAngleDegrees() {
+        return Units.rotationsToDegrees(m_motor.getPosition().getValueAsDouble());
+    }
+
+    @Log
+    public double getFalconAngleRotations() {
+        return m_motor.getPosition().getValueAsDouble();
+    }
+
+    @Log
+    public boolean getAbsEncoderConnected() {
+        return m_absEncoder.isConnected();
     }
 
     public boolean atLowerLimit() {

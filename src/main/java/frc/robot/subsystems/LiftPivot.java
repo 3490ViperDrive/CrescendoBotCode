@@ -3,13 +3,17 @@ package frc.robot.subsystems;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.Robot;
 import frc.robot.io.LiftIO;
 import frc.robot.io.PivotIO;
+import frc.robot.io.lift.LiftFalcon;
 import frc.robot.io.lift.LiftSim;
+import frc.robot.io.pivot.PivotFalcon;
 import frc.robot.io.pivot.PivotSim;
 import frc.robot.utils.Visualizer;
 import monologue.Logged;
@@ -25,7 +29,8 @@ public class LiftPivot extends SubsystemBase implements Logged {
 
     public LiftPivot() {
         if (Robot.isReal()) {
-            //TODO add real IO
+            lift = new LiftFalcon();
+            pivot = new PivotFalcon();
         } else {
             lift = new LiftSim();
             pivot = new PivotSim();
@@ -39,17 +44,17 @@ public class LiftPivot extends SubsystemBase implements Logged {
     }
 
     public Command setPosition(LiftPivotSetpoint setpoint) {
-        return runOnce(() -> {
+        return run(() -> {
             lift.setDistance(setpoint.liftDistance);
             pivot.setAngle(Rotation2d.fromDegrees(setpoint.pivotAngle));
             lastSetpoint = setpoint;
-        }).withName("Set lift/pivot position to " + setpoint);
+        }).withName("Set lift/pivot position to " + setpoint).alongWith(new PrintCommand("setPosition called with setpoint" + setpoint));
     }
 
     public Command runOpenLoop(DoubleSupplier liftSup, DoubleSupplier pivotSup) {
         return run(() -> {
-            lift.moveOpenLoop(liftSup.getAsDouble() * 12);
-            pivot.moveOpenLoop(pivotSup.getAsDouble() * 12);
+            lift.moveOpenLoop(-liftSup.getAsDouble() * 12);
+            pivot.moveOpenLoop(-pivotSup.getAsDouble() * 12);
         }).andThen(() -> {
             lift.moveOpenLoop(0);
             pivot.moveOpenLoop(0);
