@@ -5,6 +5,11 @@
         "visible": true
       }
     },
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "RoboRIO": {
       "window": {
         "visible": true
@@ -14,6 +19,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Digital Input/DigitalInput[1]": "Digital Input",
       "/SmartDashboard/Auto choices": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
     },
@@ -34,7 +40,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },
