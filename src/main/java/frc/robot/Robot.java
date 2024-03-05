@@ -51,11 +51,14 @@ public final SendableChooser<String> m_controllerchoice = new SendableChooser<>(
   public void robotInit() {
     m_robotContainer = new RobotContainer();
 
-
+    DriverStation.silenceJoystickConnectionWarning(true);
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog(), true);
     ShuffleBoardUI();
 
     dashboardUI();
-
+    coltonsCode();
+    Monologue.setupMonologue(this, "Robot", false, false);
   }
 
   @Override
@@ -134,6 +137,7 @@ public final SendableChooser<String> m_controllerchoice = new SendableChooser<>(
   @Override
   public void testInit() {
     //CommandScheduler.getInstance().cancelAll();
+    
   }
 
   @Override
