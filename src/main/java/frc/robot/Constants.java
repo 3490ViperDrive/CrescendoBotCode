@@ -27,8 +27,6 @@ public final class Constants {
 
     public static final class DigitalInputConstants {
         public static final int kDigitalInputPort = 1;
-        public static final int kSparkDIO = 2;
-        //public static final int kDigitalInputLimit = 1;
     }
 
     // Remove zeros and put meaningful int
@@ -47,9 +45,9 @@ public final class Constants {
             public static final double kThumbstickDeadband = 0.15;
             public static final double kTriggerDeadband = 0.3;
 
-            public static final double kCrawlTranslationMultiplier = 0.2;
+            public static final double kCrawlTranslationMultiplier = 0.65;
             public static final double kCrawlRotationMultiplier = 0.3;
-            public static final double kRotationDesaturationFactor = 0.1;
+            public static final double kRotationDesaturationFactor = 0.3;
         }
         public static final class OperatorXbox {
             //Add if necessary
