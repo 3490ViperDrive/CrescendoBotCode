@@ -9,8 +9,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Shooter.Pivot;
-import frc.robot.subsystems.Shooter.ShooterExtension;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
@@ -30,11 +28,6 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
 
   Lift m_lift = new Lift();
-
-  Pivot m_pivot = new Pivot();
-
-  ShooterExtension m_extension = new ShooterExtension();
-
   private Optometrist eyedoctor = new Optometrist();
 
   public RobotContainer() {
@@ -60,7 +53,6 @@ public class RobotContainer implements Logged {
 
     //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
-
     configureBindings();
   }
 
@@ -80,7 +72,7 @@ public class RobotContainer implements Logged {
     
     //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    // thisButton.onTrue(do this thing)
+   // thisButton.onTrue(do this thing)
 
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
   }

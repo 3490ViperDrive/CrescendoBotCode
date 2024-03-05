@@ -11,14 +11,6 @@ public final class Constants {
         public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 13;
         public static final double kShooterMotorStopSpeed = 0;
-
-        public static final double kPivotSpeed = 0.5;
-        public static final int kPivotMotorID = 2;
-        public static final double kPivotMotorStopSpeed = 0;
-
-        public static final double kExtensionMotorSpeed = .325;
-        public static final int kExtensionMotorID = 5;
-        public static final double kExtensionMotorStop = 0;
     }
 
     public static final class IntakeConstants {
