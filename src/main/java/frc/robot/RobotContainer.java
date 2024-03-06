@@ -84,6 +84,7 @@ public class RobotContainer implements Logged {
     m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command
     m_driverController.povUp().whileTrue(m_climber.climb(0.75));
     m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
+    //m_driverController.x().whileTrue(m_lift.requestPosition(11));
 
 //     m_driverController.b().onTrue(m_shooter.shoot());
 
@@ -112,5 +113,6 @@ public class RobotContainer implements Logged {
 
   public Command getAutonomousCommand() {
     return Commands.print("No autonomous command(s) configured");
+    //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
   }
 }

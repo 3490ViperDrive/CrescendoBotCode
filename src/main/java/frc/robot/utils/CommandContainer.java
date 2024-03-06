@@ -22,7 +22,7 @@ public class CommandContainer {
     public Command shootFancy(double speed) {
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
-                new WaitCommand(1), //tune this
+                new WaitCommand(0.5), //tune this
                 intake.takeIn(1)
             ));
     }
