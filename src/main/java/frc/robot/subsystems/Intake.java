@@ -27,15 +27,15 @@ public class Intake extends SubsystemBase implements Logged {
     @Override
     public void periodic() {};
 
-    public Command takeIn() {
+    public Command takeIn(double speed) {
         // return run(() -> {
         //     intakeMotor.set(kIntakeSpeed);
         // });
-        return new StartEndCommand(() -> intakeMotor.set(kIntakeSpeed), () -> intakeMotor.stopMotor(), this);
+        return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
     public Command takeInFancy() {
-        return new ParallelRaceGroup(takeIn(), takeInFancyDeadline());
+        return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());
     }
 
     private Command takeInFancyDeadline() {
@@ -44,13 +44,6 @@ public class Intake extends SubsystemBase implements Logged {
             new WaitUntilCommand(() -> getCurrentAboveThreshold()),
             new WaitCommand(kPullInTime)
         );
-    }
-
-    public Command takeOut() {
-        // return run(() -> {
-        //     intakeMotor.set(-kIntakeSpeed);
-        // });
-        return new StartEndCommand(() -> intakeMotor.set(-kIntakeSpeed), () -> intakeMotor.stopMotor(), this);
     }
 
     // public Command stopMotorCommand() {

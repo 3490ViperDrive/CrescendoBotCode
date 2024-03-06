@@ -49,4 +49,8 @@ public class TrapLift extends SubsystemBase {
             // pivot.moveOpenLoop(0);
         });
     }
+
+    public Command idle() {
+        return run(() -> lift.idle());
+    }
 }

@@ -9,18 +9,18 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.LiftPivotSetpoint;
-import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
+import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   
-  CommandXboxController m_operatorController = new CommandXboxController(OperatorXbox.kControllerID);
+  //CommandXboxController m_operatorController = new CommandXboxController(OperatorXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
   Pivot m_pivot = new Pivot();
 
@@ -29,6 +29,10 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
 
   Climber m_climber = new Climber();
+
+  TrapLift m_lift = new TrapLift();
+
+  CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber);
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -65,6 +69,7 @@ public class RobotContainer implements Logged {
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
 
+    m_lift.setDefaultCommand(m_lift.idle());
 
     configureBindings();
   }
@@ -74,9 +79,9 @@ public class RobotContainer implements Logged {
     //m_driverController.b().onTrue(m_shoot.shoot());
 
     m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
-    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
-    m_driverController.rightBumper().whileTrue(m_shooter.shoot(0.5));
-    m_driverController.a().whileTrue(m_shooter.shoot(0.15)); //TODO make better shoot command
+    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeIn(-0.75));
+    m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5));
+    m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command
     m_driverController.povUp().whileTrue(m_climber.climb(0.75));
     m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
 
