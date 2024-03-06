@@ -39,12 +39,16 @@ public class RobotContainer implements Logged {
         m_driverController::getLeftY,
         m_driverController::getLeftX,
         m_driverController::getRightX,
-        m_driverController::getLeftTriggerAxis,
-        m_driverController.getHID()::getAButton,
-        m_driverController.getHID()::getBButton,
-        m_driverController.getHID()::getXButton,
-        m_driverController.getHID()::getYButton,
-        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
+        m_driverController::getRightTriggerAxis,
+        // m_driverController.getHID()::getAButton,
+        // m_driverController.getHID()::getBButton,
+        // m_driverController.getHID()::getXButton,
+        // m_driverController.getHID()::getYButton,
+        () -> false,
+        () -> false,
+        () -> false,
+        () -> false,
+        () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
     
     //Temp
     // m_liftPivot.setDefaultCommand(
@@ -59,7 +63,7 @@ public class RobotContainer implements Logged {
     //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
     //TODO USE A BETTER COMMAND THAN BRUH
-    m_liftPivot.setDefaultCommand(m_liftPivot.bruh(50));
+    m_liftPivot.setDefaultCommand(m_liftPivot.bruh(55));
 
 
     configureBindings();
@@ -69,8 +73,12 @@ public class RobotContainer implements Logged {
 
     //m_driverController.b().onTrue(m_shoot.shoot());
 
-    m_driverController.leftBumper().whileTrue(m_intake.takeIn());
-    m_driverController.rightBumper().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
+    m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
+    m_driverController.y().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
+    m_driverController.rightBumper().whileTrue(m_shooter.shoot(0.5));
+    m_driverController.a().whileTrue(m_shooter.shoot(0.15)); //TODO make better shoot command
+    m_driverController.povUp().whileTrue(m_climber.climb(0.75));
+    m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
 
 //     m_driverController.b().onTrue(m_shooter.shoot());
 
@@ -92,9 +100,9 @@ public class RobotContainer implements Logged {
     // m_operatorController.y().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
     // m_operatorController.b().whileTrue(m_liftPivot.bruh(50));
     // m_operatorController.y().whileTrue(m_liftPivot.bruh(0));
-    m_operatorController.a().whileTrue(m_shooter.shoot());
-    m_operatorController.b().whileTrue(m_intake.takeInFancy());
-    m_operatorController.y().whileTrue(m_intake.takeOut());
+    //m_driverController.a().whileTrue(m_shooter.shoot());
+    //m_driverController.b().whileTrue(m_intake.takeInFancy());
+    //m_driverController.y().whileTrue(m_intake.takeOut());
   }
 
   public Command getAutonomousCommand() {
