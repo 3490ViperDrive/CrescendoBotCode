@@ -11,8 +11,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Shooter.Pivot;
-import frc.robot.subsystems.Shooter.ShooterExtension;
+import frc.robot.subsystems.vision.BreakTheBeam;
+// import frc.robot.subsystems.SpinNEOS;
+// import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
@@ -31,16 +32,33 @@ public class RobotContainer implements Logged {
 
   Lift m_lift = new Lift();
 
-  Pivot m_pivot = new Pivot();
-
-  ShooterExtension m_extension = new ShooterExtension();
-
   private Optometrist eyedoctor = new Optometrist();
+
+  private BreakTheBeam beambreak = new BreakTheBeam();
+
+  //private Optometrist m_DIValue = new Optometrist();
 
   public RobotContainer() {
 
-    //TODO add some way for the user to pick between controller types 
-    //cough cough sendable chooser/dropdown/what have you
+    m_drivetrain.setDefaultCommand(
+      m_drivetrain.driveTeleopCommand(
+        m_driverController::getLeftY,
+        m_driverController::getLeftX,
+        m_driverController::getRightX,
+        m_driverController::getLeftTriggerAxis,
+        m_driverController.getHID()::getAButton,
+        m_driverController.getHID()::getBButton,
+        m_driverController.getHID()::getXButton,
+        m_driverController.getHID()::getYButton,
+        () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband) //this is evil but i can't think of a better way of doing it
+    );
+
+
+    // m_shooter.setDefaultCommand(m_shooter.shoot());
+
+    // m_intake.setDefaultCommand(m_intake.takeIn());
+
+    // m_lift.setDefaultCommand(m_lift.lift());
 
     int choice = 0;
     //TODO "choice" will be determined by user input
@@ -49,22 +67,17 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
+    // m_driverController.b().onTrue(m_shooter.shoot());
 
-    //m_driverController.b().onTrue(m_shoot.shoot());
+    // m_driverController.y().onTrue(m_intake.takeIn());
 
-    m_driverController.leftBumper().whileTrue(m_intake.takeIn());
-    m_driverController.rightBumper().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
-
-//     m_driverController.b().onTrue(m_shooter.shoot());
-
-//     m_driverController.y().onTrue(m_intake.takeIn());
-
-//     m_driverController.x().onTrue(m_climb.climb());
-
+    // m_driverController.x().onTrue(m_lift.lift());
     
-    //m_driverController.rightBumper().onTrue(eyedoctor.peek());
+    m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    // thisButton.onTrue(do this thing)
+    m_driverController.leftBumper().onTrue(beambreak.DIValue());
+    
+   // thisButton.onTrue(do this thing)
 
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
   }
