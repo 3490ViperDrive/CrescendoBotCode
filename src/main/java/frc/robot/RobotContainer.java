@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Shooter.Pivot;
 import frc.robot.subsystems.Shooter.ShooterExtension;
@@ -17,6 +18,11 @@ import frc.robot.subsystems.Shooter.ShooterExtension;
 import frc.robot.subsystems.vision.Optometrist;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
+
+import com.pathplanner.lib.auto.NamedCommands;
+
+import static frc.robot.subsystems.Shooter.*;
+
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
@@ -63,6 +69,9 @@ public class RobotContainer implements Logged {
 
     //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
+
+    NamedCommands.registerCommand("Shooter", m_shooter.shoot());
+    NamedCommands.registerCommand("Intake", m_intake.takeIn());
 
     configureBindings();
   }
