@@ -66,7 +66,9 @@ public final class CTREConfigurer {
 
         liftConfig.SoftwareLimitSwitch = new SoftwareLimitSwitchConfigs()
             .withReverseSoftLimitEnable(true)
-            .withForwardSoftLimitThreshold(LiftConstants.kLowerLimitDistance);
+            .withReverseSoftLimitThreshold(LiftConstants.kLowerLimitDistance)
+            .withForwardSoftLimitEnable(true)
+            .withForwardSoftLimitThreshold(LiftConstants.kUpperLimitDistance);
     }
 
     public static CTREConfigurer getInstance() {

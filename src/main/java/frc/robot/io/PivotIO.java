@@ -10,7 +10,10 @@ public abstract class PivotIO implements Logged {
 
     public abstract void moveOpenLoop(double volts);
 
+    //might want to make these methods abstract at some point
     public void zeroFalconToAbsEncoder() {};
+
+    public void idle() {};
 
     @Log
     public abstract Rotation2d getAngle();

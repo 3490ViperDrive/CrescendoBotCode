@@ -22,7 +22,7 @@ public class RobotContainer implements Logged {
   
   CommandXboxController m_operatorController = new CommandXboxController(OperatorXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
-  LiftPivot m_liftPivot = new LiftPivot();
+  Pivot m_pivot = new Pivot();
 
   Shooter m_shooter = new Shooter();
 
@@ -51,8 +51,8 @@ public class RobotContainer implements Logged {
         () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
     
     //Temp
-    // m_liftPivot.setDefaultCommand(
-    //   m_liftPivot.runOpenLoop(
+    // m_pivot.setDefaultCommand(
+    //   m_pivot.runOpenLoop(
     //     m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
@@ -62,8 +62,8 @@ public class RobotContainer implements Logged {
 
     //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
-    //TODO USE A BETTER COMMAND THAN BRUH
-    m_liftPivot.setDefaultCommand(m_liftPivot.bruh(55));
+    //TODO USE A BETTER COMMAND THAN THIS
+    m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
 
 
     configureBindings();
@@ -74,7 +74,7 @@ public class RobotContainer implements Logged {
     //m_driverController.b().onTrue(m_shoot.shoot());
 
     m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
-    m_driverController.y().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
+    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeOut());
     m_driverController.rightBumper().whileTrue(m_shooter.shoot(0.5));
     m_driverController.a().whileTrue(m_shooter.shoot(0.15)); //TODO make better shoot command
     m_driverController.povUp().whileTrue(m_climber.climb(0.75));
@@ -94,12 +94,12 @@ public class RobotContainer implements Logged {
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
-    //m_operatorController.a().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
-    // m_operatorController.b().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
-    //m_operatorController.x().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));
-    // m_operatorController.y().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
-    // m_operatorController.b().whileTrue(m_liftPivot.bruh(50));
-    // m_operatorController.y().whileTrue(m_liftPivot.bruh(0));
+    //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
+    // m_operatorController.b().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kAmp));
+    //m_operatorController.x().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kStowed));
+    // m_operatorController.y().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kTrap));
+    // m_operatorController.b().whileTrue(m_pivot.bruh(50));
+    // m_operatorController.y().whileTrue(m_pivot.bruh(0));
     //m_driverController.a().whileTrue(m_shooter.shoot());
     //m_driverController.b().whileTrue(m_intake.takeInFancy());
     //m_driverController.y().whileTrue(m_intake.takeOut());

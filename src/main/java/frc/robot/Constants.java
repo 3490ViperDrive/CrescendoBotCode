@@ -93,7 +93,8 @@ public final class Constants {
         public static final double kHeightFromGround = 5.94; //All in inches
         public static final double kLowerLimitHeight = 12.5; //Relative to height from ground
         public static final double kUpperLimitHeight = 32.5;
-        public static final double kUpperLimitDistance = kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
+        //I'm not sure why an upper limit of 6 works, but testing shows it just does, so I won't question it for now
+        public static final double kUpperLimitDistance = 6; //kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
         public static final double kLowerLimitDistance = 0;
         public static final double kSetpointTolerance = 0.25; //tune this
 

@@ -10,6 +10,7 @@ import frc.robot.utils.CTREConfigurer;
 import monologue.Annotations.Log;
 import static frc.robot.Constants.PivotConstants.*;
 
+import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -40,6 +41,12 @@ public class PivotFalcon extends PivotIO {
             m_motor.setPosition(getAngle().getRotations());
         }
     }
+
+    @Override
+    public void idle() {
+        m_motor.setControl(new CoastOut());
+    }
+    
 
     public void moveOpenLoop(double volts) {
         m_motor.setControl(new VoltageOut(MathUtil.applyDeadband(volts, 0.1)));

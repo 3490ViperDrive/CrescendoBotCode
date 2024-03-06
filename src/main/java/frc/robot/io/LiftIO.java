@@ -9,6 +9,8 @@ public abstract class LiftIO implements Logged {
     
     public void moveOpenLoop(double volts) {}
 
+    public void idle() {};
+
     @Log
     public abstract double getDistance();
 
