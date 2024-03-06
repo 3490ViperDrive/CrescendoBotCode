@@ -14,9 +14,13 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final double kIntakeSpeed = 0.75;
+        public static final double kIntakeSpeed = 1;
         public static final int kIntakeMotorID = 20;
         public static final double kIntakeMotorStopSpeed = 0;
+        public static final double kCurrentThreshold = 15; //amps
+        public static final double kCurrentSpikeTime = 0.3; //secs
+        //1 second is literally perfect for a handoff at 0.75 intake speed
+        public static final double kPullInTime = 0.35;
     }
 
     public static final class ClimberConstants {
@@ -136,7 +140,7 @@ public final class Constants {
     }
 
     public static enum LiftPivotSetpoint {
-        kStowed(0, 55, "Stowed"),
+        kStowed(0, 45, "Stowed"),
         kShoot(0, 55, "Shoot"),
         kAmp(4, -30, "Amp"),
         kTrap(19, -45, "Trap"); //TODO find empirical setpoints; all of these are guessed

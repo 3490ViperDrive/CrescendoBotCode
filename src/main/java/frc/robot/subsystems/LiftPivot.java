@@ -51,6 +51,12 @@ public class LiftPivot extends SubsystemBase implements Logged {
         }).withName("Set lift/pivot position to " + setpoint).alongWith(new PrintCommand("setPosition called with setpoint" + setpoint));
     }
 
+    public Command bruh(double angleDeg) {
+        return run(() -> {
+            pivot.setAngle(Rotation2d.fromDegrees(angleDeg));
+        }).beforeStarting(() -> pivot.zeroFalconToAbsEncoder(), this);
+    }
+
     public Command runOpenLoop(DoubleSupplier liftSup, DoubleSupplier pivotSup) {
         return run(() -> {
             lift.moveOpenLoop(-liftSup.getAsDouble() * 12);
@@ -62,7 +68,7 @@ public class LiftPivot extends SubsystemBase implements Logged {
     }
 
     public Command setPositionAndWait(LiftPivotSetpoint setpoint) {
-        return this.setPosition(setpoint)
+        return this.setPosition(setpoint) //todo fix this
             .andThen(new WaitUntilCommand(this::atSetpoint))
             .withName("Waiting until lift/pivot reaches " + setpoint + " position");
     }

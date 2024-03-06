@@ -28,7 +28,7 @@ public class RobotContainer implements Logged {
 
   Intake m_intake = new Intake();
 
-  Climber m_lift = new Climber();
+  Climber m_climber = new Climber();
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -58,6 +58,9 @@ public class RobotContainer implements Logged {
 
     //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
 
+    //TODO USE A BETTER COMMAND THAN BRUH
+    m_liftPivot.setDefaultCommand(m_liftPivot.bruh(50));
+
 
     configureBindings();
   }
@@ -83,10 +86,15 @@ public class RobotContainer implements Logged {
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
-    m_operatorController.a().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
-    m_operatorController.b().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
-    m_operatorController.x().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));
-    m_operatorController.y().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
+    //m_operatorController.a().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kShoot));
+    // m_operatorController.b().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kAmp));
+    //m_operatorController.x().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kStowed));
+    // m_operatorController.y().whileTrue(m_liftPivot.setPosition(LiftPivotSetpoint.kTrap));
+    // m_operatorController.b().whileTrue(m_liftPivot.bruh(50));
+    // m_operatorController.y().whileTrue(m_liftPivot.bruh(0));
+    m_operatorController.a().whileTrue(m_shooter.shoot());
+    m_operatorController.b().whileTrue(m_intake.takeInFancy());
+    m_operatorController.y().whileTrue(m_intake.takeOut());
   }
 
   public Command getAutonomousCommand() {

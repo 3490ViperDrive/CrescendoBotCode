@@ -18,14 +18,16 @@ public class Shooter extends SubsystemBase {
     public void periodic() {};
 
     public Command shoot() {
-        return run(() -> {
-            shooterMotor.set(kShooterSpeed);
-        });
+        // return run(() -> {
+        //     shooterMotor.set(kShooterSpeed);
+        // });
+        //TODO fix invert of this motor
+        return new StartEndCommand(() -> shooterMotor.set(-kShooterSpeed), () -> shooterMotor.set(0), this);
     }
-    public Command stopMotorCommand() {
-        return runOnce(() -> {
-            shooterMotor.set(kShooterMotorStopSpeed);
-            shooterMotor.stopMotor();
-        });
-    }
+    // public Command stopMotorCommand() {
+    //     return runOnce(() -> {
+    //         shooterMotor.set(kShooterMotorStopSpeed);
+    //         shooterMotor.stopMotor();
+    //     });
+    // }
 }

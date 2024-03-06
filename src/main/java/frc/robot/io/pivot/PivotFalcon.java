@@ -4,6 +4,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.io.PivotIO;
 import frc.robot.utils.CTREConfigurer;
 import monologue.Annotations.Log;
@@ -16,16 +17,28 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class PivotFalcon extends PivotIO {
     DutyCycleEncoder m_absEncoder;
     TalonFX m_motor;
+    PositionVoltage m_positionVoltageRequest;
     
     public PivotFalcon() {
         m_motor = new TalonFX(kMotorID);
         m_absEncoder = new DutyCycleEncoder(kEncoderChannel);
         m_absEncoder.setDutyCycleRange(0, 1);
-        m_motor.setPosition(getAngle().getRotations());
         CTREConfigurer.configureMotor(
             CTREConfigurer.getInstance().pivotConfig,
             m_motor,
             "Pivot Motor");
+        m_positionVoltageRequest = new PositionVoltage(Units.degreesToRotations(55))
+            .withSlot(0)
+            .withEnableFOC(false);
+        Timer.delay(0.2);
+        zeroFalconToAbsEncoder();
+    }
+
+    @Override
+    public void zeroFalconToAbsEncoder() {
+        if (m_absEncoder.isConnected()) {
+            m_motor.setPosition(getAngle().getRotations());
+        }
     }
 
     public void moveOpenLoop(double volts) {
@@ -33,7 +46,7 @@ public class PivotFalcon extends PivotIO {
     }
 
     public void setAngle(Rotation2d angle) {
-        m_motor.setControl(new PositionVoltage(angle.getRotations()).withSlot(0));
+        m_motor.setControl(m_positionVoltageRequest.withPosition(angle.getRotations()));
     }
 
     public Rotation2d getAngle() {
