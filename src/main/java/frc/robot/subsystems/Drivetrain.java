@@ -77,8 +77,8 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
-                new PIDConstants(5),
-                new PIDConstants(5),
+                new PIDConstants(.5),
+                new PIDConstants(.5),
                 kMaxModuleSpeed,
                 kDrivebaseRadius,
                 new ReplanningConfig(true, true)), //TODO tune PID

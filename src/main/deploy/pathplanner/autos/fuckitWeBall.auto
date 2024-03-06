@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 0.0
+      "x": 1.3491521419562087,
+      "y": 5.550936522700434
     },
     "rotation": 0
   },
@@ -14,25 +14,37 @@
         {
           "type": "path",
           "data": {
-            "pathName": "testPath1"
+            "pathName": "realPath1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "testPath2"
+            "pathName": "realPath2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "testPath3"
+            "pathName": "realPath3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "testPath4"
+            "pathName": "realPath4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "realPath5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "realPath6"
           }
         }
       ]

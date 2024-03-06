@@ -20,6 +20,7 @@ import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import static frc.robot.subsystems.Shooter.*;
 
@@ -98,7 +99,8 @@ public class RobotContainer implements Logged {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command(s) configured");
+    //return Commands.print("No autonomous command(s) configured");
+    return new PathPlannerAuto("test3");
   }
  
   
