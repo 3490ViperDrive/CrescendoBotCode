@@ -100,7 +100,7 @@ public class RobotContainer implements Logged {
 
   public Command getAutonomousCommand() {
     //return Commands.print("No autonomous command(s) configured");
-    return new PathPlannerAuto("test3");
+    return new PathPlannerAuto("middleAutoBasic");
   }
  
   
