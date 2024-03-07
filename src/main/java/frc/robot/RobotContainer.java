@@ -115,8 +115,8 @@ public class RobotContainer implements Logged {
   }
 
   public Command getAutonomousCommand() {
-    //return Commands.print("No autonomous command(s) configured");
+    return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
-    return new PathPlannerAuto("simpleCenter");
+    //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 }
