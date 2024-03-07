@@ -12,6 +12,12 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "realPath1"
@@ -21,6 +27,12 @@
           "type": "path",
           "data": {
             "pathName": "realPath2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter"
           }
         },
         {
@@ -36,6 +48,12 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "Shooter"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "realPath5"
@@ -45,6 +63,12 @@
           "type": "path",
           "data": {
             "pathName": "realPath6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shooter"
           }
         }
       ]
