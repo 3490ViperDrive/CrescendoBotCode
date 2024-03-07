@@ -48,7 +48,7 @@ public final class Constants {
     public static final class ControllerConstants {
         public static final class DriverXbox {
             public static final int kControllerID = 0;
-            public static final double kThumbstickDeadband = 0.15;
+            public static final double kThumbstickDeadband = 0.2;
             public static final double kTriggerDeadband = 0.3;
 
             public static final double kCrawlTranslationMultiplier = 0.2;
@@ -94,7 +94,7 @@ public final class Constants {
         public static final double kLowerLimitHeight = 12.5; //Relative to height from ground
         public static final double kUpperLimitHeight = 32.5;
         //I'm not sure why an upper limit of 6 works, but testing shows it just does, so I won't question it for now
-        public static final double kUpperLimitDistance = 12; //kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
+        public static final double kUpperLimitDistance = 18; //kUpperLimitHeight - kLowerLimitHeight; //Relative to lower limit
         public static final double kLowerLimitDistance = 0;
         public static final double kSetpointTolerance = 0.25; //tune this
 

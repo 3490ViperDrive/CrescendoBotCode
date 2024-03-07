@@ -25,7 +25,7 @@ public class Climber extends SubsystemBase {
         // return run(() -> {
         //     liftMotor.set(kLiftSpeed);
         // });
-        return new StartEndCommand(() -> liftMotor.set(kLiftSpeed), () -> liftMotor.stopMotor(), this);
+        return new StartEndCommand(() -> liftMotor.set(speed), () -> liftMotor.stopMotor(), this);
     }
 
     // public Command stopMotorCommand() {

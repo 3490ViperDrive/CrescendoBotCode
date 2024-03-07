@@ -17,6 +17,8 @@ import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   
@@ -32,7 +34,7 @@ public class RobotContainer implements Logged {
 
   TrapLift m_lift = new TrapLift();
 
-  CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber);
+  CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   private Optometrist eyedoctor = new Optometrist();
 
@@ -79,12 +81,13 @@ public class RobotContainer implements Logged {
     //m_driverController.b().onTrue(m_shoot.shoot());
 
     m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
-    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_intake.takeIn(-0.75));
+    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy());
     m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5));
     m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command
     m_driverController.povUp().whileTrue(m_climber.climb(0.75));
     m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
-    //m_driverController.x().whileTrue(m_lift.requestPosition(11));
+    m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
+    m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
 
 //     m_driverController.b().onTrue(m_shooter.shoot());
 
@@ -112,7 +115,8 @@ public class RobotContainer implements Logged {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command(s) configured");
+    //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
+    return new PathPlannerAuto("simpleCenter");
   }
 }
