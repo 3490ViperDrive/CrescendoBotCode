@@ -47,7 +47,7 @@ public class RobotContainer implements Logged {
 
 
   TrapLift m_lift = new TrapLift();
-  private BreakTheBeam beamBreak = new BreakTheBeam();
+  // private BreakTheBeam beamBreak = new BreakTheBeam();
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
 
@@ -85,8 +85,8 @@ public class RobotContainer implements Logged {
 
 
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot());
-    NamedCommands.registerCommand("Intake", m_intake.takeIn());
+    // NamedCommands.registerCommand("Shooter", m_shooter.shoot());
+    // NamedCommands.registerCommand("Intake", m_intake.takeIn());
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
@@ -123,7 +123,7 @@ public class RobotContainer implements Logged {
     
     //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    m_driverController.leftBumper().onTrue(beambreak.DIValue());
+    // m_driverController.leftBumper().onTrue(beambreak.DIValue());
     
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
