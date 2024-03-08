@@ -62,7 +62,10 @@ public class RobotContainer implements Logged {
   m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
   m_Chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
   m_Chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
-  m_Chooser.addOption("4 note center Auto", new PathPlannerAuto("middleAutoBasic"));
+  m_Chooser.addOption("3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
+  m_Chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
+  m_Chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
+  m_Chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
   m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("leftAutoBasic"));
   m_Chooser.addOption("4 note right auto", new PathPlannerAuto("rightAutoBasic"));
   SmartDashboard.putData("Auto Choices",m_Chooser);
