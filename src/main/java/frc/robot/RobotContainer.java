@@ -118,27 +118,11 @@ public class RobotContainer implements Logged {
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)
     //TODO robot oriented toggle on 12
-    m_driverJoystick.button(5).whileTrue(null); //TODO "shooter lift up"
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
-    m_driverJoystick.button(7).whileTrue(null); //TODO crawl mode
     m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
-    m_driverJoystick.button(10).onTrue(null); //TODO "home"
-    m_driverJoystick.button(6).onTrue(null);
-
-    //TODO: add "handoffScore"
-
-
-//     m_driverController.b().onTrue(m_shooter.shoot());
-//     m_driverController.y().onTrue(m_intake.takeIn());
-//     m_driverController.x().onTrue(m_climb.climb());
-
-
-    // m_driverController.x().onTrue(m_lift.lift());
-    
-    //m_driverController.rightBumper().onTrue(eyedoctor.peek());
-
-    //m_driverController.leftBumper().onTrue(beambreak.DIValue());
+    //m_driverJoystick.button(10).onTrue(null); //TODO "home"
+    //m_driverJoystick.button(6).onTrue(null);
     
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
@@ -170,7 +154,8 @@ public class RobotContainer implements Logged {
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(0),
             ()-> m_driverJoystick.getRawAxis(1),
-            ()->m_driverJoystick.getRawAxis(3))
+            ()->m_driverJoystick.getRawAxis(3),
+            m_driverJoystick.button(12).getAsBoolean())
           );
         break;
       case "Xbox Controller":
