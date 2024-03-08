@@ -4,12 +4,14 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
 
@@ -20,10 +22,11 @@ import frc.robot.subsystems.vision.Optometrist;
 import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
-
-
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import java.util.*;
+
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
@@ -78,13 +81,13 @@ public class RobotContainer implements Logged {
 
 
 
+
+    NamedCommands.registerCommand("Shooter", m_shooter.shoot());
+    NamedCommands.registerCommand("Intake", m_intake.takeIn());
     // m_shooter.setDefaultCommand(m_shooter.shoot());
-
     // m_intake.setDefaultCommand(m_intake.takeIn());
-
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
-
     m_lift.setDefaultCommand(m_lift.idle());
 
 
@@ -134,7 +137,10 @@ public class RobotContainer implements Logged {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command(s) configured");
+
+
+    return new PathPlannerAuto("middleAutoBasic");
+    //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
@@ -166,6 +172,5 @@ public class RobotContainer implements Logged {
       default:
         break;
     }
-    
   }
 }
