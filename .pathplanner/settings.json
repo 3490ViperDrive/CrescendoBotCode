@@ -5,13 +5,14 @@
   "pathFolders": [
     " centerlineAutofolder",
     "leftAutoFolder",
-    "realAutoFolder",
+    "middleAutoFolder",
     "rightAutoFolder",
     "testFolder"
   ],
   "autoFolders": [
-    "centerlineAutos",
-    "basic Autos"
+    "2noteAutos",
+    "basic Autos",
+    "centerlineAutos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

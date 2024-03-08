@@ -2,79 +2,73 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.8908688649785739,
-      "y": 4.095469234223708
+      "x": 0.7159600556714989,
+      "y": 4.389196436550476
     },
-    "rotation": 0
+    "rotation": 119.78545903768855
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "rightpath1"
+            "pathName": "rightSidePath1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightPath2"
+            "pathName": "rightSidePath3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightPath3"
+            "pathName": "rightSidePath4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightPath4"
+            "pathName": "rightSidePath5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightPath5"
+            "pathName": "rightSidePath6"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "rightPath6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "rightPath7"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         }
       ]

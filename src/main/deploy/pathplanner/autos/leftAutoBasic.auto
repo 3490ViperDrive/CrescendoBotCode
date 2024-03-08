@@ -2,79 +2,73 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0,
-      "y": 7.0
+      "x": 0.6517072301625181,
+      "y": 6.7481930302373385
     },
-    "rotation": 0
+    "rotation": -118.30075576600632
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
           "type": "path",
           "data": {
-            "pathName": "leftPath1"
+            "pathName": "leftSidePath1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "leftSidePath2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftPath2"
+            "pathName": "leftSidePath3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftPath3"
+            "pathName": "leftSidePath4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftPath4"
+            "pathName": "leftSidePath5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftPath5"
+            "pathName": "leftSidePath6"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "leftPath6"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "leftPath7"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         }
       ]

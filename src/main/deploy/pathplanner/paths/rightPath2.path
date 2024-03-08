@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.9,
+      "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -41,7 +41,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Intake"
+                "name": "PPIntake"
               }
             }
           ]
@@ -57,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -179.39992542507488,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "rightAutoFolder",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 179.3151271931337,
     "velocity": 0
   },
   "useDefaultConstraints": true
