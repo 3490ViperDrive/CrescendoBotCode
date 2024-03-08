@@ -56,7 +56,7 @@ public class RobotContainer implements Logged {
   public RobotContainer() {
 
     //autoChooser = AutoBuilder.buildAutoChooser()
-    final SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    SendableChooser<Command> m_Chooser = new SendableChooser<>();
     
   
   m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
@@ -174,13 +174,9 @@ public class RobotContainer implements Logged {
     //m_driverController.b().whileTrue(m_intake.takeInFancy());
     //m_driverController.y().whileTrue(m_intake.takeOut());
   }
-
-
   
   public Command getAutonomousCommand() {
-
-
-    return new PathPlannerAuto("middleAutoBasic");
+    return m_Chooser.getSelected();
     //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
