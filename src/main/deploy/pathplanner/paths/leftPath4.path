@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.391416594530762,
-        "y": 5.504093176517309
+        "x": 1.3842846515935525,
+        "y": 3.6772026753753932
       },
       "isLocked": false,
       "linkedName": "subwoofer"
     },
     {
       "anchor": {
-        "x": 2.9066934025451485,
-        "y": 5.550936522700434
+        "x": 2.6373441619921745,
+        "y": 4.04023860829462
       },
       "prevControl": {
-        "x": 1.9066934025451485,
-        "y": 5.550936522700434
+        "x": 1.6373441619921745,
+        "y": 4.04023860829462
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "note1"
+      "linkedName": "leftNote"
     }
   ],
   "rotationTargets": [],
@@ -35,7 +35,7 @@
       "name": "New Event Marker",
       "waypointRelativePos": 0.85,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -57,14 +57,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "middleAutoFolder",
+  "folder": "leftAutoFolder",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
