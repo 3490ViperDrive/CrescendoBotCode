@@ -56,6 +56,8 @@ public class Robot extends TimedRobot implements Logged {
     DriverStation.silenceJoystickConnectionWarning(true);
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog(), true);
+    //Comment this out if SysID testing needs to be run; this should save some overhead in most cases
+    SignalLogger.stop();
     ShuffleBoardUI();
     dashboardUI();
     coltonsCode();
@@ -149,6 +151,7 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void testInit() {
     //CommandScheduler.getInstance().cancelAll();
+    
   }
 
   @Override

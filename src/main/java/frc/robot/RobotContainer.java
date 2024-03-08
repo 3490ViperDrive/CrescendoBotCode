@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -14,6 +16,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.vision.*;
+
+
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
@@ -21,10 +26,13 @@ import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import java.util.*;
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
+  CommandJoystick m_driverJoystick = new CommandJoystick(0);
   
   //CommandXboxController m_operatorController = new CommandXboxController(OperatorXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
@@ -36,16 +44,20 @@ public class RobotContainer implements Logged {
 
   Climber m_climber = new Climber();
 
-  TrapLift m_lift = new TrapLift();
 
+  TrapLift m_lift = new TrapLift();
+  private BreakTheBeam beamBreak = new BreakTheBeam();
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
-  private Optometrist eyedoctor = new Optometrist();
+
+  //private Optometrist m_DIValue = new Optometrist();
 
   private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   public RobotContainer() {
-
+    
+    //TODO add in "setDriveDefault" here, integrate Colton's GUI stuff
+    //TODO "setDriveDefault" called later in code
     m_drivetrain.setDefaultCommand(
       m_drivetrain.driveTeleopCommand(
         m_driverController::getLeftY,
@@ -60,7 +72,8 @@ public class RobotContainer implements Logged {
         () -> false,
         () -> false,
         () -> false,
-        () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)); //this is evil but i can't think of a better way of doing it
+        () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)
+    ); //this is evil but i can't think of a better way of doing it
     
     //Temp
     // m_pivot.setDefaultCommand(
@@ -68,11 +81,13 @@ public class RobotContainer implements Logged {
     //     m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
-    //m_shooter.setDefaultCommand(m_shooter.stopMotorCommand());
 
-    //m_intake.setDefaultCommand(m_intake.stopMotorCommand());
 
-    //m_climb.setDefaultCommand(m_climb.stopMotorCommand());
+
+
+    // m_shooter.setDefaultCommand(m_shooter.shoot());
+
+    // m_intake.setDefaultCommand(m_intake.takeIn());
 
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
@@ -89,9 +104,10 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
-
+    // m_driverController.b().onTrue(m_shooter.shoot());
     //m_driverController.b().onTrue(m_shoot.shoot());
 
+    //TODO comment for simplicity 
     m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
     m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy());
     m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5));
@@ -102,16 +118,16 @@ public class RobotContainer implements Logged {
     m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
 
 //     m_driverController.b().onTrue(m_shooter.shoot());
-
 //     m_driverController.y().onTrue(m_intake.takeIn());
-
 //     m_driverController.x().onTrue(m_climb.climb());
 
+
+    // m_driverController.x().onTrue(m_lift.lift());
     
     //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    // thisButton.onTrue(do this thing)
-
+    m_driverController.leftBumper().onTrue(beamBreak.DIValue());
+    
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
@@ -131,5 +147,35 @@ public class RobotContainer implements Logged {
     return m_chooser.getSelected();
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
+  }
+
+  public void setDriveDefault(CommandGenericHID m_driverJoystick, int whichType){
+    switch(whichType){
+      case 0:
+          m_drivetrain.setDefaultCommand(
+          m_drivetrain.driveTeleopCommandGeneric(
+            ()-> m_driverJoystick.getRawAxis(0),
+            ()-> m_driverJoystick.getRawAxis(1),
+            ()->m_driverJoystick.getRawAxis(3))
+          );
+        break;
+      case 1:
+          m_drivetrain.setDefaultCommand(
+          m_drivetrain.driveTeleopCommand(
+          m_driverController::getLeftY,
+          m_driverController::getLeftX,
+          m_driverController::getRightX,
+          m_driverController::getLeftTriggerAxis,
+          m_driverController.getHID()::getAButton,
+          m_driverController.getHID()::getBButton,
+          m_driverController.getHID()::getXButton,
+          m_driverController.getHID()::getYButton,
+          () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)
+          );
+        break;
+      default:
+        break;
+    }
+    
   }
 }
