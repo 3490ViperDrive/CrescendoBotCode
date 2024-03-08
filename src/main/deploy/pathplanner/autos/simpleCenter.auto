@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.3509924162705473,
+      "y": 5.541275082550166
+    },
+    "rotation": 180.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "simpleCenter1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "simpleCenter2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

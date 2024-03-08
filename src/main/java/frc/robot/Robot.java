@@ -11,6 +11,7 @@ import com.ctre.phoenix6.SignalLogger;
 
 import monologue.Logged;
 import monologue.Monologue;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -59,9 +60,9 @@ public class Robot extends TimedRobot implements Logged {
     dashboardUI();
     coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
+    CameraServer.startAutomaticCapture(); //TODO add driver overlay
   }
 
   @Override

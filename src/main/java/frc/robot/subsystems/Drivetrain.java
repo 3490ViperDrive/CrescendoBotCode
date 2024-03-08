@@ -50,7 +50,7 @@ public class Drivetrain implements Subsystem, Logged {
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
-        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
+        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
             .withDeadband(DriverXbox.kThumbstickDeadband)
@@ -76,8 +76,8 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
-                new PIDConstants(5),
-                new PIDConstants(5),
+                new PIDConstants(0.5),
+                new PIDConstants(0.5),
                 kMaxModuleSpeed,
                 kDrivebaseRadius,
                 new ReplanningConfig(true, true)), //TODO tune PID
