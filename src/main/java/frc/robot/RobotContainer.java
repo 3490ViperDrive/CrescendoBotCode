@@ -47,6 +47,8 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
   Climber m_climber = new Climber();
   TrapLift m_lift = new TrapLift();
+  SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    
   //private BreakTheBeam beamBreak = new BreakTheBeam();
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
@@ -56,7 +58,6 @@ public class RobotContainer implements Logged {
   public RobotContainer() {
 
     //autoChooser = AutoBuilder.buildAutoChooser()
-    SendableChooser<Command> m_Chooser = new SendableChooser<>();
     
   
   m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
