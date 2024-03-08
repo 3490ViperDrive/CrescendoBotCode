@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.6517072301625181,
+      "y": 6.7481930302373385
+    },
+    "rotation": -120.4998332334474
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "leftSidePath1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "leftSidePath2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "2noteAutos",
+  "choreoAuto": false
+}

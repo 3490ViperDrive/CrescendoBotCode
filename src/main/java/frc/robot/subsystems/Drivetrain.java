@@ -102,16 +102,50 @@ public class Drivetrain implements Subsystem, Logged {
         DoubleSupplier translationX,
         DoubleSupplier translationY,
         DoubleSupplier rotationAxis,
-        Boolean robotOriented) {
+        BooleanSupplier robotCentric) {
         return run(() -> {
             //TODO
-            //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
+            //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
             double[] stickInputs = {translationX.getAsDouble(), translationY.getAsDouble(), rotationAxis.getAsDouble()};
             //double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
             double translationMultiplier = applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            //softenInputs(stickInputs);
+            softerInputs(stickInputs);
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+
+            if(robotCentric.getAsBoolean()){
+                    m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            } else {
+                m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            }
+                
+            });
+        }
+
+        // void softenInputs(double[] theInputs){
+        //     for(int i = 0; i < theInputs.length; i++){
+        //         double softened = theInputs[i] * theInputs[i];
+        //         if(theInputs[i] < 0){
+        //             softened *= -1; //reapply the sign
+        //         }
+        //         theInputs[i] = softened;
+        //     }
+
+        void softerInputs(double[] inputs){
+            for(int i = 0; i < inputs.length; i++){
+                squareInput(inputs[i]);
+            }
+        //}
+
+        }
             /*if (robotCentric.getAsBoolean()) {
                 m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
@@ -134,12 +168,12 @@ public class Drivetrain implements Subsystem, Logged {
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
                         .withTargetDirection(desiredAngle));
                 } else */
-                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
-                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
-                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
-                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
-                });
-            }
+            //         m_swerve.setControl(m_OpenLoopFieldCentricRequest
+            //             .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+            //             .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+            //             .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            //     });
+            // }
         
      //Command driveTeleopCommand 
 

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3491521419562087,
-      "y": 5.550936522700434
+      "x": 1.3842846515935527,
+      "y": 5.4806715034257465
     },
-    "rotation": 0
+    "rotation": 179.6301653424146
   },
   "command": {
     "type": "sequential",
@@ -14,66 +14,66 @@
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath1"
+            "pathName": "middlePath1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath2"
+            "pathName": "middlePath2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath3"
+            "pathName": "middlePath3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath4"
+            "pathName": "middlePath4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath5"
+            "pathName": "middlePath5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath6"
+            "pathName": "middlePath6"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Shooter"
+            "name": "PPShoot"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "basic Autos",
   "choreoAuto": false
 }

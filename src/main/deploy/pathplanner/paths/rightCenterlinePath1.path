@@ -1,0 +1,70 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.7434969808896333,
+        "y": 4.389196436550476
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.7452375652755207,
+        "y": 3.692417297801801
+      },
+      "isLocked": false,
+      "linkedName": "subwooferRight"
+    },
+    {
+      "anchor": {
+        "x": 7.7470549613685264,
+        "y": 0.8002171831202712
+      },
+      "prevControl": {
+        "x": 6.094839448280452,
+        "y": 0.42387920513909805
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "centerNote2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.9,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 179.51445416999195,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": " centerlineAutofolder",
+  "previewStartingState": {
+    "rotation": 121.82744657667313,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
