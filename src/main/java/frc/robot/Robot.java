@@ -12,6 +12,7 @@ package frc.robot;
 
 import monologue.Logged;
 import monologue.Monologue;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -59,6 +60,9 @@ public final SendableChooser<String> m_controllerchoice = new SendableChooser<>(
     dashboardUI();
    // coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
+    CameraServer.startAutomaticCapture(); //TODO add driver overlay
   }
 
   @Override

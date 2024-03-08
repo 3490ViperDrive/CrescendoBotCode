@@ -1,3 +1,4 @@
+
 package frc.robot.subsystems;
 
 import java.util.Optional;
@@ -50,7 +51,7 @@ public class Drivetrain implements Subsystem, Logged {
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
-        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.Velocity);
+        m_PathPlannerRequest = new SwerveRequest.ApplyChassisSpeeds().withDriveRequestType(DriveRequestType.OpenLoopVoltage);
         m_OpenLoopRobotCentricRequest = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage)
             .withDeadband(DriverXbox.kThumbstickDeadband)
@@ -76,8 +77,8 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setControl(m_PathPlannerRequest.withSpeeds(desiredSpeeds));
             },
             new HolonomicPathFollowerConfig(
-                new PIDConstants(5),
-                new PIDConstants(5),
+                new PIDConstants(0.5),
+                new PIDConstants(0.5),
                 kMaxModuleSpeed,
                 kDrivebaseRadius,
                 new ReplanningConfig(true, true)), //TODO tune PID
@@ -97,6 +98,50 @@ public class Drivetrain implements Subsystem, Logged {
 
     //TODO move any xbox controller specific behavior into Omnicontroller 2 if created
     /* Do not use for autonomous routines */
+    public Command driveTeleopCommandGeneric(
+        DoubleSupplier translationX,
+        DoubleSupplier translationY,
+        DoubleSupplier rotationAxis) {
+        return run(() -> {
+            //TODO
+            //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
+            double[] stickInputs = {translationX.getAsDouble(), translationY.getAsDouble(), rotationAxis.getAsDouble()};
+            //double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            double translationMultiplier = applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            stickInputs[0] *= translationMultiplier;
+            stickInputs[1] *= translationMultiplier;
+            stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+            /*if (robotCentric.getAsBoolean()) {
+                m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            } else {
+                if (up.getAsBoolean() || down.getAsBoolean() || left.getAsBoolean() || right.getAsBoolean()) {
+                    Rotation2d desiredAngle;
+                    if (down.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(180);
+                    } else if (right.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(300);
+                    } else if (left.getAsBoolean()) {
+                        desiredAngle = Rotation2d.fromDegrees(90);
+                    } else { //Must be up
+                        desiredAngle = Rotation2d.fromDegrees(0);
+                    }
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                        .withTargetDirection(desiredAngle));
+                } else */
+                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+                });
+            }
+        
+     //Command driveTeleopCommand 
+
     public Command driveTeleopCommand(
         DoubleSupplier leftStickY,
         DoubleSupplier leftStickX,
@@ -142,7 +187,10 @@ public class Drivetrain implements Subsystem, Logged {
                 }
             }
         });
-    }
+    } //Command driveTeleopCommand 
+
+
+
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
     public Command driveAutoCommand(double x, double y, double angle) {
