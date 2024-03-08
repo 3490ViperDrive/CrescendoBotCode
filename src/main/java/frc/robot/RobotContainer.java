@@ -7,8 +7,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-// import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -16,8 +14,6 @@ import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.vision.BreakTheBeam;
-// import frc.robot.subsystems.SpinNEOS;
-// import monologue.Logged;
 import frc.robot.subsystems.vision.Optometrist;
 import frc.robot.utils.CommandContainer;
 import monologue.Logged;
@@ -26,33 +22,23 @@ import static frc.robot.Constants.ShooterConstants.*;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import java.util.*;
-
 
 
 
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
-  CommandJoystick m_driverJoystick = new CommandJoystick(0); //TODO potentially change port 0
+  CommandJoystick m_driverJoystick = new CommandJoystick(0); 
   
-  //CommandXboxController m_operatorController = new CommandXboxController(OperatorXbox.kControllerID);
   Drivetrain m_drivetrain = new Drivetrain();
   Pivot m_pivot = new Pivot();
   Shooter m_shooter = new Shooter();
   Intake m_intake = new Intake();
   Climber m_climber = new Climber();
   TrapLift m_lift = new TrapLift();
-  //private BreakTheBeam beamBreak = new BreakTheBeam();
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
-
-  //private Optometrist m_DIValue = new Optometrist();
-
   public RobotContainer() {
-    
-    //TODO add in "setDriveDefault" here, integrate Colton's GUI stuff
-    //TODO "setDriveDefault" called later in code
     // m_drivetrain.setDefaultCommand(
     //   m_drivetrain.driveTeleopCommand(
     //     m_driverController::getLeftY,
@@ -100,18 +86,7 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
-    // m_driverController.b().onTrue(m_shooter.shoot());
-    //m_driverController.b().onTrue(m_shoot.shoot());
 
-    //TODO comment for simplicity 
-    // m_driverController.leftBumper().whileTrue(m_intake.takeInFancy()); //Run intake
-    // m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy()); //???
-    // m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot
-    // m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command //Shoot low power
-    // m_driverController.povUp().whileTrue(m_climber.climb(0.75));
-    // m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
-    // m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
-    // m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot regular

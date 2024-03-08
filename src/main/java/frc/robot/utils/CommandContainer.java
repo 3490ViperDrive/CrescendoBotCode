@@ -45,10 +45,10 @@ public class CommandContainer {
             intake.takeIn(0.75).withTimeout(0.5).raceWith(
                 shooter.shoot(0.05)
             ),
-            lift.requestPosition(13).raceWith(
+            lift.requestPosition(15).raceWith(
                 new SequentialCommandGroup(
                 new WaitCommand(0.75),
-                pivot.requestPosition(-30).raceWith(
+                pivot.requestPosition(-33).raceWith(
                     new SequentialCommandGroup(
                         new WaitCommand(0.5),
                         shooter.shoot(0.3).withTimeout(0.5))

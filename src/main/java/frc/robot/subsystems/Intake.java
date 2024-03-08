@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 import monologue.Annotations.Log;
 
@@ -26,6 +28,8 @@ public class Intake extends SubsystemBase implements Logged {
 
     CANSparkMax intakeMotor;
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
+
+    DigitalInput breaker = new DigitalInput(9);
 
     public Intake(){
         intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);

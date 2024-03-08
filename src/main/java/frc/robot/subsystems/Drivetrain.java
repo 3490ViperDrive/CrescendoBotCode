@@ -105,7 +105,7 @@ public class Drivetrain implements Subsystem, Logged {
         BooleanSupplier robotCentric) {
         return run(() -> {
             //TODO
-            //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
+            //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
             double[] stickInputs = {translationX.getAsDouble(), translationY.getAsDouble(), rotationAxis.getAsDouble()};
             //double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
             double translationMultiplier = applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
@@ -115,8 +115,8 @@ public class Drivetrain implements Subsystem, Logged {
 
             if(robotCentric.getAsBoolean()){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
-                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
-                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
                         .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
             } else {
                 m_swerve.setControl(m_OpenLoopFieldCentricRequest
