@@ -7,7 +7,11 @@ package frc.robot;
 // import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
 // import frc.robot.subsystems.SpinNEOS;
@@ -37,6 +41,8 @@ public class RobotContainer implements Logged {
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   private Optometrist eyedoctor = new Optometrist();
+
+  private final SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   public RobotContainer() {
 
@@ -72,6 +78,12 @@ public class RobotContainer implements Logged {
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
 
     m_lift.setDefaultCommand(m_lift.idle());
+
+    //todo fix
+    m_chooser.setDefaultOption("No Auto", Commands.print("No auto selected :P"));
+    m_chooser.addOption("2-Note Center Auto", new PathPlannerAuto("simpleCenter"));
+    m_chooser.addOption("Just Shoot Auto (Does not initialize gyro properly)", m_commandContainer.shootFancy(1).withTimeout(3));
+    SmartDashboard.putData("Auto choices", m_chooser);
 
     configureBindings();
   }
@@ -115,7 +127,8 @@ public class RobotContainer implements Logged {
   }
 
   public Command getAutonomousCommand() {
-    return Commands.print("No autonomous command(s) configured");
+    //return Commands.print("No autonomous command(s) configured: Yeah the sendablechooser doesnt work lol, this is xbox controls btw");
+    return m_chooser.getSelected();
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }

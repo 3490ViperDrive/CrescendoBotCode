@@ -8,6 +8,7 @@
 package frc.robot;
 
 import com.ctre.phoenix6.SignalLogger;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import monologue.Logged;
 import monologue.Monologue;
@@ -31,12 +32,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 
 public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
 
   //private double temp = 123;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  //private final SendableChooser<Command> m_chooser = new SendableChooser<>();
   private RobotContainer m_robotContainer;
 
   //TODO: declutter the Robot class, move these variables into a more appropriate context
@@ -87,42 +89,42 @@ public class Robot extends TimedRobot implements Logged {
       m_autonomousCommand.schedule();
     }
 
-    m_autoSelected = m_chooser.getSelected();
-    System.out.println("Auto selected: " + m_autoSelected);
+    //m_autoSelected = m_chooser.getSelected();
+    //DataLogManager.log("Auto selected: " + m_autoSelected);
   }
 
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kDefaultCenterAuto:
-        default: 
-        // Shoot the pre-loaded note
-        // Drive and pick up a note from ground
-        // Drive back
-        // Shoot the note into the speaker
+    // switch (m_autoSelected) {
+    //   case kDefaultCenterAuto:
+    //     default: 
+    //     // Shoot the pre-loaded note
+    //     // Drive and pick up a note from ground
+    //     // Drive back
+    //     // Shoot the note into the speaker
 
-        break;
+    //     break;
 
-      case kRightAuto:
-        // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
-        // Cross the line as well
+    //   case kRightAuto:
+    //     // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
+    //     // Cross the line as well
 
-        break;
+    //     break;
 
-      case kLeftAuto:
-       // Drive to amp --> turn facing towards the amp
-       // Place in the note
-       // Turn
-       // Drive towards to pick a note
-       // Pick a note
-       // Drive back to amp
-       // Place the note into the amp
+    //   case kLeftAuto:
+    //    // Drive to amp --> turn facing towards the amp
+    //    // Place in the note
+    //    // Turn
+    //    // Drive towards to pick a note
+    //    // Pick a note
+    //    // Drive back to amp
+    //    // Place the note into the amp
 
-        break;
+    //     break;
 
-        //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
+    //     //TODO: Make different autonomous routines depending on where we start and things we have to do depending on the situation
 
-    }
+    // }
   }
 
   @Override
@@ -156,10 +158,10 @@ public class Robot extends TimedRobot implements Logged {
   public void testExit() {}
 
   private void dashboardUI(){
-    m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
-    m_chooser.addOption("Right Auto", kRightAuto);
-    m_chooser.addOption("Left Auto", kLeftAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    // m_chooser.setDefaultOption("Default, Center Auto", kDefaultCenterAuto);
+    // m_chooser.addOption("Right Auto", kRightAuto);
+    // m_chooser.addOption("Left Auto", kLeftAuto);
+    //SmartDashboard.putData("Auto choices", m_chooser);
   }
 
   public void ShuffleBoardUI() {
