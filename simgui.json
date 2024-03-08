@@ -15,6 +15,7 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/Shuffleboard/Digital Input/DigitalInput[1]": "Digital Input",
+      "/SmartDashboard/Auto Choices": "String Chooser",
       "/SmartDashboard/Auto choices": "String Chooser",
       "/SmartDashboard/Field": "Field2d"
     },
