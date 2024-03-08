@@ -45,7 +45,7 @@ public class Robot extends TimedRobot implements Logged {
 
 public static final String XboxController = "XboxController";
 public static final String Joystick = "JoyStick";
-public String autochooserthing;
+public String m_autochooserthing;
 public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
 
   @Override
@@ -58,6 +58,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     ShuffleBoardUI();
 
     dashboardUI();
+    m_autochooserthing = m_controllerchoice.getSelected();
    // coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
     DataLogManager.start();

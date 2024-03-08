@@ -27,10 +27,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import java.util.*;
 
-
-
-
-
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   CommandJoystick m_driverJoystick = new CommandJoystick(0);
@@ -47,7 +43,9 @@ public class RobotContainer implements Logged {
 
 
   TrapLift m_lift = new TrapLift();
-  private BreakTheBeam beamBreak = new BreakTheBeam();
+
+  // private BreakTheBeam beamBreak = new BreakTheBeam();
+
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
 
@@ -85,14 +83,16 @@ public class RobotContainer implements Logged {
 
 
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot());
-    NamedCommands.registerCommand("Intake", m_intake.takeIn());
+    // NamedCommands.registerCommand("Shooter", m_shooter.shoot());
+    // NamedCommands.registerCommand("Intake", m_intake.takeIn());
+
+
+
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
-
 
     int choice = 0;
     //TODO "choice" will be determined by user input
@@ -123,7 +123,7 @@ public class RobotContainer implements Logged {
     
     //m_driverController.rightBumper().onTrue(eyedoctor.peek());
 
-    m_driverController.leftBumper().onTrue(beambreak.DIValue());
+    // m_driverController.leftBumper().onTrue(beambreak.DIValue()); CHANGE LATER
     
     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
@@ -155,7 +155,7 @@ public class RobotContainer implements Logged {
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(0),
             ()-> m_driverJoystick.getRawAxis(1),
-            ()->m_driverJoystick.getRawAxis(3))
+            ()->m_driverJoystick.getRawAxis(3), null) //random null to get rid of error
           );
         break;
       case 1:
