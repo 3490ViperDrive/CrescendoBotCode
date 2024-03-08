@@ -97,10 +97,10 @@ public class RobotContainer implements Logged {
     //m_driverController.b().onTrue(m_shoot.shoot());
 
     //TODO comment for simplicity 
-    m_driverController.leftBumper().whileTrue(m_intake.takeInFancy());
-    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy());
-    m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5));
-    m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command
+    m_driverController.leftBumper().whileTrue(m_intake.takeInFancy()); //Run intake
+    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy()); //???
+    m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot
+    m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command //Shoot low power
     m_driverController.povUp().whileTrue(m_climber.climb(0.75));
     m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
     m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
@@ -111,10 +111,12 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(5).whileTrue(null); //TODO "shooter lift up"
     m_driverJoystick.button(3).whileTrue(null); //TODO shooter lift down
     m_driverJoystick.button(7).whileTrue(null); //TODO crawl mode
-    m_driverJoystick.button(8).whileTrue(null); //TODO "lift up"
-    m_driverJoystick.button(10).whileTrue(null); //TODO "lift down"
+    m_driverJoystick.button(8).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
+    m_driverJoystick.button(10).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
     m_driverJoystick.button(11).onTrue(null); //TODO "home"
     m_driverJoystick.button(6).onTrue(null);
+
+    //TODO: add "handoffScore"
 
 
 //     m_driverController.b().onTrue(m_shooter.shoot());
