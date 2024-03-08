@@ -22,6 +22,8 @@ import frc.robot.subsystems.vision.Optometrist;
 import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
+import static frc.robot.Constants.ShooterConstants.kShooterMotorStopSpeed;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -82,8 +84,8 @@ public class RobotContainer implements Logged {
 
 
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot());
-    NamedCommands.registerCommand("Intake", m_intake.takeIn());
+    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterMotorStopSpeed));
+    NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
