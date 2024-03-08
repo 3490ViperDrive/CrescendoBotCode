@@ -109,6 +109,7 @@ public class Drivetrain implements Subsystem, Logged {
             double[] stickInputs = {translationX.getAsDouble(), translationY.getAsDouble(), rotationAxis.getAsDouble()};
             //double translationMultiplier = applyMultiplier(crawl.getAsDouble(), Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
             double translationMultiplier = applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlTranslationMultiplier));
+            softenInputs(stickInputs);
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
@@ -126,6 +127,17 @@ public class Drivetrain implements Subsystem, Logged {
             }
                 
             });
+        }
+
+        void softenInputs(double[] theInputs){
+            for(int i = 0; i < theInputs.length; i++){
+                double softened = theInputs[i] * theInputs[i];
+                if(theInputs[i] < 0){
+                    softened *= -1; //reapply the sign
+                }
+                theInputs[i] = softened;
+            }
+
         }
             /*if (robotCentric.getAsBoolean()) {
                 m_swerve.setControl(m_OpenLoopRobotCentricRequest
