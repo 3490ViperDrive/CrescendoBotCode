@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
@@ -19,6 +21,8 @@ import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -36,9 +40,26 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
   Climber m_climber = new Climber();
   TrapLift m_lift = new TrapLift();
+
+  SendableChooser<Command> m_Chooser = new SendableChooser<>();
+   
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   public RobotContainer() {
+
+    //autoChooser = AutoBuilder.buildAutoChooser()
+    
+  
+  m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
+  m_Chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
+  m_Chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
+  m_Chooser.addOption("3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
+  m_Chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
+  m_Chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
+  m_Chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
+  m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("leftAutoBasic"));
+  m_Chooser.addOption("4 note right auto", new PathPlannerAuto("rightAutoBasic"));
+  SmartDashboard.putData("Auto Choices",m_Chooser);
     // m_drivetrain.setDefaultCommand(
     //   m_drivetrain.driveTeleopCommand(
     //     m_driverController::getLeftY,
@@ -55,6 +76,7 @@ public class RobotContainer implements Logged {
     //     () -> false,
     //     () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)
     // ); //this is evil but i can't think of a better way of doing it
+
     
     //Temp
     // m_pivot.setDefaultCommand(
@@ -113,14 +135,12 @@ public class RobotContainer implements Logged {
     //m_driverController.b().whileTrue(m_intake.takeInFancy());
     //m_driverController.y().whileTrue(m_intake.takeOut());
   }
-
+  
   public Command getAutonomousCommand() {
-
-
-    //return new PathPlannerAuto("middleAutoBasic");
+    return m_Chooser.getSelected();
     //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
-    return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
+    //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
   public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
@@ -152,4 +172,6 @@ public class RobotContainer implements Logged {
         break;
     }
   }
+
+  
 }

@@ -5,7 +5,7 @@
       "x": 1.3842846515935527,
       "y": 5.4806715034257465
     },
-    "rotation": 179.6301653424146
+    "rotation": -178.7812857845766
   },
   "command": {
     "type": "sequential",
@@ -38,31 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath3"
+            "pathName": "middleCenterlinePath1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PPShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "middlePath5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "middlePath6"
+            "pathName": "middleCenterlinePath2"
           }
         },
         {
@@ -74,6 +56,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "centerlineAutos",
   "choreoAuto": false
 }
