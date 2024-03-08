@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
@@ -23,6 +25,8 @@ import frc.robot.utils.CommandContainer;
 import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -50,6 +54,20 @@ public class RobotContainer implements Logged {
   //private Optometrist m_DIValue = new Optometrist();
 
   public RobotContainer() {
+
+    //autoChooser = AutoBuilder.buildAutoChooser()
+    final SendableChooser<Command> m_Chooser = new SendableChooser<>();
+    
+  
+  m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
+  m_Chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
+  m_Chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
+  m_Chooser.addOption("4 note center Auto", new PathPlannerAuto("middleAutoBasic"));
+  m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("leftAutoBasic"));
+  m_Chooser.addOption("4 note right auto", new PathPlannerAuto("rightAutoBasic"));
+  SmartDashboard.putData("Auto Choices",m_Chooser);
+
+
     
     //TODO add in "setDriveDefault" here, integrate Colton's GUI stuff
     //TODO "setDriveDefault" called later in code
@@ -154,6 +172,8 @@ public class RobotContainer implements Logged {
     //m_driverController.y().whileTrue(m_intake.takeOut());
   }
 
+
+  
   public Command getAutonomousCommand() {
 
 
@@ -191,4 +211,6 @@ public class RobotContainer implements Logged {
         break;
     }
   }
+
+  
 }
