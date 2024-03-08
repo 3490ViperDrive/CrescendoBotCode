@@ -46,7 +46,7 @@ public class Robot extends TimedRobot implements Logged {
 public static final String XboxController = "XboxController";
 public static final String Joystick = "JoyStick";
 public String autochooserthing;
-public final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
+public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
 
   @Override
   public void robotInit() {

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 // import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.Constants.LiftPivotSetpoint;
@@ -89,9 +90,12 @@ public class RobotContainer implements Logged {
     m_lift.setDefaultCommand(m_lift.idle());
 
 
-    int choice = 0;
-    //TODO "choice" will be determined by user input
-    setDriveDefault(m_driverController, choice);
+
+
+    //TODO get "choice" from smartdash/shuffleboard
+    String temp = "";
+
+    setDriveDefault(m_driverController, temp);
     configureBindings();
   }
 
@@ -110,13 +114,16 @@ public class RobotContainer implements Logged {
     m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //
+    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot regular
+    //TODO add shoot low power
+    //TODO make button 8 "crawl" (button press)
+    //TODO robot oriented toggle on 12
     m_driverJoystick.button(5).whileTrue(null); //TODO "shooter lift up"
-    m_driverJoystick.button(3).whileTrue(null); //TODO shooter lift down
+    m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
     m_driverJoystick.button(7).whileTrue(null); //TODO crawl mode
-    m_driverJoystick.button(8).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
-    m_driverJoystick.button(10).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
-    m_driverJoystick.button(11).onTrue(null); //TODO "home"
+    m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
+    m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
+    m_driverJoystick.button(10).onTrue(null); //TODO "home"
     m_driverJoystick.button(6).onTrue(null);
 
     //TODO: add "handoffScore"
@@ -156,9 +163,9 @@ public class RobotContainer implements Logged {
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
-  public void setDriveDefault(CommandGenericHID m_driverJoystick, int whichType){
+  public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
-      case 0:
+      case "Joystick":
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(0),
@@ -166,7 +173,7 @@ public class RobotContainer implements Logged {
             ()->m_driverJoystick.getRawAxis(3))
           );
         break;
-      case 1:
+      case "Xbox Controller":
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommand(
           m_driverController::getLeftY,
