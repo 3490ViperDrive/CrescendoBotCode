@@ -20,7 +20,7 @@ public final class Constants {
         public static final double kCurrentThreshold = 18; //amps
         public static final double kCurrentSpikeTime = 0.2; //secs
         //1 second is literally perfect for a handoff at 0.75 intake speed
-        public static final double kPullInTime = 0.35;
+        public static final double kPullInTime = 0.3127;
     }
 
     public static final class ClimberConstants {
@@ -47,6 +47,7 @@ public final class Constants {
         public static final class DriverXbox {
             public static final int kControllerID = 0;
             public static final double kThumbstickDeadband = 0.2;
+            public static final double kJoystickDeadband = 0.2;
             public static final double kTriggerDeadband = 0.3;
 
             public static final double kCrawlTranslationMultiplier = 0.65;

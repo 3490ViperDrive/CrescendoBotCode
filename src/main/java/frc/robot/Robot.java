@@ -92,31 +92,31 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
 
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kDefaultCenterAuto:
-        default: 
-        // Shoot the pre-loaded note
-        // Drive and pick up a note from ground
-        // Drive back
-        // Shoot the note into the speaker
-        break;
+    // switch (m_autoSelected) {
+    //   case kDefaultCenterAuto:
+    //     default: 
+    //     // Shoot the pre-loaded note
+    //     // Drive and pick up a note from ground
+    //     // Drive back
+    //     // Shoot the note into the speaker
+    //     break;
 
-      case kRightAuto:
-        // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
-        // Cross the line as well
-        break;
+    //   case kRightAuto:
+    //     // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
+    //     // Cross the line as well
+    //     break;
 
-      case kLeftAuto:
-       // Drive to amp --> turn facing towards the amp
-       // Place in the note
-       // Turn
-       // Drive towards to pick a note
-       // Pick a note
-       // Drive back to amp
-       // Place the note into the amp
-        break;
+    //   case kLeftAuto:
+    //    // Drive to amp --> turn facing towards the amp
+    //    // Place in the note
+    //    // Turn
+    //    // Drive towards to pick a note
+    //    // Pick a note
+    //    // Drive back to amp
+    //    // Place the note into the amp
+    //     break;
 
-    }
+    // }
   }
 
   @Override
