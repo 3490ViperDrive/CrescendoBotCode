@@ -5,11 +5,6 @@
         "visible": true
       }
     },
-    "DIO": {
-      "window": {
-        "visible": true
-      }
-    },
     "RoboRIO": {
       "window": {
         "visible": true
