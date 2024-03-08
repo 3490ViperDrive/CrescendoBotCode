@@ -53,22 +53,22 @@ public class RobotContainer implements Logged {
     
     //TODO add in "setDriveDefault" here, integrate Colton's GUI stuff
     //TODO "setDriveDefault" called later in code
-    m_drivetrain.setDefaultCommand(
-      m_drivetrain.driveTeleopCommand(
-        m_driverController::getLeftY,
-        m_driverController::getLeftX,
-        m_driverController::getRightX,
-        m_driverController::getRightTriggerAxis,
-        // m_driverController.getHID()::getAButton,
-        // m_driverController.getHID()::getBButton,
-        // m_driverController.getHID()::getXButton,
-        // m_driverController.getHID()::getYButton,
-        () -> false,
-        () -> false,
-        () -> false,
-        () -> false,
-        () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)
-    ); //this is evil but i can't think of a better way of doing it
+    // m_drivetrain.setDefaultCommand(
+    //   m_drivetrain.driveTeleopCommand(
+    //     m_driverController::getLeftY,
+    //     m_driverController::getLeftX,
+    //     m_driverController::getRightX,
+    //     m_driverController::getRightTriggerAxis,
+    //     // m_driverController.getHID()::getAButton,
+    //     // m_driverController.getHID()::getBButton,
+    //     // m_driverController.getHID()::getXButton,
+    //     // m_driverController.getHID()::getYButton,
+    //     () -> false,
+    //     () -> false,
+    //     () -> false,
+    //     () -> false,
+    //     () -> m_driverController.getLeftTriggerAxis() > DriverXbox.kThumbstickDeadband)
+    // ); //this is evil but i can't think of a better way of doing it
     
     //Temp
     // m_pivot.setDefaultCommand(
@@ -93,7 +93,7 @@ public class RobotContainer implements Logged {
 
 
     //TODO get "choice" from smartdash/shuffleboard
-    String temp = "";
+    String temp = "Joystick";
 
     setDriveDefault(m_driverController, temp);
     configureBindings();
@@ -104,17 +104,18 @@ public class RobotContainer implements Logged {
     //m_driverController.b().onTrue(m_shoot.shoot());
 
     //TODO comment for simplicity 
-    m_driverController.leftBumper().whileTrue(m_intake.takeInFancy()); //Run intake
-    m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy()); //???
-    m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot
-    m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command //Shoot low power
-    m_driverController.povUp().whileTrue(m_climber.climb(0.75));
-    m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
-    m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
-    m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
+    // m_driverController.leftBumper().whileTrue(m_intake.takeInFancy()); //Run intake
+    // m_driverController.b().and(() -> !m_driverController.getHID().getLeftBumper()).whileTrue(m_commandContainer.retractIntakeFancy()); //???
+    // m_driverController.rightBumper().whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot
+    // m_driverController.a().whileTrue(m_commandContainer.shootFancy(0.15)); //TODO make better shoot command //Shoot low power
+    // m_driverController.povUp().whileTrue(m_climber.climb(0.75));
+    // m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
+    // m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
+    // m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot regular
+    m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)
     //TODO robot oriented toggle on 12
@@ -124,7 +125,7 @@ public class RobotContainer implements Logged {
     //m_driverJoystick.button(10).onTrue(null); //TODO "home"
     //m_driverJoystick.button(6).onTrue(null);
     
-    m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
+     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
     //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
@@ -141,10 +142,10 @@ public class RobotContainer implements Logged {
   public Command getAutonomousCommand() {
 
 
-    return new PathPlannerAuto("middleAutoBasic");
+    //return new PathPlannerAuto("middleAutoBasic");
     //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
-    //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
+    return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
   public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
@@ -152,10 +153,10 @@ public class RobotContainer implements Logged {
       case "Joystick":
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
-            ()-> m_driverJoystick.getRawAxis(0),
             ()-> m_driverJoystick.getRawAxis(1),
-            ()->m_driverJoystick.getRawAxis(3),
-            m_driverJoystick.button(12).getAsBoolean())
+            ()-> m_driverJoystick.getRawAxis(0),
+            ()-> -m_driverJoystick.getRawAxis(2),
+            ()-> m_driverJoystick.button(7).getAsBoolean())
           );
         break;
       case "Xbox Controller":

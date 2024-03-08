@@ -2,7 +2,9 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -30,6 +32,9 @@ public class CommandContainer {
     public Command shootFancy(double speed) {
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
+                new InstantCommand(()->{
+                    SmartDashboard.putString("ocho", "shoot go boom");
+                }),
                 new WaitCommand(0.5), //tune this
                 intake.takeIn(1)
             ));
@@ -40,7 +45,7 @@ public class CommandContainer {
             intake.takeIn(0.75).withTimeout(0.5).raceWith(
                 shooter.shoot(0.05)
             ),
-            lift.requestPosition(11).raceWith(
+            lift.requestPosition(13).raceWith(
                 new SequentialCommandGroup(
                 new WaitCommand(0.75),
                 pivot.requestPosition(-30).raceWith(

@@ -102,7 +102,7 @@ public class Drivetrain implements Subsystem, Logged {
         DoubleSupplier translationX,
         DoubleSupplier translationY,
         DoubleSupplier rotationAxis,
-        Boolean robotOriented) {
+        BooleanSupplier robotCentric) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
