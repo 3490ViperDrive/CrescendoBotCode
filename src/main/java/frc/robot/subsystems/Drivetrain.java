@@ -112,6 +112,21 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+
+            if(robotCentric.getAsBoolean()){
+                    m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            } else {
+                m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            }
+                
+            });
+        }
             /*if (robotCentric.getAsBoolean()) {
                 m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
@@ -134,12 +149,12 @@ public class Drivetrain implements Subsystem, Logged {
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
                         .withTargetDirection(desiredAngle));
                 } else */
-                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
-                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
-                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
-                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
-                });
-            }
+            //         m_swerve.setControl(m_OpenLoopFieldCentricRequest
+            //             .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+            //             .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+            //             .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+            //     });
+            // }
         
      //Command driveTeleopCommand 
 

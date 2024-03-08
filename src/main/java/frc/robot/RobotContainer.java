@@ -122,7 +122,7 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
     m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
-    //m_driverJoystick.button(10).onTrue(null); //TODO "home"
+    m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
     //m_driverJoystick.button(6).onTrue(null);
     
      m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
