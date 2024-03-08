@@ -3,9 +3,16 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "New Folder"
+    " centerlineAutofolder",
+    "leftAutoFolder",
+    "realAutoFolder",
+    "rightAutoFolder",
+    "testFolder"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "centerlineAutos",
+    "basic Autos"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

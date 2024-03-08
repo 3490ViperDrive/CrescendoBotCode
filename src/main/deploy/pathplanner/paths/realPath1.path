@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.36086297850199,
-        "y": 5.550936522700434
+        "x": 1.3842846515935527,
+        "y": 5.4806715034257465
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3679949214391995,
-        "y": 5.574358195791997
+        "x": 2.391416594530762,
+        "y": 5.504093176517309
       },
       "isLocked": false,
       "linkedName": "subwoofer"
@@ -61,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "realAutoFolder",
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0

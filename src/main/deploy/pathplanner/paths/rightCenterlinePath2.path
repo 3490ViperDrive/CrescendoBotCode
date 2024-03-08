@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.0,
-        "y": 0.0
+        "x": 7.7470549613685264,
+        "y": 0.8002171831202712
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0095378821285446,
-        "y": -0.023421673091562963
+        "x": 8.747054961368526,
+        "y": 0.8002171831202709
       },
       "isLocked": false,
-      "linkedName": "testLink3"
+      "linkedName": "centerNote2"
     },
     {
       "anchor": {
-        "x": 0.0,
-        "y": 0.0
+        "x": 1.3842846515935527,
+        "y": 5.4806715034257465
       },
       "prevControl": {
-        "x": 0.01922287439439252,
-        "y": -0.03918419819721297
+        "x": 1.3584883107613055,
+        "y": 0.2678366289030021
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "subwoofer"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "testFolder",
+  "folder": " centerlineAutofolder",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

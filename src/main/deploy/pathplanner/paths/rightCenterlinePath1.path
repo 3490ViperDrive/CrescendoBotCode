@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3842846515935527,
-        "y": 4.567226252854789
+        "x": 1.2850565101796132,
+        "y": 1.185734136174154
       },
       "isLocked": false,
       "linkedName": "subwoofer"
     },
     {
       "anchor": {
-        "x": 2.6373441619921745,
-        "y": 4.04023860829462
+        "x": 7.7470549613685264,
+        "y": 0.8002171831202712
       },
       "prevControl": {
-        "x": 1.3023087957730821,
-        "y": 4.075371117931965
+        "x": 6.094839448280452,
+        "y": 0.42387920513909805
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "leftNote"
+      "linkedName": "centerNote2"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -61,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "realAutoFolder",
+  "folder": " centerlineAutofolder",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

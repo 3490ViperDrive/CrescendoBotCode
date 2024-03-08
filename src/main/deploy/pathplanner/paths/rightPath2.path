@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3842846515935527,
-        "y": 4.567226252854789
+        "x": 1.4410990864157092,
+        "y": 5.453957544985013
       },
       "isLocked": false,
       "linkedName": "subwoofer"
@@ -20,8 +20,8 @@
         "y": 4.04023860829462
       },
       "prevControl": {
-        "x": 1.3023087957730821,
-        "y": 4.075371117931965
+        "x": 1.4686360116338437,
+        "y": 4.012858458569303
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -61,7 +61,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "realAutoFolder",
+  "folder": "rightAutoFolder",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3491521419562087,
-      "y": 5.550936522700434
+      "x": 2.0,
+      "y": 7.0
     },
     "rotation": 0
   },
@@ -12,21 +12,9 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Shooter"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "realPath1"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "realPath2"
+            "pathName": "leftPath1"
           }
         },
         {
@@ -38,13 +26,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "realPath3"
+            "pathName": "leftPath2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath4"
+            "pathName": "leftPath3"
           }
         },
         {
@@ -56,13 +44,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "realPath5"
+            "pathName": "leftCenterlinePath1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "realPath6"
+            "pathName": "leftCenterlinePath2"
           }
         },
         {
@@ -74,6 +62,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "centerlineAutos",
   "choreoAuto": false
 }
