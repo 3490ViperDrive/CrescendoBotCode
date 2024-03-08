@@ -111,7 +111,7 @@ public class RobotContainer implements Logged {
 
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot regular
+    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.75)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)
@@ -120,7 +120,7 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
     m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
-    //m_driverJoystick.button(6).onTrue(null);
+    m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
     
      m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
