@@ -101,7 +101,8 @@ public class Drivetrain implements Subsystem, Logged {
     public Command driveTeleopCommandGeneric(
         DoubleSupplier translationX,
         DoubleSupplier translationY,
-        DoubleSupplier rotationAxis) {
+        DoubleSupplier rotationAxis,
+        Boolean robotOriented) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
