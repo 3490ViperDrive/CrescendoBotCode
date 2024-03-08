@@ -4,11 +4,19 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.FunctionalCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import monologue.Logged;
+import monologue.Annotations.Log;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
-public class Intake extends SubsystemBase{
+public class Intake extends SubsystemBase implements Logged {
 
     CANSparkMax intakeMotor;
 
@@ -19,22 +27,44 @@ public class Intake extends SubsystemBase{
     @Override
     public void periodic() {};
 
-    public Command takeIn() {
-        return run(() -> {
-            intakeMotor.set(kIntakeSpeed);
-        });
+    public Command takeIn(double speed) {
+        // return run(() -> {
+        //     intakeMotor.set(kIntakeSpeed);
+        // });
+        return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
-    public Command takeOut() {
-        return run(() -> {
-            intakeMotor.set(-kIntakeSpeed);
-        });
+    public Command takeInFancy() {
+        return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());
     }
 
-    public Command stopMotorCommand() {
-        return runOnce(() -> {
-            intakeMotor.set(kIntakeMotorStopSpeed);
-            intakeMotor.stopMotor();
-        });
-    } 
+    private Command takeInFancyDeadline() {
+        return new SequentialCommandGroup(
+            new WaitCommand(kCurrentSpikeTime),
+            new WaitUntilCommand(() -> getCurrentAboveThreshold()),
+            new WaitCommand(kPullInTime)
+        );
+    }
+
+    // public Command stopMotorCommand() {
+    //     return runOnce(() -> {
+    //         intakeMotor.set(kIntakeMotorStopSpeed);
+    //         intakeMotor.stopMotor();
+    //     });
+    // } 
+
+    @Log
+    public double getVelocity() {
+        return intakeMotor.getEncoder().getVelocity();
+    }
+
+    @Log
+    public double getCurrent() {
+        return intakeMotor.getOutputCurrent();
+    }
+
+    @Log
+    public boolean getCurrentAboveThreshold() {
+        return intakeMotor.getOutputCurrent() > kCurrentThreshold;
+    }
 }
