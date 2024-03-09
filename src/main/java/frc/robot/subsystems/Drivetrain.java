@@ -47,7 +47,7 @@ public class Drivetrain implements Subsystem, Logged {
     private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
 
     public Drivetrain() {
-        m_swerve = TunerConstants.Drivetrain;
+        m_swerve = TunerConstants.Drivetrain; //TODO this doesn't need to be in Constants.
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
         m_headingPID.enableContinuousInput(0, 2 * Math.PI);
 
