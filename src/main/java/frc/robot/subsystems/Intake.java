@@ -46,8 +46,7 @@ public class Intake extends SubsystemBase implements Logged {
     }
 
     public Command takeInFancy() {
-        return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());
-        
+        return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());      
     }
 
     private Command takeInFancyDeadline() {
