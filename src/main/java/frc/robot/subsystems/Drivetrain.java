@@ -46,6 +46,8 @@ public class Drivetrain implements Subsystem, Logged {
     private SwerveRequest.FieldCentricFacingAngle m_OpenLoopControlledHeadingRequest;
     private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
 
+    private int podiumHeading = 200;
+
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain; //TODO this doesn't need to be in Constants.
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
@@ -102,7 +104,8 @@ public class Drivetrain implements Subsystem, Logged {
         DoubleSupplier translationX,
         DoubleSupplier translationY,
         DoubleSupplier rotationAxis,
-        BooleanSupplier robotCentric) {
+        BooleanSupplier robotCentric,
+        BooleanSupplier shootingPodium) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
@@ -120,15 +123,21 @@ public class Drivetrain implements Subsystem, Logged {
                         .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
                         .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
                         .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
-            } else {
-                m_swerve.setControl(m_OpenLoopFieldCentricRequest
+            } else if (shootingPodium.getAsBoolean()) {
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
-                        .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+                        .withTargetDirection(Rotation2d.fromDegrees(podiumHeading)));
+            } else {
+                m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                    .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
+                    .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
+                    .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
             }
                 
-            });
-        }
+            }
+        );
+    }
 
         // void softenInputs(double[] theInputs){
         //     for(int i = 0; i < theInputs.length; i++){
