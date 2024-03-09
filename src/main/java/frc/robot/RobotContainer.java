@@ -5,28 +5,26 @@
 package frc.robot;
 
 
+import static frc.robot.Constants.ShooterConstants.*;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
-import frc.robot.Constants.LiftPivotSetpoint;
-import frc.robot.subsystems.*;
-import frc.robot.subsystems.vision.BreakTheBeam;
-import frc.robot.subsystems.vision.Optometrist;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.TrapLift;
 import frc.robot.utils.CommandContainer;
 import monologue.Logged;
-import static frc.robot.Constants.ControllerConstants.*;
-import static frc.robot.Constants.ShooterConstants.*;
-
-import java.io.FileNotFoundException;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 
 
 
@@ -95,7 +93,7 @@ public class RobotContainer implements Logged {
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
-    m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
+    //m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
 
 
@@ -112,7 +110,9 @@ public class RobotContainer implements Logged {
 
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
+    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125, 55)); //Shoot regular;
+    //TODO:Change button if needed
+    m_driverJoystick.button(4).whileTrue(m_commandContainer.shootFancy(0.75, 32)); //Shoot from front post
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)

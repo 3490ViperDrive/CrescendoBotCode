@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Pivot;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.TrapLift;
 
 //According to the docs this is a 'non-static command factory'
 public class CommandContainer {
@@ -26,16 +30,17 @@ public class CommandContainer {
         this.lift = lift;
 
         NamedCommands.registerCommand("PPIntake", intake.takeInFancy().withTimeout(3));
-        NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
+        NamedCommands.registerCommand("PPShoot", shootFancy(0.5, 55).withTimeout(1));
     }
 
-    public Command shootFancy(double speed) {
+    public Command shootFancy(double speed, int angle) {
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
                 new InstantCommand(()->{
                     SmartDashboard.putString("ocho", "shoot go boom");
                 }),
                 new WaitCommand(0.5), //tune this
+                pivot.requestPosition(angle),
                 intake.takeIn(1)
             ));
     }
