@@ -39,7 +39,7 @@ public class Robot extends TimedRobot implements Logged {
   private static final String kRightAuto = "Right Autonomous";
   private static final String kLeftAuto = "Left Autonomous";  
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser = new SendableChooser<>(); //todo you will be boiled
 
 
 
@@ -51,7 +51,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
+    
     DriverStation.silenceJoystickConnectionWarning(true);
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog(), true);

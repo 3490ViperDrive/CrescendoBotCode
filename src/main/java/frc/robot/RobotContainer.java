@@ -22,6 +22,8 @@ import monologue.Logged;
 import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
 
+import java.io.FileNotFoundException;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -54,7 +56,6 @@ public class RobotContainer implements Logged {
 
     //autoChooser = AutoBuilder.buildAutoChooser()
     
-  
   m_Chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
   m_Chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
   m_Chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
@@ -62,9 +63,9 @@ public class RobotContainer implements Logged {
   m_Chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
   m_Chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
   m_Chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
-  m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("ampAutoBasic"));
+  m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
   m_Chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
-  SmartDashboard.putData("Auto Choices",m_Chooser);
+  SmartDashboard.putData("THE AutoChoices",m_Chooser);
     // m_drivetrain.setDefaultCommand(
     //   m_drivetrain.driveTeleopCommand(
     //     m_driverController::getLeftY,
@@ -119,7 +120,7 @@ public class RobotContainer implements Logged {
 
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.75)); //Shoot regular;
+    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)
