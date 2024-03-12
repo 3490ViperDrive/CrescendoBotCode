@@ -35,7 +35,6 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {};
 
-
     public Command shoot(double speed) {
 
         //TODO fix invert of this motor

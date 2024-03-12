@@ -1,4 +1,3 @@
-
 package frc.robot.subsystems;
 
 import java.util.Optional;
@@ -189,10 +188,7 @@ public class Drivetrain implements Subsystem, Logged {
             }
         });
     } //Command driveTeleopCommand 
-
-
-
-
+    
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
     public Command driveAutoCommand(double x, double y, double angle) {
         return run(() -> m_swerve.setControl(m_ClosedLoopControlledHeadingRequest
