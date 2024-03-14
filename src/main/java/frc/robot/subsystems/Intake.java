@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
+// import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -14,10 +14,9 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 import monologue.Annotations.Log;
-// simport frc.robot.subsystems.*;
+// import frc.robot.subsystems.*;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -29,9 +28,6 @@ public class Intake extends SubsystemBase implements Logged {
     public void periodic() {};
 
     public Command takeIn(double speed) {
-        // return run(() -> {
-        //     intakeMotor.set(kIntakeSpeed);
-        // });
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
@@ -46,13 +42,6 @@ public class Intake extends SubsystemBase implements Logged {
             new WaitCommand(kPullInTime)
         );
     }
-
-    // public Command stopMotorCommand() {
-    //     return runOnce(() -> {
-    //         intakeMotor.set(kIntakeMotorStopSpeed);
-    //         intakeMotor.stopMotor();
-    //     });
-    // } 
 
     @Log
     public double getVelocity() {
@@ -69,32 +58,60 @@ public class Intake extends SubsystemBase implements Logged {
         return intakeMotor.getOutputCurrent() > kCurrentThreshold;
     }
 
+    // Beam Breaker Code
+
     DigitalInput beambreaker = new DigitalInput(1);
 
-    //Trigger beamIsBroken = beambreaker.get();
+    private Command whenBeamBreaks() {
+        return new SequentialCommandGroup(
+            // detect the beam is broken,
+            // stop the intake for once,
+            // get the shooter up to speed,
+            // continue the intake and send the note to the shooter
+        ); 
+    }
+        // https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html#commands
+        // https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html
 
-    public void  BreakTheBeam(){
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private boolean isBeamBroken = false;
+
+    public void BeamBreak(){
         Shuffleboard.getTab("Digital Input").add(beambreaker);
     }
-    
-        public Command DIValue() {
-            return(this.runOnce(
-                () -> {
-                    SmartDashboard.putBoolean("Beambreaker Reading", beambreaker.get());
-                } ));
+
+    // Can I do a sequential command group here?
+
+    public void getIntake(){
+        if (beambreaker.get()) {
+            isBeamBroken = true;
+            pauseIntake();
+        }
+        else{
+            isBeamBroken = false;
+        }
     }
 
-    //TODO:         
-    // Goal: Code that detects the note is in and stops the motor UNTIL the shooter achieves it's desired speed for shooting   
-    // 1. Run the intake
-    // 2. Once the note is in, make sure that the sensor detecs the beam is broken by the note
-    // 3. Once the beam is broken, stop the motor for an amount of time (I guess)
-    // 4. Run the shooter and somehow (I guess a timer?)  discontinue the 'stopMotorCommand()' for the intake
-
-    // public stopIntake() {
-    //    if(beam breaks){
-    //    stopMotor for 2 seconds
-    // }
-    // continue the normal behavior
-    //} 
+    public void pauseIntake(){
+        intakeMotor.stopMotor();
     }
+
+    public void resumeIntake(){
+        intakeMotor.set(1);
+    }
+
+    public Command beambreakerState(){
+        return new Command(){
+            @Override 
+            public void execute() {
+                SmartDashboard.putBoolean("Beambreaker Reading", beambreaker.get());
+            }
+
+            @Override 
+            public boolean isFinished() {
+                return false;
+            }
+        };
+    }
+}
