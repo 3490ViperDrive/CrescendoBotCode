@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import monologue.Logged;
 import monologue.Annotations.Log;
-// import frc.robot.subsystems.*;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
@@ -24,8 +23,35 @@ public class Intake extends SubsystemBase implements Logged {
 
     CANSparkMax intakeMotor;
 
+    DigitalInput breambreaker = new DigitalInput(0);
+
+    public boolean noteStatus = true;
+
+    // Bream Breaker Code
+    
+    public void checkBream(){
+        Shuffleboard.getTab("Digital Input").add(breambreaker);
+    }
+
+     public void setNoteStatus(boolean status){
+        noteStatus = status;
+    }
+    
     @Override
-    public void periodic() {};
+    public void periodic() {
+       SmartDashboard.putBoolean("Breambreaker Reading", breambreaker.get()); 
+
+        if(breambreaker.get()){
+            intakeMotor.stopMotor();
+            noteStatus = true;
+            }
+        }
+             
+
+    // Adam suggested me to make a command for breambreaker and add it into 'intakeFancy' so that it allows the intake to feed the note 
+    // into shooter by stopping the intake motor only once
+
+    // According to him, the code in periodic will stop the intake motor for the rest of the match
 
     public Command takeIn(double speed) {
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
@@ -56,62 +82,5 @@ public class Intake extends SubsystemBase implements Logged {
     @Log
     public boolean getCurrentAboveThreshold() {
         return intakeMotor.getOutputCurrent() > kCurrentThreshold;
-    }
-
-    // Beam Breaker Code
-
-    DigitalInput beambreaker = new DigitalInput(1);
-
-    private Command whenBeamBreaks() {
-        return new SequentialCommandGroup(
-            // detect the beam is broken,
-            // stop the intake for once,
-            // get the shooter up to speed,
-            // continue the intake and send the note to the shooter
-        ); 
-    }
-        // https://docs.wpilib.org/en/stable/docs/software/commandbased/commands.html#commands
-        // https://github.wpilib.org/allwpilib/docs/release/java/edu/wpi/first/wpilibj2/command/Command.html
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private boolean isBeamBroken = false;
-
-    public void BeamBreak(){
-        Shuffleboard.getTab("Digital Input").add(beambreaker);
-    }
-
-    // Can I do a sequential command group here?
-
-    public void getIntake(){
-        if (beambreaker.get()) {
-            isBeamBroken = true;
-            pauseIntake();
-        }
-        else{
-            isBeamBroken = false;
-        }
-    }
-
-    public void pauseIntake(){
-        intakeMotor.stopMotor();
-    }
-
-    public void resumeIntake(){
-        intakeMotor.set(1);
-    }
-
-    public Command beambreakerState(){
-        return new Command(){
-            @Override 
-            public void execute() {
-                SmartDashboard.putBoolean("Beambreaker Reading", beambreaker.get());
-            }
-
-            @Override 
-            public boolean isFinished() {
-                return false;
-            }
-        };
-    }
+    }        
 }

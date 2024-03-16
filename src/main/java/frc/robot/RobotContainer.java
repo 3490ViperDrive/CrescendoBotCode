@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 // import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
+// import frc.robot.subsystems.vision.Optometrist;
 // import frc.robot.subsystems.vision.BreakTheBeam;
 // import frc.robot.subsystems.SpinNEOS;
 // import monologue.Logged;
@@ -38,16 +39,15 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
   Climber m_climber = new Climber();
   TrapLift m_lift = new TrapLift();
-  //private BreakTheBeam beamBreak = new BreakTheBeam();
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
-  //private Optometrist m_DIValue = new Optometrist();
+  // Optometrist theLidar = new Optometrist();
 
   public RobotContainer() {
     
     //TODO add in "setDriveDefault" here, integrate Colton's GUI stuff
     //TODO "setDriveDefault" called later in code
-    m_drivetrain.setDefaultCommand(
+      m_drivetrain.setDefaultCommand(
       m_drivetrain.driveTeleopCommand(
         m_driverController::getLeftY,
         m_driverController::getLeftX,
@@ -70,7 +70,7 @@ public class RobotContainer implements Logged {
     //     m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed));
+    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed, m_intake));
     NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
@@ -98,6 +98,7 @@ public class RobotContainer implements Logged {
     m_driverController.povDown().whileTrue(m_climber.climb(-0.75));
     m_driverController.x().onTrue(m_commandContainer.ampHandoffScore());
     m_driverController.back().toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
+    m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.5)); //Shoot regular
@@ -107,10 +108,9 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
     m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
+
     //m_driverJoystick.button(10).onTrue(null); //TODO "home"
     //m_driverJoystick.button(6).onTrue(null);
-    
-    m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
     //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
