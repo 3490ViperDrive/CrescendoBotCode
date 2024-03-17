@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase implements Logged {
     public void periodic() {
        SmartDashboard.putBoolean("Breambreaker Reading", breambreaker.get()); 
 
-        if(breambreaker.get()){
+        if(breambreaker.get() && !noteStatus){
             intakeMotor.stopMotor();
             noteStatus = true;
             }
