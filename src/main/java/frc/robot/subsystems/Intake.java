@@ -31,6 +31,11 @@ public class Intake extends SubsystemBase implements Logged {
     
     public void checkBream(){
         Shuffleboard.getTab("Digital Input").add(breambreaker);
+
+        if(breambreaker.get() && !noteStatus){
+            intakeMotor.stopMotor();
+            noteStatus = true;
+            }
     }
 
      public void setNoteStatus(boolean status){
@@ -40,15 +45,10 @@ public class Intake extends SubsystemBase implements Logged {
     @Override
     public void periodic() {
        SmartDashboard.putBoolean("Breambreaker Reading", breambreaker.get()); 
-
-        if(breambreaker.get() && !noteStatus){
-            intakeMotor.stopMotor();
-            noteStatus = true;
-            }
-        }
+    }
              
 
-    // Adam suggested me to make a command for breambreaker and add it into 'intakeFancy' so that it allows the intake to feed the note 
+    // Adam suggested me to make a command for breambreaker and add it into 'takeIneFancy' so that it allows the intake to feed the note 
     // into shooter by stopping the intake motor only once
 
     // According to him, the code in periodic will stop the intake motor for the rest of the match

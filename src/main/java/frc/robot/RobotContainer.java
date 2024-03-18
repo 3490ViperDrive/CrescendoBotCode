@@ -139,7 +139,8 @@ public class RobotContainer implements Logged {
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(0),
             ()-> m_driverJoystick.getRawAxis(1),
-            ()->m_driverJoystick.getRawAxis(3),
+            ()-> m_driverJoystick.getRawAxis(3),
+            /*new*/ m_driverJoystick.button(8).getAsBoolean(),
             m_driverJoystick.button(12).getAsBoolean())
           );
         break;

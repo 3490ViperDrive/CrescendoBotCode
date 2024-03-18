@@ -44,6 +44,15 @@ public final class Constants {
             public static final double kCrawlRotationMultiplier = 0.3;
             public static final double kRotationDesaturationFactor = 0.3;
         }
+
+        // Fix the controller id 
+        public static final class stickJoy{
+            public static final int kControllerID = 0;
+
+            public static final double kCrawlTranslationMultiplierJoystick = 0.65;
+            public static final double kCrawlRotationMultiplierJoystick = 0.3;
+            public static final double kRotationDesaturationFactoJoystickr = 0.3; 
+        }
         public static final class OperatorXbox {
             public static final int kControllerID = 1;
         }

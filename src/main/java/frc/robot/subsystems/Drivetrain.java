@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.generated.TunerConstants;
 import frc.robot.io.SwerveIO;
 import monologue.Logged;
@@ -101,7 +102,8 @@ public class Drivetrain implements Subsystem, Logged {
         DoubleSupplier translationX,
         DoubleSupplier translationY,
         DoubleSupplier rotationAxis,
-        Boolean robotOriented) {
+        Boolean robotOriented,
+        Boolean crawl) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(leftStickY.getAsDouble(), leftStickX.getAsDouble(), rightStickX.getAsDouble());
@@ -137,6 +139,16 @@ public class Drivetrain implements Subsystem, Logged {
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed)
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed)
                         .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
+
+                    if (crawl) {
+                        stickInputs[0] *= stickJoy.kCrawlTranslationMultiplierJoystick;
+                        stickInputs[1] *= stickJoy.kCrawlTranslationMultiplierJoystick;
+                        stickInputs[2] *= stickJoy.kCrawlTranslationMultiplierJoystick; 
+                    }   else {
+                        stickInputs[0] *= translationMultiplier;
+                        stickInputs[1] *= translationMultiplier;
+                        stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+                    } 
                 });
             }
         
