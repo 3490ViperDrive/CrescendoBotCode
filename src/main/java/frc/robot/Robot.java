@@ -58,7 +58,6 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     ShuffleBoardUI();
 
     dashboardUI();
-    m_autochooserthing = m_controllerchoice.getSelected();
    // coltonsCode();
     Monologue.setupMonologue(this, "Robot", false, false);
     DataLogManager.start();
@@ -93,6 +92,8 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
 
   @Override
   public void autonomousPeriodic() {
+    
+
     // switch (m_autoSelected) {
     //   case kDefaultCenterAuto:
     //     default: 
@@ -132,6 +133,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
 
   @Override
   public void teleopPeriodic() {
+    m_autochooserthing = m_controllerchoice.getSelected();
     //SmartDashboard.putNumber("Counter", counter++);
 
   }
@@ -170,8 +172,8 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     SmartDashboard.putData("Auto choices", m_chooser);
     
       // Colton's code below ;w;
-    m_controllerchoice.setDefaultOption("Xbox Controller", XboxController);
-    m_controllerchoice.addOption("Joystick", Joystick);
+    m_controllerchoice.setDefaultOption("JoyStick", Joystick);
+    m_controllerchoice.addOption("Xbox Controller", XboxController);
     SmartDashboard.putData("Controller Choice", m_controllerchoice);
   }
    
