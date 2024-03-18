@@ -143,7 +143,7 @@ public class Drivetrain implements Subsystem, Logged {
                     if (crawl) {
                         stickInputs[0] *= stickJoy.kCrawlTranslationMultiplierJoystick;
                         stickInputs[1] *= stickJoy.kCrawlTranslationMultiplierJoystick;
-                        stickInputs[2] *= stickJoy.kCrawlTranslationMultiplierJoystick; 
+                        //stickInputs[2] *= stickJoy.kCrawlTranslationMultiplierJoystick; 
                     }   else {
                         stickInputs[0] *= translationMultiplier;
                         stickInputs[1] *= translationMultiplier;
