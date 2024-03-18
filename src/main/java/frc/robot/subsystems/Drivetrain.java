@@ -262,7 +262,7 @@ public class Drivetrain implements Subsystem, Logged {
         if (input.getNorm() > 1) {
             input = new Translation2d(1, input.getAngle());
         }
-        double newTheta = squareInput(applyDeadbandSpecial(-theta));
+        double newTheta = squareInput(applyDeadbandSpecial(-theta,DriverXbox.kThumbstickDeadband));
         input = new Translation2d(Math.min(input.getNorm(), applyMultiplier(Math.abs(newTheta), DriverXbox.kRotationDesaturationFactor)), input.getAngle()); //Mildly reduce translation speed to boost rotation speed when moving at full speed
         double[] newInputs = new double[]{input.getX(), input.getY(), newTheta};
         log("Controller X for Ascope", new double[]{-y + 1, input.getX() + 1, 1});
@@ -271,8 +271,8 @@ public class Drivetrain implements Subsystem, Logged {
         return newInputs;
     }
 
-    private double applyDeadbandSpecial(double value) {
-        return MathUtil.inverseInterpolate(DriverXbox.kThumbstickDeadband, 1, MathUtil.applyDeadband(Math.abs(value), DriverXbox.kThumbstickDeadband)) * Math.signum(value);
+    private double applyDeadbandSpecial(double value, double deadband) {
+        return MathUtil.inverseInterpolate(deadband, 1, MathUtil.applyDeadband(Math.abs(value), deadband)) * Math.signum(value);
     }
     private double squareInput(double value) {
         return Math.pow(Math.abs(value), 2) * Math.signum(value);
