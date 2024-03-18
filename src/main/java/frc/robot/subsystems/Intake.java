@@ -31,11 +31,6 @@ public class Intake extends SubsystemBase implements Logged {
     
     public void checkBream(){
         Shuffleboard.getTab("Digital Input").add(breambreaker);
-
-        if(breambreaker.get() && !noteStatus){
-            intakeMotor.stopMotor();
-            noteStatus = true;
-            }
     }
 
      public void setNoteStatus(boolean status){
@@ -45,6 +40,11 @@ public class Intake extends SubsystemBase implements Logged {
     @Override
     public void periodic() {
        SmartDashboard.putBoolean("Breambreaker Reading", breambreaker.get()); 
+
+        if(breambreaker.get() && !noteStatus){
+            intakeMotor.stopMotor();
+            noteStatus = true;
+            }
     }
              
 
