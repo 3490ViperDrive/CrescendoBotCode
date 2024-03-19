@@ -90,7 +90,7 @@ public class RobotContainer implements Logged {
 
 
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed));
+    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed, m_intake));
     NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
@@ -154,7 +154,8 @@ public class RobotContainer implements Logged {
             ()-> m_driverJoystick.getRawAxis(1),
             ()-> m_driverJoystick.getRawAxis(0),
             ()-> -m_driverJoystick.getRawAxis(2),
-            ()-> m_driverJoystick.button(7).getAsBoolean())
+            ()-> m_driverJoystick.button(7).getAsBoolean(),
+            ()-> m_driverJoystick.button(8).getAsBoolean())
           );
         break;
       case "Xbox Controller":

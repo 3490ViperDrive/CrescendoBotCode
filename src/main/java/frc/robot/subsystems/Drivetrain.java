@@ -102,7 +102,8 @@ public class Drivetrain implements Subsystem, Logged {
         DoubleSupplier translationX,
         DoubleSupplier translationY,
         DoubleSupplier rotationAxis,
-        BooleanSupplier robotCentric) {
+        BooleanSupplier robotCentric,
+        BooleanSupplier crawlMode) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
@@ -114,6 +115,11 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+
+            if(crawlMode.getAsBoolean()){
+                stickInputs[0] *= 0.15;
+                stickInputs[1] *= 0.15;
+            }
 
             if(robotCentric.getAsBoolean()){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
