@@ -42,10 +42,12 @@ public class Robot extends TimedRobot implements Logged {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>(); //todo you will be boiled
 
-  public static final String XboxController = "XboxController";
-  public static final String Joystick = "JoyStick";
-  public String autochooserthing;
-  public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
+
+
+public static final String XboxController = "XboxController";
+public static final String Joystick = "JoyStick";
+public String autochooserthing;
+public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
 
   @Override
   public void robotInit() {
@@ -134,6 +136,7 @@ public class Robot extends TimedRobot implements Logged {
   public void teleopPeriodic() {
 // m_autochooserthing = m_controllerchoice.getSelected();
     //SmartDashboard.putNumber("Counter", counter++);
+
   }
 
   @Override
@@ -141,21 +144,23 @@ public class Robot extends TimedRobot implements Logged {
 
   @Override
   public void testInit() {
-    //CommandScheduler.getInstance().cancelAll(); 
+    //CommandScheduler.getInstance().cancelAll();
+    
   }
 
   @Override
   public void testPeriodic() {}
 
   public void ShuffleBoardUI() {
-  // THIS IS OLDER CODE AND USED AS AN EXAMPLE FOR RANDOM SHUFFLEBOARD
+    // THIS IS OLDER CODE AND USED AS AN EXAMPLE FOR RANDOM SHUFFLEBOARD
 
   //  ShuffleboardTab tab = Shuffleboard.getTab("ShuffleBoard test");
 
   //    Shuffleboard.getTab("ShuffleBoard test")   <--- example command
   //      .add("Started?", 1);
   //         .getEntry();   <----  Sometimes needs this
-  sneaky();
+
+                                                                                                                                                    sneaky();
   }
 
   @Override
@@ -167,13 +172,22 @@ public class Robot extends TimedRobot implements Logged {
     m_chooser.addOption("Left Auto", kLeftAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
     
-    // Colton's code below ;w;
+
+      // Colton's code below ;w;
     m_controllerchoice.setDefaultOption("Xbox Controller", XboxController);
     m_controllerchoice.addOption("Joystick", Joystick);
     SmartDashboard.putData("Controller Choice", m_controllerchoice);
-  }
 
+    
+    
+
+
+  }
+   
+  
   private void sneaky() {
     System.out.println("Colton was here ;w;");
   }
+
+
 }

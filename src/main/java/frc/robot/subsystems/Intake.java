@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-// import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -31,37 +31,17 @@ public class Intake extends SubsystemBase implements Logged {
 
     DigitalInput breaker = new DigitalInput(9);
 
-    DigitalInput breambreaker = new DigitalInput(0);
-
-    public boolean noteStatus = true;
-
-    // Bream Breaker Code
-    
-    public void checkBream(){
-        Shuffleboard.getTab("Digital Input").add(breambreaker);
+    public Intake(){
+        intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);
     }
 
-     public void setNoteStatus(boolean status){
-        noteStatus = status;
-    }
-    
     @Override
-    public void periodic() {
-       SmartDashboard.putBoolean("Breambreaker Reading", breambreaker.get()); 
-
-        if(breambreaker.get() && !noteStatus){
-            intakeMotor.stopMotor();
-            noteStatus = true;
-            }
-    }
-             
-
-    // Adam suggested me to make a command for breambreaker and add it into 'takeIneFancy' so that it allows the intake to feed the note 
-    // into shooter by stopping the intake motor only once
-
-    // According to him, the code in periodic will stop the intake motor for the rest of the match
+    public void periodic() {};
 
     public Command takeIn(double speed) {
+        // return run(() -> {
+        //     intakeMotor.set(kIntakeSpeed);
+        // });
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
@@ -80,6 +60,13 @@ public class Intake extends SubsystemBase implements Logged {
         );
     }
 
+    // public Command stopMotorCommand() {
+    //     return runOnce(() -> {
+    //         intakeMotor.set(kIntakeMotorStopSpeed);
+    //         intakeMotor.stopMotor();
+    //     });
+    // } 
+
     @Log
     public double getVelocity() {
         return intakeMotor.getEncoder().getVelocity();
@@ -93,5 +80,5 @@ public class Intake extends SubsystemBase implements Logged {
     @Log
     public boolean getCurrentAboveThreshold() {
         return intakeMotor.getOutputCurrent() > kCurrentThreshold;
-    }        
+    }
 }
