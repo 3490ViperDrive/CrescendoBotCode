@@ -35,13 +35,16 @@ public class OmniHID implements Logged {
     ControlScheme currentScheme;
     ControlScheme defaultScheme;
     ControllerPairing lastDetectedPairing;
-    private HashMap<ControllerPairing, ControlScheme> schemeMap;
-    Notifier updateNotifier;
+    HashMap<ControllerPairing, ControlScheme> schemeMap;
+    Subsystem[] subsystems;
+    Runnable controllerAgnosticSetter;
 
-    public OmniHID(ControlScheme defaultScheme, ControlScheme... additionalSchemes) {
+    public OmniHID(Runnable controllerAgnosticSetter, Subsystem[] subsystems, ControlScheme defaultScheme, ControlScheme... additionalSchemes) {
         Objects.requireNonNull(defaultScheme);
         this.currentScheme = defaultScheme;
         this.defaultScheme = defaultScheme;
+        this.subsystems = subsystems;
+        this.controllerAgnosticSetter = controllerAgnosticSetter;
         schemeMap = new HashMap<ControllerPairing, ControlScheme>(additionalSchemes.length + 1);
         //Set up all control schemes in the scheme map
         schemeMap.put(defaultScheme.pairing, defaultScheme);
@@ -71,19 +74,18 @@ public class OmniHID implements Logged {
         }
         replaceCurrentPairing(defaultScheme);
         lastDetectedPairing = getCurrentControllerPairing();
-        updateNotifier = new Notifier(this::refreshControllers);
-        updateNotifier.startPeriodic(1); //TODO adjust this for optimal overhead
         reportStatus("Setup complete", false);
     }
 
     @Log
     private ControllerPairing getCurrentControllerPairing() {
         return new ControllerPairing(
-            getCurrentControllerType(HIDType.of(DriverStation.getJoystickType(0))),
-            getCurrentControllerType(HIDType.of(DriverStation.getJoystickType(1))));
+            getCurrentControllerType(0),
+            getCurrentControllerType(1));
     }
 
-    private ControllerType getCurrentControllerType(GenericHID.HIDType type) {
+    private ControllerType getCurrentControllerType(int joystickID) {
+        GenericHID.HIDType type = HIDType.of(DriverStation.getJoystickType(joystickID));
         if(Objects.isNull(type)) {
             return ControllerType.kNone;
         }
@@ -117,7 +119,7 @@ public class OmniHID implements Logged {
         DataLogManager.log("[OmniHID] " + message);
     }
 
-    private void refreshControllers() {
+    public void refreshControllers() {
         ControllerPairing currentPairing = getCurrentControllerPairing();
         if (lastDetectedPairing.equals(currentPairing)) return;
         if (currentPairing.mainController == ControllerType.kNone && currentPairing.auxController == ControllerType.kNone) {
@@ -145,7 +147,8 @@ public class OmniHID implements Logged {
 
     private void replaceCurrentPairing(ControlScheme scheme) {
         //Remove current default commands
-        for (Subsystem subsystem : currentScheme.usedSubsystems) {
+        for (Subsystem subsystem : subsystems) {
+            CommandScheduler.getInstance().getDefaultCommand(subsystem).cancel();
             CommandScheduler.getInstance().removeDefaultCommand(subsystem);
         }
         //Clear the default button event loop
@@ -153,6 +156,7 @@ public class OmniHID implements Logged {
         //Add new default commands and bindings
         scheme.addDefaultCommands();
         scheme.configureBindings();
+        controllerAgnosticSetter.run();
         currentScheme = scheme;
     }
 

@@ -5,26 +5,18 @@
 package frc.robot;
 
 
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
-import frc.robot.Constants.LiftPivotSetpoint;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.vision.BreakTheBeam;
-import frc.robot.subsystems.vision.Optometrist;
 import frc.robot.utils.CommandContainer;
+import frc.robot.utils.omnihid.OmniHID;
+import frc.robot.utils.omnihid.controlschemes.ControlScheme;
+import frc.robot.utils.omnihid.controlschemes.SingleJoystick;
 import monologue.Logged;
-import static frc.robot.Constants.ControllerConstants.*;
 import static frc.robot.Constants.ShooterConstants.*;
-
-import java.io.FileNotFoundException;
-
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -34,7 +26,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
-  CommandJoystick m_driverJoystick = new CommandJoystick(0); 
   
   Drivetrain m_drivetrain = new Drivetrain();
   Pivot m_pivot = new Pivot();
@@ -46,6 +37,12 @@ public class RobotContainer implements Logged {
   SendableChooser<Command> m_Chooser = new SendableChooser<>();
    
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
+
+  ControlScheme m_singleJoystickScheme = new SingleJoystick(m_drivetrain, m_intake, m_pivot, m_shooter, m_lift, m_climber, m_commandContainer);
+  OmniHID m_omniHID = new OmniHID(this::configureControllerAgnosticBindings, 
+    new Subsystem[] {m_drivetrain, m_pivot, m_shooter, m_intake, m_climber, m_lift},
+    m_singleJoystickScheme,
+    new ControlScheme[] {});
 
   public RobotContainer() {
 
@@ -85,45 +82,24 @@ public class RobotContainer implements Logged {
     //     m_operatorController::getLeftY, m_operatorController::getRightY));
     // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
-
-
-
-
-
     NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed));
     NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
+    
+    //TODO get "choice" from smartdash/shuffleboard
+    String temp = "Joystick";
+
+    //setDriveDefault(m_driverController, temp);
+    //configureControllerAgnosticBindings();
+  }
+
+  private void configureControllerAgnosticBindings() {
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
-
-
-
-
-    //TODO get "choice" from smartdash/shuffleboard
-    String temp = "Joystick";
-
-    setDriveDefault(m_driverController, temp);
-    configureBindings();
-  }
-
-  private void configureBindings() {
-
-
-    m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
-    m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
-    //TODO add shoot low power
-    //TODO make button 8 "crawl" (button press)
-    //TODO robot oriented toggle on 12
-    m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
-    m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75)); //TODO "lift up"
-    m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
-    m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
-    m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
     
-     m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
+     //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
     //Temp
     //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
@@ -146,35 +122,39 @@ public class RobotContainer implements Logged {
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
-  public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
-    switch(whichType){
-      case "Joystick":
-          m_drivetrain.setDefaultCommand(
-          m_drivetrain.driveTeleopCommandGeneric(
-            ()-> m_driverJoystick.getRawAxis(1),
-            ()-> m_driverJoystick.getRawAxis(0),
-            ()-> -m_driverJoystick.getRawAxis(2),
-            ()-> m_driverJoystick.button(7).getAsBoolean())
-          );
-        break;
-      case "Xbox Controller":
-          m_drivetrain.setDefaultCommand(
-          m_drivetrain.driveTeleopCommand(
-          m_driverController::getLeftY,
-          m_driverController::getLeftX,
-          m_driverController::getRightX,
-          m_driverController::getLeftTriggerAxis,
-          m_driverController.getHID()::getAButton,
-          m_driverController.getHID()::getBButton,
-          m_driverController.getHID()::getXButton,
-          m_driverController.getHID()::getYButton,
-          () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)
-          );
-        break;
-      default:
-        break;
-    }
+  public void refreshControllers() {
+    m_omniHID.refreshControllers();
   }
+
+  // public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
+  //   switch(whichType){
+  //     case "Joystick":
+  //         m_drivetrain.setDefaultCommand(
+  //         m_drivetrain.driveTeleopCommandGeneric(
+  //           ()-> m_driverJoystick.getRawAxis(1),
+  //           ()-> m_driverJoystick.getRawAxis(0),
+  //           ()-> -m_driverJoystick.getRawAxis(2),
+  //           ()-> m_driverJoystick.button(7).getAsBoolean())
+  //         );
+  //       break;
+  //     case "Xbox Controller":
+  //         m_drivetrain.setDefaultCommand(
+  //         m_drivetrain.driveTeleopCommand(
+  //         m_driverController::getLeftY,
+  //         m_driverController::getLeftX,
+  //         m_driverController::getRightX,
+  //         m_driverController::getLeftTriggerAxis,
+  //         m_driverController.getHID()::getAButton,
+  //         m_driverController.getHID()::getBButton,
+  //         m_driverController.getHID()::getXButton,
+  //         m_driverController.getHID()::getYButton,
+  //         () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)
+  //         );
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // }
 
   
 }

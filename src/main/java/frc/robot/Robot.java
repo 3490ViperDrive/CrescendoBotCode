@@ -79,7 +79,9 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
   public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+    m_robotContainer.refreshControllers();
+  }
 
   @Override
   public void autonomousInit() {
