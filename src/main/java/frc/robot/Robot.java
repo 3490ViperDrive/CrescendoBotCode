@@ -13,6 +13,7 @@ package frc.robot;
 import monologue.Logged;
 import monologue.Monologue;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSource;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -175,10 +176,12 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     m_controllerchoice.setDefaultOption("JoyStick", Joystick);
     m_controllerchoice.addOption("Xbox Controller", XboxController);
     SmartDashboard.putData("Controller Choice", m_controllerchoice);
+
+    CvSource outputStream = CameraServer.putVideo("Blur", 640, 480);
   }
    
   
-  private void sneaky() {
+   private void sneaky() {
     System.out.println("Colton was here ;w;");
   }
 
