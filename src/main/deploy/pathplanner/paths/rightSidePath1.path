@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 2.6373441619921745,
-        "y": 4.04023860829462
+        "x": 2.5905008158090483,
+        "y": 4.098792791023527
       },
       "prevControl": {
-        "x": 2.790408422104303,
-        "y": 3.9853215333511693
+        "x": 2.7435650759211767,
+        "y": 4.043875716080077
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "leftNote"
+      "linkedName": "rightnote2"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {

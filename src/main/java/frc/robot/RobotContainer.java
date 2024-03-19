@@ -40,6 +40,7 @@ public class RobotContainer implements Logged {
   Intake m_intake = new Intake();
   Climber m_climber = new Climber();
   TrapLift m_lift = new TrapLift();
+  Optometrist m_optometrist = new Optometrist();
 
   SendableChooser<Command> m_Chooser = new SendableChooser<>();
    
@@ -59,7 +60,7 @@ public class RobotContainer implements Logged {
   m_Chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
   m_Chooser.addOption("4 note left Auto", new PathPlannerAuto("ampAutoBasic"));
   m_Chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
-  SmartDashboard.putData("Auto Choices",m_Chooser);
+  SmartDashboard.putData("THE AutoChoices",m_Chooser);
     // m_drivetrain.setDefaultCommand(
     //   m_drivetrain.driveTeleopCommand(
     //     m_driverController::getLeftY,
@@ -89,8 +90,7 @@ public class RobotContainer implements Logged {
 
 
 
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed));
-    NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
+    
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
@@ -135,7 +135,7 @@ public class RobotContainer implements Logged {
     //m_driverController.b().whileTrue(m_intake.takeInFancy());
     //m_driverController.y().whileTrue(m_intake.takeOut());
 
-    
+
   }
   
   public Command getAutonomousCommand() {
