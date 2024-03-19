@@ -15,6 +15,7 @@ import frc.robot.utils.CommandContainer;
 import frc.robot.utils.omnihid.OmniHID;
 import frc.robot.utils.omnihid.controlschemes.ControlScheme;
 import frc.robot.utils.omnihid.controlschemes.SingleJoystick;
+import frc.robot.utils.omnihid.controlschemes.SingleXbox;
 import monologue.Logged;
 import static frc.robot.Constants.ShooterConstants.*;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -39,10 +40,11 @@ public class RobotContainer implements Logged {
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   ControlScheme m_singleJoystickScheme = new SingleJoystick(m_drivetrain, m_intake, m_pivot, m_shooter, m_lift, m_climber, m_commandContainer);
+  ControlScheme m_singleXboxScheme = new SingleXbox(m_drivetrain, m_intake, m_pivot, m_shooter, m_lift, m_climber, m_commandContainer);
   OmniHID m_omniHID = new OmniHID(this::configureControllerAgnosticBindings, 
     new Subsystem[] {m_drivetrain, m_pivot, m_shooter, m_intake, m_climber, m_lift},
     m_singleJoystickScheme,
-    new ControlScheme[] {});
+    m_singleXboxScheme);
 
   public RobotContainer() {
 

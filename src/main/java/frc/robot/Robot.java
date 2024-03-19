@@ -63,6 +63,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
     CameraServer.startAutomaticCapture(); //TODO add driver overlay
+    addPeriodic(m_robotContainer::refreshControllers, 0.5);
   }
 
   @Override
@@ -79,9 +80,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
   public void disabledPeriodic() {}
 
   @Override
-  public void disabledExit() {
-    m_robotContainer.refreshControllers();
-  }
+  public void disabledExit() {}
 
   @Override
   public void autonomousInit() {

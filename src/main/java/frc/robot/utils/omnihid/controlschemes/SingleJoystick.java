@@ -37,6 +37,7 @@ public class SingleJoystick extends ControlScheme {
         this.commandContainer = commandContainer;
     }
 
+    @Override
     public void addDefaultCommands() {
         drivetrain.setDefaultCommand(
           drivetrain.driveTeleopCommandGeneric(
@@ -47,6 +48,7 @@ public class SingleJoystick extends ControlScheme {
           );
     }
 
+    @Override
     public void configureBindings() {
         driverJoystick.button(1).whileTrue(intake.takeInFancy());
         driverJoystick.button(2).whileTrue(commandContainer.shootFancy(0.6125)); //Shoot regular;

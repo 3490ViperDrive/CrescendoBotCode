@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.GenericHID.HIDType;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.utils.omnihid.controlschemes.ControlScheme;
@@ -72,8 +73,8 @@ public class OmniHID implements Logged {
                     + scheme.name, false);
             }
         }
-        replaceCurrentPairing(defaultScheme);
-        lastDetectedPairing = getCurrentControllerPairing();
+        lastDetectedPairing = new ControllerPairing(ControllerType.kNone, ControllerType.kNone);
+        refreshControllers();
         reportStatus("Setup complete", false);
     }
 
@@ -139,7 +140,7 @@ public class OmniHID implements Logged {
                     + "Falling back to default control scheme...", true);
             } else {
                 replaceCurrentPairing(schemeMap.get(currentPairing));
-                reportStatus("Controller pairing set to " + currentScheme.name, false);
+                reportStatus("Control scheme set to " + currentScheme.name, false);
             }
         }
         lastDetectedPairing = currentPairing;
@@ -148,7 +149,10 @@ public class OmniHID implements Logged {
     private void replaceCurrentPairing(ControlScheme scheme) {
         //Remove current default commands
         for (Subsystem subsystem : subsystems) {
-            CommandScheduler.getInstance().getDefaultCommand(subsystem).cancel();
+            Command defaultCommand = CommandScheduler.getInstance().getDefaultCommand(subsystem);
+            if (!Objects.isNull(defaultCommand)) {
+                defaultCommand.cancel();
+            }
             CommandScheduler.getInstance().removeDefaultCommand(subsystem);
         }
         //Clear the default button event loop
