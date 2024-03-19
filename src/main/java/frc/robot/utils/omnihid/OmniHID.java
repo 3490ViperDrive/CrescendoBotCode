@@ -98,6 +98,8 @@ public class OmniHID implements Logged {
             return ControllerType.kGamepad;
             case kHIDJoystick:
             return ControllerType.kJoystick;
+            case kXInputUnknown:
+            return ControllerType.kNone;
             default:
             return ControllerType.kUnrecognized;
         }
