@@ -12,6 +12,9 @@ package frc.robot;
 
 import monologue.Logged;
 import monologue.Monologue;
+
+import org.photonvision.PhotonCamera;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -41,6 +44,8 @@ public class Robot extends TimedRobot implements Logged {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>(); //todo you will be boiled
 
+  private final PhotonCamera m_frontCamera = new PhotonCamera("frontCamera");
+
 
 
 public static final String XboxController = "XboxController";
@@ -63,6 +68,8 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
     CameraServer.startAutomaticCapture(); //TODO add driver overlay
+    //It is named photonvision_Port_1182_Output_MJPEG_Server
+    m_frontCamera.setDriverMode(true);
   }
 
   @Override
