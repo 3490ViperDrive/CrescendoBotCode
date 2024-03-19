@@ -25,8 +25,8 @@ public class SingleJoystick extends ControlScheme {
     public void addDefaultCommands() {
         robotContainer.m_drivetrain.setDefaultCommand(
           robotContainer.m_drivetrain.driveTeleopCommandGeneric(
-            ()-> driverJoystick.getRawAxis(1),
-            ()-> driverJoystick.getRawAxis(0),
+            ()-> -driverJoystick.getRawAxis(1),
+            ()-> -driverJoystick.getRawAxis(0),
             ()-> -driverJoystick.getRawAxis(2),
             ()-> driverJoystick.button(7).getAsBoolean())
           );
