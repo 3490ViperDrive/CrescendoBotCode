@@ -37,9 +37,9 @@ public class Robot extends TimedRobot implements Logged {
 
   private static final String kDefaultCenterAuto = "Center, Default Autonomous";
   private static final String kRightAuto = "Right Autonomous";
-  private static final String kLeftAuto = "Left Autonomous"; 
+  private static final String kLeftAuto = "Left Autonomous";  
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser = new SendableChooser<>(); //todo you will be boiled
 
   public static final String XboxController = "XboxController";
   public static final String Joystick = "JoyStick";
@@ -49,7 +49,7 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
+    
     DriverStation.silenceJoystickConnectionWarning(true);
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog(), true);
@@ -90,30 +90,31 @@ public class Robot extends TimedRobot implements Logged {
 
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kDefaultCenterAuto:
-        default: 
-        // Shoot the pre-loaded note
-        // Drive and pick up a note from ground
-        // Drive back
-        // Shoot the note into the speaker
-        break;
+    // switch (m_autoSelected) {
+    //   case kDefaultCenterAuto:
+    //     default: 
+    //     // Shoot the pre-loaded note
+    //     // Drive and pick up a note from ground
+    //     // Drive back
+    //     // Shoot the note into the speaker
+    //     break;
 
-      case kRightAuto:
-        // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
-        // Cross the line as well
-        break;
+    //   case kRightAuto:
+    //     // Autonomous that can shoot into the center speaker AND/OR can place the note into the right amp
+    //     // Cross the line as well
+    //     break;
 
-      case kLeftAuto:
-       // Drive to amp --> turn facing towards the amp
-       // Place in the note
-       // Turn
-       // Drive towards to pick a note
-       // Pick a note
-       // Drive back to amp
-       // Place the note into the amp
-        break;
-    }
+    //   case kLeftAuto:
+    //    // Drive to amp --> turn facing towards the amp
+    //    // Place in the note
+    //    // Turn
+    //    // Drive towards to pick a note
+    //    // Pick a note
+    //    // Drive back to amp
+    //    // Place the note into the amp
+    //     break;
+
+    // }
   }
 
   @Override

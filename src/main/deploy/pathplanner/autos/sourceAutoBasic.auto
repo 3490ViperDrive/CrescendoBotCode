@@ -1,0 +1,79 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7159600556714989,
+      "y": 4.389196436550476
+    },
+    "rotation": 119.78545903768855
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "rightSidePath6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "PPShoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "basic Autos",
+  "choreoAuto": false
+}
