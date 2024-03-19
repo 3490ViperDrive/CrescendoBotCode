@@ -8,15 +8,12 @@ public final class Constants {
     // My Constant Id's aren't the right ones 
 
     public static final class ShooterConstants {
-        public static final double kShooterSpeed = 0.5;
         public static final int kShooterMotorID = 13;
-        public static final double kShooterMotorStopSpeed = 0;
+        public static final double kShooterSpeed = 0.5;
     }
 
     public static final class IntakeConstants {
-        public static final double kIntakeSpeed = 1;
         public static final int kIntakeMotorID = 20;
-        public static final double kIntakeMotorStopSpeed = 0;
         public static final double kCurrentThreshold = 18; //amps
         public static final double kCurrentSpikeTime = 0.2; //secs
         //1 second is literally perfect for a handoff at 0.75 intake speed
@@ -24,13 +21,7 @@ public final class Constants {
     }
 
     public static final class ClimberConstants {
-        public static final double kLiftSpeed = 0.25;
         public static final int kLiftMotorID = 21;
-        public static final double kLiftMotorStopSpeed = 0;
-    }
-
-    public static final class DigitalInputConstants {
-        public static final int kDigitalInputPort = 1;
     }
 
     // Remove zeros and put meaningful int
@@ -38,10 +29,10 @@ public final class Constants {
     // kp - The proportional coefficient.
     // ki - The integral coefficient.
     // kd - The derivative coefficient.
-    public static final class ShooterPID {
-        public static final double kP = 0;
-        public static final double kD = 0;
-    }
+    // public static final class ShooterPID {
+    //     public static final double kP = 0;
+    //     public static final double kD = 0;
+    // }
 
     public static final class ControllerConstants {
         public static final class DriverXbox {
@@ -53,6 +44,15 @@ public final class Constants {
             public static final double kCrawlTranslationMultiplier = 0.65;
             public static final double kCrawlRotationMultiplier = 0.3;
             public static final double kRotationDesaturationFactor = 0.3;
+        }
+
+        // Fix the controller id 
+        public static final class stickJoy{
+            public static final int kControllerID = 0;
+
+            public static final double kCrawlTranslationMultiplierJoystick = 0.65;
+            public static final double kCrawlRotationMultiplierJoystick = 0.3;
+            public static final double kRotationDesaturationFactoJoystickr = 0.3; 
         }
         public static final class OperatorXbox {
             public static final int kControllerID = 1;

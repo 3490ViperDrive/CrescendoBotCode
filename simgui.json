@@ -49,6 +49,11 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/Lift Pivot Mechanism": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },
