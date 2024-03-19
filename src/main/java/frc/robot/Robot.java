@@ -132,7 +132,7 @@ public class Robot extends TimedRobot implements Logged {
 
   @Override
   public void teleopPeriodic() {
-    m_autochooserthing = m_controllerchoice.getSelected();
+// m_autochooserthing = m_controllerchoice.getSelected();
     //SmartDashboard.putNumber("Counter", counter++);
   }
 
