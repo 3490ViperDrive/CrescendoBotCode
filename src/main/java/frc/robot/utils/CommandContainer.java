@@ -29,9 +29,8 @@ public class CommandContainer {
         NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
     }
 
-    // We love expected errors
     public Command shootFancy(double speed) {
-        return shooter.shoot(speed, intake)
+        return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
                 new InstantCommand(()->{
                     SmartDashboard.putString("ocho", "shoot go boom");
@@ -44,7 +43,7 @@ public class CommandContainer {
     public Command ampHandoffScore() { //todo tune all of this
         return new SequentialCommandGroup(
             intake.takeIn(0.75).withTimeout(0.5).raceWith(
-                shooter.shoot(0.05, intake)
+                shooter.shoot(0.05)
             ),
             lift.requestPosition(19.5).raceWith(
                 new SequentialCommandGroup(
@@ -52,7 +51,6 @@ public class CommandContainer {
                 pivot.requestPosition(-30).raceWith(
                     new SequentialCommandGroup(
                         new WaitCommand(0.5),
-
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
             )
@@ -62,7 +60,7 @@ public class CommandContainer {
     public Command retractIntakeFancy() {
         return new ParallelCommandGroup(
             intake.takeIn(-0.75),
-            shooter.shoot(-0.05, intake)
+            shooter.shoot(-0.05)
         );
     }
 
