@@ -27,6 +27,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.utils.omnihid.OmniHID;
+import frc.robot.utils.omnihid.controlschemes.ControlScheme;
+import frc.robot.utils.omnihid.controlschemes.SingleJoystick;
+import frc.robot.utils.omnihid.controlschemes.SingleXbox;
 
 public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
@@ -41,16 +46,21 @@ public class Robot extends TimedRobot implements Logged {
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>(); //todo you will be boiled
 
-
-
-public static final String XboxController = "XboxController";
-public static final String Joystick = "JoyStick";
-public String autochooserthing;
-public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
+  ControlScheme m_singleJoystickScheme;
+  ControlScheme m_singleXboxScheme;
+  OmniHID m_omniHID;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+
+    m_singleJoystickScheme = new SingleJoystick(m_robotContainer);
+    m_singleXboxScheme = new SingleXbox(m_robotContainer);
+    m_omniHID = new OmniHID(m_robotContainer::configureControllerAgnosticBindings, 
+      //Ugly
+      new Subsystem[] {m_robotContainer.m_drivetrain, m_robotContainer.m_pivot, m_robotContainer.m_shooter, m_robotContainer.m_intake, m_robotContainer.m_climber, m_robotContainer.m_lift},
+      m_singleJoystickScheme,
+      m_singleXboxScheme);
     
     DriverStation.silenceJoystickConnectionWarning(true);
     DataLogManager.start();
@@ -63,7 +73,7 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
     CameraServer.startAutomaticCapture(); //TODO add driver overlay
-    addPeriodic(m_robotContainer::refreshControllers, 0.5);
+    addPeriodic(m_omniHID::refreshControllers, 0.5);
   }
 
   @Override
@@ -171,9 +181,6 @@ public static final SendableChooser<String> m_controllerchoice = new SendableCho
     
 
       // Colton's code below ;w;
-    m_controllerchoice.setDefaultOption("Xbox Controller", XboxController);
-    m_controllerchoice.addOption("Joystick", Joystick);
-    SmartDashboard.putData("Controller Choice", m_controllerchoice);
 
     
     

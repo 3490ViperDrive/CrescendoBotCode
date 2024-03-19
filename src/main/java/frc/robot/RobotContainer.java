@@ -12,10 +12,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 import frc.robot.utils.CommandContainer;
-import frc.robot.utils.omnihid.OmniHID;
-import frc.robot.utils.omnihid.controlschemes.ControlScheme;
-import frc.robot.utils.omnihid.controlschemes.SingleJoystick;
-import frc.robot.utils.omnihid.controlschemes.SingleXbox;
 import monologue.Logged;
 import static frc.robot.Constants.ShooterConstants.*;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -28,23 +24,16 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 public class RobotContainer implements Logged {
   CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
   
-  Drivetrain m_drivetrain = new Drivetrain();
-  Pivot m_pivot = new Pivot();
-  Shooter m_shooter = new Shooter();
-  Intake m_intake = new Intake();
-  Climber m_climber = new Climber();
-  TrapLift m_lift = new TrapLift();
+  public Drivetrain m_drivetrain = new Drivetrain();
+  public Pivot m_pivot = new Pivot();
+  public Shooter m_shooter = new Shooter();
+  public Intake m_intake = new Intake();
+  public Climber m_climber = new Climber();
+  public TrapLift m_lift = new TrapLift();
 
   SendableChooser<Command> m_Chooser = new SendableChooser<>();
    
-  CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
-
-  ControlScheme m_singleJoystickScheme = new SingleJoystick(m_drivetrain, m_intake, m_pivot, m_shooter, m_lift, m_climber, m_commandContainer);
-  ControlScheme m_singleXboxScheme = new SingleXbox(m_drivetrain, m_intake, m_pivot, m_shooter, m_lift, m_climber, m_commandContainer);
-  OmniHID m_omniHID = new OmniHID(this::configureControllerAgnosticBindings, 
-    new Subsystem[] {m_drivetrain, m_pivot, m_shooter, m_intake, m_climber, m_lift},
-    m_singleJoystickScheme,
-    m_singleXboxScheme);
+  public CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   public RobotContainer() {
 
@@ -94,7 +83,7 @@ public class RobotContainer implements Logged {
     //configureControllerAgnosticBindings();
   }
 
-  private void configureControllerAgnosticBindings() {
+  public void configureControllerAgnosticBindings() {
     // m_shooter.setDefaultCommand(m_shooter.shoot());
     // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
@@ -122,10 +111,6 @@ public class RobotContainer implements Logged {
     //return Commands.print("No autonomous command(s) configured");
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
-  }
-
-  public void refreshControllers() {
-    m_omniHID.refreshControllers();
   }
 
   // public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
