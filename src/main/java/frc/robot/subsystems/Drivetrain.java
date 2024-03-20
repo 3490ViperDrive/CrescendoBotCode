@@ -19,6 +19,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -123,8 +124,8 @@ public class Drivetrain implements Subsystem, Logged {
 
             if(robotCentric.getAsBoolean()){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
-                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
-                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
                         .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
             } else {
                 m_swerve.setControl(m_OpenLoopFieldCentricRequest
@@ -249,6 +250,21 @@ public class Drivetrain implements Subsystem, Logged {
     /* Use this in auto routines to set the initial pose of the robot */
     public Command resetPoseCommand(Pose2d pose) {
         return runOnce(() -> m_swerve.resetPose(pose));
+    }
+
+    public void setDriverPerspective() {
+        Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                DataLogManager.log("Operator perspective red");
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(180));
+            } else {
+                DataLogManager.log("Operator perspective blue");
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+            }
+        } else {
+            DataLogManager.log("Attempted to check operator perspective, but no alliance was found");
+        }
     }
 
     public Command zeroYawCommand() {

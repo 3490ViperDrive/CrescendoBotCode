@@ -103,13 +103,18 @@ public class RobotContainer implements Logged {
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
+  //Robot.java needs to call this, but m_drivetrain is not visible. There may be a better way to resolve this
+  public void setDriverPerspective() {
+    m_drivetrain.setDriverPerspective();
+  }
+
   public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
       case "Joystick":
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
-            ()-> m_driverJoystick.getRawAxis(1),
-            ()-> m_driverJoystick.getRawAxis(0),
+            ()-> -m_driverJoystick.getRawAxis(1),
+            ()-> -m_driverJoystick.getRawAxis(0),
             ()-> -m_driverJoystick.getRawAxis(2),
             ()-> m_driverJoystick.button(7).getAsBoolean(),
             ()-> m_driverJoystick.button(8).getAsBoolean())

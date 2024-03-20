@@ -36,12 +36,13 @@ public class Robot extends TimedRobot implements Logged {
     CameraServer.startAutomaticCapture(); //TODO add driver overlay
 
     dashboardUI();
+    // This does not need to be called every 20ms, but still needs to be called periodically
+    addPeriodic(() -> Monologue.setFileOnly(DriverStation.isFMSAttached() && Robot.isReal()), 1);
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    Monologue.setFileOnly(DriverStation.isFMSAttached());
     Monologue.updateAll();
   }
 
@@ -57,10 +58,10 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    m_robotContainer.setDriverPerspective();
   }
 
   @Override
@@ -74,6 +75,7 @@ public class Robot extends TimedRobot implements Logged {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setDriverPerspective();
   }
 
   @Override
