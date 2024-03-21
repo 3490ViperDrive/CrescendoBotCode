@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.*;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.controls.VelocityVoltage;
+//import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import static frc.robot.Constants.ShooterConstants.*;
@@ -12,8 +12,7 @@ public class Shooter extends SubsystemBase {
 
     TalonFX shooterMotor;
     
-    public Shooter(){
-
+    public Shooter() {
         shooterMotor = new TalonFX(kShooterMotorID);
 
         var slot0Configs = new Slot0Configs();
@@ -25,11 +24,8 @@ public class Shooter extends SubsystemBase {
       
         shooterMotor.getConfigurator().apply(slot0Configs);
       
-        // create a velocity closed-loop request, voltage output, slot 0 configs
-        final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-      
-        // set velocity to 8 rps, add 0.5 V to overcome gravity
-        //shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
+        // // create a velocity closed-loop request, voltage output, slot 0 configs
+        // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
     }
 
     @Override
@@ -37,10 +33,9 @@ public class Shooter extends SubsystemBase {
 
 
     public Command shoot(double speed, Intake aIntake) {
-
         //TODO fix invert of this motor
         aIntake.setNoteStatus(false);
-        return new StartEndCommand(() -> shooterMotor.set(-speed), () -> shooterMotor.set(0), this);
+        return shoot(speed);
     }
 
     public Command shoot(double speed){
