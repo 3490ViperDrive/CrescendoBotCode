@@ -80,6 +80,12 @@ public class Intake extends SubsystemBase implements Logged {
         noteStatus = status;
     }
 
+    public Command toggleNoteStatus(){
+        return(runOnce(()->{
+            setNoteStatus(false);
+        }));
+    }
+
     // public Command stopMotorCommand() {
     //     return runOnce(() -> {
     //         intakeMotor.set(kIntakeMotorStopSpeed);
