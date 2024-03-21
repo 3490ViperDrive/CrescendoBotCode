@@ -129,7 +129,8 @@ public class RobotContainer implements Logged {
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(1),
             ()-> m_driverJoystick.getRawAxis(0),
-            ()-> -m_driverJoystick.getRawAxis(2))
+            ()-> -m_driverJoystick.getRawAxis(2),
+            ()-> m_driverJoystick.button(7).getAsBoolean())
           );
         break;
       case "Xbox Controller":

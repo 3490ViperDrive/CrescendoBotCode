@@ -109,7 +109,8 @@ public class Drivetrain implements Subsystem, Logged {
     public Command driveTeleopCommandGeneric(
         DoubleSupplier translationX,
         DoubleSupplier translationY,
-        DoubleSupplier rotationAxis) {
+        DoubleSupplier rotationAxis,
+        BooleanSupplier robotCentric) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
@@ -128,8 +129,8 @@ public class Drivetrain implements Subsystem, Logged {
                 stickInputs[1] *= 0.15;
             }
 
-            //if(robotCentric.getAsBoolean()){
-            if(isRobotCentric){
+            if(robotCentric.getAsBoolean()){
+            //if(isRobotCentric){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
@@ -266,10 +267,10 @@ public class Drivetrain implements Subsystem, Logged {
         if (alliance.isPresent()) {
             if (alliance.get() == DriverStation.Alliance.Red) {
                 DataLogManager.log("Operator perspective red");
-                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(180));
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
             } else {
                 DataLogManager.log("Operator perspective blue");
-                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(180));
             }
         } else {
             DataLogManager.log("Attempted to check operator perspective, but no alliance was found");
