@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase implements Logged {
 
     DigitalInput breaker = new DigitalInput(9);
     //DigitalInput breaker2 = new DigitalInput(8);
-    boolean noteStatus = true; // default to true b/c note loaded in 
+    boolean noteStatus = false; // default to true b/c note loaded in 
 
     //I found the constructor
     public Intake(){

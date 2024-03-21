@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
         final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
       
         // set velocity to 8 rps, add 0.5 V to overcome gravity
-        shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
+        //shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
     }
 
     @Override

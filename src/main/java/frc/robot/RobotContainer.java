@@ -122,6 +122,9 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75)); //TODO "lift down"
     m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
     m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
+    m_driverJoystick.button(7).onTrue(m_drivetrain.toggleRobotCentric());
+    m_driverJoystick.button(8).onTrue(m_drivetrain.toggleCrawling());
+
     
      m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
@@ -146,16 +149,24 @@ public class RobotContainer implements Logged {
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
+  //TODO: change driveTeleopCommandGeneric to accept less parameters, then add commands that toggle the state
+  //of the crawl and robotoriented status in drivetrain
   public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
       case "Joystick":
+          // m_drivetrain.setDefaultCommand(
+          // m_drivetrain.driveTeleopCommandGeneric(
+          //   ()-> m_driverJoystick.getRawAxis(1),
+          //   ()-> m_driverJoystick.getRawAxis(0),
+          //   ()-> -m_driverJoystick.getRawAxis(2),
+          //   ()-> m_driverJoystick.button(7).getAsBoolean(),
+          //   ()-> m_driverJoystick.button(8).getAsBoolean())
+          // );
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(1),
             ()-> m_driverJoystick.getRawAxis(0),
-            ()-> -m_driverJoystick.getRawAxis(2),
-            ()-> m_driverJoystick.button(7).getAsBoolean(),
-            ()-> m_driverJoystick.button(8).getAsBoolean())
+            ()-> -m_driverJoystick.getRawAxis(2))
           );
         break;
       case "Xbox Controller":
