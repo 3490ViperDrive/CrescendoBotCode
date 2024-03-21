@@ -26,9 +26,6 @@ public class Shooter extends SubsystemBase {
       
         // // create a velocity closed-loop request, voltage output, slot 0 configs
         // final VelocityVoltage m_request = new VelocityVoltage(0).withSlot(0);
-      
-        // // set velocity to 8 rps, add 0.5 V to overcome gravity
-        // shooterMotor.setControl(m_request.withVelocity(8).withFeedForward(0.5));
     }
 
     @Override

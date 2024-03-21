@@ -26,7 +26,8 @@
       "/SmartDashboard/Auto choices": "String Chooser",
       "/SmartDashboard/Controller Choice": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Lift Pivot Mechanism": "Mechanism2d"
+      "/SmartDashboard/Lift Pivot Mechanism": "Mechanism2d",
+      "/SmartDashboard/THE AutoChoices": "String Chooser"
     },
     "windows": {
       "/FMSInfo": {

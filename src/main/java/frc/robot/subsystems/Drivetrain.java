@@ -47,6 +47,9 @@ public class Drivetrain implements Subsystem, Logged {
     private SwerveRequest.FieldCentricFacingAngle m_OpenLoopControlledHeadingRequest;
     private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
 
+    public boolean isRobotCentric = false;
+    public boolean isCrawling = false;
+
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
@@ -97,14 +100,16 @@ public class Drivetrain implements Subsystem, Logged {
         return run(() -> m_swerve.setControl(requestSupplier.get()));
     }
 
-    //TODO move any xbox controller specific behavior into Omnicontroller 2 if created
-    /* Do not use for autonomous routines */
+    // public Command driveTeleopCommandGeneric(
+    //     DoubleSupplier translationX,
+    //     DoubleSupplier translationY,
+    //     DoubleSupplier rotationAxis,
+    //     BooleanSupplier robotCentric,
+    //     BooleanSupplier crawlMode) {
     public Command driveTeleopCommandGeneric(
         DoubleSupplier translationX,
         DoubleSupplier translationY,
-        DoubleSupplier rotationAxis,
-        BooleanSupplier robotCentric,
-        BooleanSupplier crawlMode) {
+        DoubleSupplier rotationAxis) {
         return run(() -> {
             //TODO
             //double[] stickInputs = filterXboxControllerInputs(translationY.getAsDouble(), translationX.getAsDouble(), -rotationAxis.getAsDouble());
@@ -117,12 +122,14 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
-            if(crawlMode.getAsBoolean()){
+            //if(crawlMode.getAsBoolean()){
+            if(isCrawling == true){
                 stickInputs[0] *= 0.15;
                 stickInputs[1] *= 0.15;
             }
 
-            if(robotCentric.getAsBoolean()){
+            //if(robotCentric.getAsBoolean()){
+            if(isRobotCentric){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
@@ -148,7 +155,9 @@ public class Drivetrain implements Subsystem, Logged {
 
         void softerInputs(double[] inputs){
             for(int i = 0; i < inputs.length; i++){
-                squareInput(inputs[i]);
+                //squareInput(inputs[i]);
+                inputs[i] = squareInput(applyDeadbandSpecial(inputs[i], 0.2));
+
             }
         //}
 
@@ -301,5 +310,17 @@ public class Drivetrain implements Subsystem, Logged {
     }
     private double applyMultiplier(double value, double multiplier) {
         return 1 - (value * multiplier);
+    }
+
+    public Command toggleRobotCentric(){
+        return(runOnce(()-> {
+            isRobotCentric = !isRobotCentric;
+        }));
+    }
+
+    public Command toggleCrawling(){
+        return(runOnce(()->{
+            isCrawling = !isCrawling;
+        }));
     }
 }

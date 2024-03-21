@@ -80,6 +80,11 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75));
     m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
     m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
+    m_driverJoystick.button(7).onTrue(m_drivetrain.toggleRobotCentric());
+    m_driverJoystick.button(8).onTrue(m_drivetrain.toggleCrawling());
+
+    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.6125, 22));
+
     
     //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
 
@@ -108,16 +113,23 @@ public class RobotContainer implements Logged {
     m_drivetrain.setDriverPerspective();
   }
 
+
   public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
       case "Joystick":
+          // m_drivetrain.setDefaultCommand(
+          // m_drivetrain.driveTeleopCommandGeneric(
+          //   ()-> m_driverJoystick.getRawAxis(1),
+          //   ()-> m_driverJoystick.getRawAxis(0),
+          //   ()-> -m_driverJoystick.getRawAxis(2),
+          //   ()-> m_driverJoystick.button(7).getAsBoolean(),
+          //   ()-> m_driverJoystick.button(8).getAsBoolean())
+          // );
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
-            ()-> -m_driverJoystick.getRawAxis(1),
-            ()-> -m_driverJoystick.getRawAxis(0),
-            ()-> -m_driverJoystick.getRawAxis(2),
-            ()-> m_driverJoystick.button(7).getAsBoolean(),
-            ()-> m_driverJoystick.button(8).getAsBoolean())
+            ()-> m_driverJoystick.getRawAxis(1),
+            ()-> m_driverJoystick.getRawAxis(0),
+            ()-> -m_driverJoystick.getRawAxis(2))
           );
         break;
       case "Xbox Controller":
