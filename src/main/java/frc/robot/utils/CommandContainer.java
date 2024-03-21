@@ -40,6 +40,17 @@ public class CommandContainer {
             ));
     }
 
+    public Command wetShoot(double speed, double angle){
+                return shooter.shoot(speed)
+            .alongWith(new SequentialCommandGroup(
+                new InstantCommand(()->{
+                    pivot.requestPosition(angle);
+                }),
+                new WaitCommand(0.5), //tune this
+                intake.takeIn(1)
+            ));
+    }
+
     public Command ampHandoffScore() { //todo tune all of this
         return new SequentialCommandGroup(
             intake.takeIn(0.75).withTimeout(0.5).raceWith(
