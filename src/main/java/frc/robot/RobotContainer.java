@@ -46,17 +46,9 @@ public class RobotContainer implements Logged {
     m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
-    
-    //Temp
-    // m_pivot.setDefaultCommand(
-    //   m_pivot.runOpenLoop(
-    //     m_operatorController::getLeftY, m_operatorController::getRightY));
-    // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
 
     NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed, m_intake));
     NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
-    // m_shooter.setDefaultCommand(m_shooter.shoot());
-    // m_intake.setDefaultCommand(m_intake.takeIn());
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
@@ -72,9 +64,6 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
-    //TODO add shoot low power
-    //TODO make button 8 "crawl" (button press)
-    //TODO robot oriented toggle on 12
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
     m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75));
     m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75));
@@ -88,25 +77,10 @@ public class RobotContainer implements Logged {
 
     
     //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
-
-    //Temp
-    //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
-    // m_operatorController.b().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kAmp));
-    //m_operatorController.x().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kStowed));
-    // m_operatorController.y().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kTrap));
-    // m_operatorController.b().whileTrue(m_pivot.bruh(50));
-    // m_operatorController.y().whileTrue(m_pivot.bruh(0));
-    //m_driverController.a().whileTrue(m_shooter.shoot());
-    //m_driverController.b().whileTrue(m_intake.takeInFancy());
-    //m_driverController.y().whileTrue(m_intake.takeOut());
-
   }
   
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    //return Commands.print("No autonomous command(s) configured");
-    //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
-    //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
   //Robot.java needs to call this, but m_drivetrain is not visible. There may be a better way to resolve this
