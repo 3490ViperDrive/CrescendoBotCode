@@ -72,6 +72,7 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
+    //m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancier());
     //TODO add shoot low power
     //TODO make button 8 "crawl" (button press)
     //TODO robot oriented toggle on 12

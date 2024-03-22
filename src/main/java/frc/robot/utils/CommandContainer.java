@@ -35,7 +35,7 @@ public class CommandContainer {
                 new InstantCommand(()->{
                     SmartDashboard.putString("ocho", "shoot go boom");
                 }),
-                new WaitCommand(0.5), //tune this
+                new WaitCommand(0.75), //tune this (went from .5 to .75 )
                 intake.takeIn(1)
             ));
     }
@@ -68,6 +68,14 @@ public class CommandContainer {
             intake.takeIn(-0.75),
             shooter.shoot(-0.05)
         );
+    }
+
+    public Command retractIntakeFancier(){
+        //TODO runs the regular "retractIntakeFancy()" command and then toggles the note status
+        return new ParallelCommandGroup(
+            intake.takeIn(-0.75),
+            shooter.shoot(-0.05)
+        ).andThen(intake.toggleNoteStatus());
     }
 
     public Command raisePivotLiftForClimb() {
