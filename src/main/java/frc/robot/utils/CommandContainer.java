@@ -58,7 +58,8 @@ public class CommandContainer {
                         new WaitCommand(0.5),
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
-            )
+            ),
+            lift.requestPosition(0).withTimeout(0.125)
         );
     }
 
