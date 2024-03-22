@@ -31,7 +31,7 @@ public class Intake extends SubsystemBase implements Logged {
 
     DigitalInput breaker = new DigitalInput(9);
     //DigitalInput breaker2 = new DigitalInput(8);
-    boolean noteStatus = false; // default to true b/c note loaded in 
+    boolean breakerEngaged = false; // default to false
 
     //I found the constructor
     public Intake(){
@@ -47,9 +47,9 @@ public class Intake extends SubsystemBase implements Logged {
         //     noteStatus = true;
         // }
         if(breaker.get() == false){
-            if(noteStatus == false){
+            if(breakerEngaged == false){
                 intakeMotor.stopMotor();
-                noteStatus = true;
+                breakerEngaged = true;
             }
         }
     };
