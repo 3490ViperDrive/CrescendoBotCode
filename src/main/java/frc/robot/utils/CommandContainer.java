@@ -26,8 +26,8 @@ public class CommandContainer {
         this.lift = lift;
 
         NamedCommands.registerCommand("PPIntake", intake.takeInFancy().withTimeout(3));
-        //NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
-        NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
+        NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
+        //NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
         //TODO: Change made - adjusted command that gets called during Auto to have original delay
     }
 
@@ -37,19 +37,20 @@ public class CommandContainer {
                 new InstantCommand(()->{
                     SmartDashboard.putString("ocho", "shoot go boom");
                 }),
-                new WaitCommand(0.75), //(went from .5 to .75 )
+                new WaitCommand(0.5), //(went from .5 to .75 )
+                //TODO: nvm, reverted it back because separation wasn't working
                 intake.takeIn(1)
             ));
     }
 
     //TODO: wet code will get converted to main after tournament
-    public Command shootFancier(double speed, double delay){
+    public Command shootFancier(double speed){
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
                 new InstantCommand(()->{
                     SmartDashboard.putString("ocho", "shoot go boom");
                 }),
-                new WaitCommand(delay),
+                new WaitCommand(0.75),
                 intake.takeIn(1)
             ));
     }
