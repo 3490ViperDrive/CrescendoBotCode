@@ -30,8 +30,8 @@ public class Intake extends SubsystemBase implements Logged {
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
 
     DigitalInput breaker = new DigitalInput(9);
-    //DigitalInput breaker2 = new DigitalInput(8);
-    boolean noteStatus = false; // default to true b/c note loaded in 
+    boolean beamIsWatching = false; 
+    //TODO: default to false, since pre-loaded note should not prevent intake from running
 
     //I found the constructor
     public Intake(){
@@ -41,15 +41,20 @@ public class Intake extends SubsystemBase implements Logged {
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Port 9", breaker.get());
-       //SmartDashboard.putBoolean("Port 8", breaker2.get());
-        // if(breaker.get() && !noteStatus){
-        //     intakeMotor.stopMotor();
-        //     noteStatus = true;
-        // }
+        SmartDashboard.putBoolean("Is beam watching?", beamIsWatching);
+        //TODO: ensure that "breaker.get() == false == BEAM IS BROKEN"
         if(breaker.get() == false){
-            if(noteStatus == false){
+            if(beamIsWatching == true){
                 intakeMotor.stopMotor();
-                noteStatus = true;
+                beamIsWatching = false;
+                //TODO the beam should stop "watching" for a note after it successfully stops a note
+
+                //TODO conditions in which beam needs to be re-engaged:
+                //1. a shot is fired (normally) -- CommandContainer.shootFancy/Fancier()
+                //2. The amp handoff is completed successfully (at the end of ampHandoffScore())
+                //3. when a note is "spat out" completely by "retractIntake/Fancy/Fancier"
+                    //3b. when a note is rolled back to a point BEFORE the beam in the intake after an overshoot
+                    //TODO: quantify specifically when this happens
             }
         }
     };
@@ -76,13 +81,21 @@ public class Intake extends SubsystemBase implements Logged {
         );
     }
 
-    public void setNoteStatus(boolean status){
-        noteStatus = status;
+    //TODO: uh oh, spaghetti c(oh's)de
+    public void setBeamWatchingStatus(boolean status){
+        beamIsWatching = status;
     }
 
-    public Command toggleNoteStatus(){
+    //TODO: changed from "setNoteStatus" to "toggleBeamStatus"
+    public Command toggleBeamStatus(){
         return(runOnce(()->{
-            setNoteStatus(false);
+            setBeamWatchingStatus(false);
+        }));
+    }
+
+    public Command setBeamStatus(boolean status){
+        return(runOnce(()->{
+            setBeamWatchingStatus(status);
         }));
     }
 

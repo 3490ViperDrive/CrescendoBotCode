@@ -36,7 +36,10 @@ public class CommandContainer {
                     SmartDashboard.putString("ocho", "shoot go boom");
                 }),
                 new WaitCommand(0.75), //tune this (went from .5 to .75 )
-                intake.takeIn(1)
+                intake.takeIn(1),
+                //TODO: added this additional line to re-engage beam after shot
+                //TODO: potentially ADD A TIMEOUT SO THAT SETBEAMSTATUS RUNS
+                intake.setBeamStatus(true)
             ));
     }
 
@@ -51,10 +54,12 @@ public class CommandContainer {
             ),
             lift.requestPosition(19.5).raceWith(
                 new SequentialCommandGroup(
-                intake.toggleNoteStatus(),
+                //intake.toggleBeamStatus(),
+                //TODO moved this line a few lines down to reduce redundancy
                 new WaitCommand(0.75),
                 pivot.requestPosition(-31).raceWith(
                     new SequentialCommandGroup(
+                        intake.setBeamStatus(false),
                         new WaitCommand(0.5),
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
@@ -75,7 +80,8 @@ public class CommandContainer {
         return new ParallelCommandGroup(
             intake.takeIn(-0.75),
             shooter.shoot(-0.05)
-        ).andThen(intake.toggleNoteStatus());
+        ).andThen(intake.setBeamStatus(true));
+        //TODO explicitly change this so that it actually "sets" the beam status and not just "toggle"
     }
 
     public Command raisePivotLiftForClimb() {
