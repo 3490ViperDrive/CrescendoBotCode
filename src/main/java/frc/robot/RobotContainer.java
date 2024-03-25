@@ -35,15 +35,16 @@ public class RobotContainer implements Logged {
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   public RobotContainer() {
-    m_chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
-    m_chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
-    m_chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
-    m_chooser.addOption("3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
-    m_chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
-    m_chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
-    m_chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
-    m_chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
-    m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
+    // m_chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
+    // m_chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
+    // m_chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
+    // m_chooser.addOption("3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
+    // m_chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
+    // m_chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
+    // m_chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
+    // m_chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
+    // m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
+    
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
     
