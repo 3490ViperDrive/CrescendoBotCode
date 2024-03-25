@@ -44,7 +44,19 @@ public class RobotContainer implements Logged {
     // m_chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
     // m_chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
     // m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
-    
+    m_chooser.setDefaultOption("2 note middle auto",new PathPlannerAuto("simpleCenter"));
+    m_chooser.addOption("(Blue)2 note amp side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
+    m_chooser.addOption("(Blue)2 note stage side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
+    m_chooser.addOption("(Red)2 note amp side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
+    m_chooser.addOption("(Red)2 note stage side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
+    m_chooser.addOption("(All)3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
+    m_chooser.addOption("(Blue)3 note amp side centerline Auto", new PathPlannerAuto("leftCenterlineAuto"));
+    m_chooser.addOption("(Blue)3 note stage side centerline Auto", new PathPlannerAuto("rightCenterlineAuto"));
+    m_chooser.addOption("(All)4 note middle Auto", new PathPlannerAuto("(All)Middle4Note"));
+    m_chooser.addOption("(Blue)3 note auto(No amp)", new PathPlannerAuto("BlueAmpless3Note"));
+    m_chooser.addOption("(Blue)3 note auto(No stage)", new PathPlannerAuto("BlueStageless3Note"));
+    m_chooser.addOption("(Red)3 note auto(No amp)", new PathPlannerAuto("BlueStageless3Note"));
+    m_chooser.addOption("(Red)3 note auto(No stage)", new PathPlannerAuto("BlueAmpless3Note"));
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
     
