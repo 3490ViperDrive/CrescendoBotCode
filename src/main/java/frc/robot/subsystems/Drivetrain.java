@@ -19,6 +19,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -45,6 +46,9 @@ public class Drivetrain implements Subsystem, Logged {
     private SwerveRequest.FieldCentric m_OpenLoopFieldCentricRequest;
     private SwerveRequest.FieldCentricFacingAngle m_OpenLoopControlledHeadingRequest;
     private SwerveRequest.FieldCentricFacingAngle m_ClosedLoopControlledHeadingRequest;
+
+    public boolean isRobotCentric = false;
+    public boolean isCrawling = false;
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
@@ -96,8 +100,12 @@ public class Drivetrain implements Subsystem, Logged {
         return run(() -> m_swerve.setControl(requestSupplier.get()));
     }
 
-    //TODO move any xbox controller specific behavior into Omnicontroller 2 if created
-    /* Do not use for autonomous routines */
+    // public Command driveTeleopCommandGeneric(
+    //     DoubleSupplier translationX,
+    //     DoubleSupplier translationY,
+    //     DoubleSupplier rotationAxis,
+    //     BooleanSupplier robotCentric,
+    //     BooleanSupplier crawlMode) {
     public Command driveTeleopCommandGeneric(
         DoubleSupplier translationX,
         DoubleSupplier translationY,
@@ -115,10 +123,17 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
+            //if(crawlMode.getAsBoolean()){
+            if(isCrawling == true){
+                stickInputs[0] *= 0.15;
+                stickInputs[1] *= 0.15;
+            }
+
             if(robotCentric.getAsBoolean()){
+            //if(isRobotCentric){
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
-                        .withVelocityX(-stickInputs[0] * kMaxTranslationSpeed) //Robot centric will probably just be used for intaking,
-                        .withVelocityY(-stickInputs[1] * kMaxTranslationSpeed) //so controls are inverted so driving via intake cam makes sense
+                        .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
+                        .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
                         .withRotationalRate(stickInputs[2] * kMaxRotationSpeed));
             } else {
                 m_swerve.setControl(m_OpenLoopFieldCentricRequest
@@ -141,7 +156,9 @@ public class Drivetrain implements Subsystem, Logged {
 
         void softerInputs(double[] inputs){
             for(int i = 0; i < inputs.length; i++){
-                squareInput(inputs[i]);
+                //squareInput(inputs[i]);
+                inputs[i] = squareInput(applyDeadbandSpecial(inputs[i], 0.2));
+
             }
         //}
 
@@ -245,6 +262,21 @@ public class Drivetrain implements Subsystem, Logged {
         return runOnce(() -> m_swerve.resetPose(pose));
     }
 
+    public void setDriverPerspective() {
+        Optional<DriverStation.Alliance> alliance = DriverStation.getAlliance();
+        if (alliance.isPresent()) {
+            if (alliance.get() == DriverStation.Alliance.Red) {
+                DataLogManager.log("Operator perspective red");
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+            } else {
+                DataLogManager.log("Operator perspective blue");
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(180));
+            }
+        } else {
+            DataLogManager.log("Attempted to check operator perspective, but no alliance was found");
+        }
+    }
+
     public Command zeroYawCommand() {
         return runOnce(m_swerve::seedFieldRelative);
     }
@@ -279,5 +311,17 @@ public class Drivetrain implements Subsystem, Logged {
     }
     private double applyMultiplier(double value, double multiplier) {
         return 1 - (value * multiplier);
+    }
+
+    public Command toggleRobotCentric(){
+        return(runOnce(()-> {
+            isRobotCentric = !isRobotCentric;
+        }));
+    }
+
+    public Command toggleCrawling(){
+        return(runOnce(()->{
+            isCrawling = !isCrawling;
+        }));
     }
 }

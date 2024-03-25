@@ -30,13 +30,29 @@ public class Intake extends SubsystemBase implements Logged {
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
 
     DigitalInput breaker = new DigitalInput(9);
+    //DigitalInput breaker2 = new DigitalInput(8);
+    boolean noteStatus = false; // default to false
 
+    //I found the constructor
     public Intake(){
         intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);
     }
 
     @Override
-    public void periodic() {};
+    public void periodic() {
+        SmartDashboard.putBoolean("Port 9", breaker.get());
+       //SmartDashboard.putBoolean("Port 8", breaker2.get());
+        // if(breaker.get() && !noteStatus){
+        //     intakeMotor.stopMotor();
+        //     noteStatus = true;
+        // }
+        if(breaker.get() == false){
+            if(noteStatus == false){
+                intakeMotor.stopMotor();
+                noteStatus = true;
+            }
+        }
+    };
 
     public Command takeIn(double speed) {
         // return run(() -> {
@@ -58,6 +74,16 @@ public class Intake extends SubsystemBase implements Logged {
             new WaitUntilCommand(() -> getCurrentAboveThreshold()),
             new WaitCommand(kPullInTime)
         );
+    }
+
+    public void setNoteStatus(boolean status){
+        noteStatus = status;
+    }
+
+    public Command toggleNoteStatus(){
+        return(runOnce(()->{
+            setNoteStatus(false);
+        }));
     }
 
     // public Command stopMotorCommand() {
