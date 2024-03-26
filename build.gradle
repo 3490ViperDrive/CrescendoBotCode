@@ -1,6 +1,6 @@
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2024.2.1"
+    id "edu.wpi.first.GradleRIO" version "2024.3.2"
     //changed from 2024.2.1 to 2024.1.1 to see if build stopped failing
 }
 

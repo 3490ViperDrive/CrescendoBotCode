@@ -61,7 +61,7 @@ public class RobotContainer implements Logged {
     NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed, m_intake));
     NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
     // m_shooter.setDefaultCommand(m_shooter.shoot());
-    // m_intake.setDefaultCommand(m_intake.takeIn());
+    // m_intake.setDefaultCommand(m_intake.takeIn()); 
     //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
@@ -114,12 +114,6 @@ public class RobotContainer implements Logged {
     //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
     //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
-
-  //Robot.java needs to call this, but m_drivetrain is not visible. There may be a better way to resolve this
-  public void setDriverPerspective() {
-    m_drivetrain.setDriverPerspective();
-  }
-
 
   //Robot.java needs to call this, but m_drivetrain is not visible. There may be a better way to resolve this
   public void setDriverPerspective() {
