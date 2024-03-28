@@ -36,6 +36,12 @@ public class Robot extends TimedRobot implements Logged {
     CameraServer.startAutomaticCapture(); //TODO add driver overlay
 
     dashboardUI();
+    DataLogManager.log("Robot code running on commit with hash " + BuildConstants.GIT_SHA
+      + "\ncreated on " + BuildConstants.GIT_DATE 
+      + "\non branch " + BuildConstants.GIT_BRANCH
+      //VSCode will complain. Ignore it
+      + ((BuildConstants.DIRTY == 1) ? ", with some uncommitted changes." : ".")
+      + "\nCode built on " + BuildConstants.BUILD_DATE + ".");
     // This does not need to be called every 20ms, but still needs to be called periodically
     addPeriodic(() -> Monologue.setFileOnly(DriverStation.isFMSAttached() && Robot.isReal()), 1);
   }
