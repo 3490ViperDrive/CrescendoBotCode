@@ -2,6 +2,7 @@ plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2024.2.1"
     //changed from 2024.2.1 to 2024.1.1 to see if build stopped failing
+    id "com.peterabeles.gversion" version "1.10" //Generates BuildConstants.java
 }
 
 java {
@@ -106,4 +107,16 @@ tasks.withType(JavaCompile) {
 //Monologue requires this
 repositories {
   maven { url 'https://jitpack.io' }
+}
+
+//Thanks 6328
+project.compileJava.dependsOn(createVersionFile)
+gversion {
+    srcDir       = "src/main/java/"
+    classPackage = "frc.robot"
+    className    = "BuildConstants"
+    dateFormat   = "MM-dd-yyyy HH:mm:ss z"
+    timeZone     = "America/New_York"
+    indent       = "\t"
+    annotate     = false
 }
