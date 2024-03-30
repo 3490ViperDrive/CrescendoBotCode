@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "leftSidePath1"
+            "pathName": "BlueAmpGetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftSidePath2"
+            "pathName": "BlueAmpReturnAmpNote"
           }
         },
         {

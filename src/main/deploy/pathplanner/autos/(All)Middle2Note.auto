@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3509924162705473,
-      "y": 5.541275082550166
+      "x": 1.3842846515935527,
+      "y": 5.4806715034257465
     },
-    "rotation": 180.0
+    "rotation": 179.88786366290057
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter1"
+            "pathName": "GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter2"
+            "pathName": "ReturnFirstNote"
           }
         },
         {
@@ -38,6 +38,6 @@
       ]
     }
   },
-  "folder": "simpleAutos",
+  "folder": "2noteAutos",
   "choreoAuto": false
 }

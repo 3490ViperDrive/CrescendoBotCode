@@ -2,78 +2,66 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7159600556714989,
-      "y": 4.389196436550476
+      "x": 1.4319201113429978,
+      "y": 7.574300786781374
     },
-    "rotation": 119.78545903768855
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "PPShoot"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "BlueStageGetStageNote"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BlueStageReturnStageNote"
+            "pathName": "BlueAmpScoreAuto1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PPShoot"
+            "name": "PPamp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath3"
+            "pathName": "BlueAmpScoreAuto2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath4"
+            "pathName": "BlueAmpScoreAuto3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PPShoot"
+            "name": "PPamp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath5"
+            "pathName": "BlueAmpScoreAuto4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath6"
+            "pathName": "BlueAmpScoreAuto5"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "PPShoot"
+            "name": "PPamp"
           }
         }
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": null,
   "choreoAuto": false
 }

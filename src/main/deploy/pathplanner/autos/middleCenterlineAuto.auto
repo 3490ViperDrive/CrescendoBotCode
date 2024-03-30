@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath1"
+            "pathName": "GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath2"
+            "pathName": "ReturnFirstNote"
           }
         },
         {
@@ -44,7 +44,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middleCenterlinePath2"
+            "pathName": "middleGetFirstNote"
           }
         },
         {

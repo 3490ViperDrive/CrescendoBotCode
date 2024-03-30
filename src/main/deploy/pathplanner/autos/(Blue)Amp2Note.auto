@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3509924162705473,
-      "y": 5.541275082550166
+      "x": 0.6517072301625181,
+      "y": 6.7481930302373385
     },
-    "rotation": 180.0
+    "rotation": -120.4998332334474
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter1"
+            "pathName": "BlueAmpGetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter2"
+            "pathName": "BlueAmpReturnAmpNote"
           }
         },
         {
@@ -38,6 +38,6 @@
       ]
     }
   },
-  "folder": "simpleAutos",
+  "folder": "2noteAutos",
   "choreoAuto": false
 }

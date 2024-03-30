@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath1"
+            "pathName": "BlueStageGetStageNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath2"
+            "pathName": "BlueStageReturnStageNote"
           }
         },
         {

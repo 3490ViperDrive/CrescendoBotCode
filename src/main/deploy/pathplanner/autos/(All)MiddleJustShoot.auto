@@ -2,24 +2,24 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.36086297850199,
-      "y": 5.550936522700434
+      "x": 1.3676672858340169,
+      "y": 5.5182103704939935
     },
-    "rotation": 180.0
+    "rotation": -179.65895772114115
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "realPath1"
+            "name": "PPShoot"
           }
         }
       ]
     }
   },
-  "folder": "simpleAutos",
+  "folder": null,
   "choreoAuto": false
 }

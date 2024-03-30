@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7159600556714989,
-      "y": 4.389196436550476
+      "x": 1.3842846515935527,
+      "y": 5.4806715034257465
     },
-    "rotation": 119.78545903768855
+    "rotation": -178.97084519569398
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueStageGetStageNote"
+            "pathName": "GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BlueStageReturnStageNote"
+            "pathName": "ReturnFirstNote"
           }
         },
         {
@@ -38,31 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath3"
+            "pathName": "GetBlueAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "PPShoot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "rightSidePath5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "rightSidePath6"
+            "pathName": "ReturnBlueAmpNote"
           }
         },
         {
@@ -74,6 +56,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "3noteAutos",
   "choreoAuto": false
 }

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3509924162705473,
-      "y": 5.541275082550166
+      "x": 0.7159600556714989,
+      "y": 4.389196436550476
     },
-    "rotation": 180.0
+    "rotation": 120.23080146970834
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter1"
+            "pathName": "BlueStageGetStageNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "simpleCenter2"
+            "pathName": "BlueStageReturnStageNote"
           }
         },
         {
@@ -38,6 +38,6 @@
       ]
     }
   },
-  "folder": "simpleAutos",
+  "folder": "2noteAutos",
   "choreoAuto": false
 }
