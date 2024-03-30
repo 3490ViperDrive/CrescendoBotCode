@@ -49,6 +49,8 @@ public class Drivetrain implements Subsystem, Logged {
 
     public boolean isRobotCentric = false;
     public boolean isCrawling = false;
+    //TODO: added this terribly-named and poorly-implemented field as a quick-and-dirty solution to slowing crawl turning
+    public double rotationSlowingSeverity = 0.5;
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
@@ -121,13 +123,15 @@ public class Drivetrain implements Subsystem, Logged {
             softerInputs(stickInputs);
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
-            stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+            //stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
+            stickInputs[2] *= applyMultiplier(rotationSlowingSeverity, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
             //if(crawlMode.getAsBoolean()){
             if(isCrawling == true){
-                stickInputs[0] *= 0.15;
-                stickInputs[1] *= 0.15;
-            }
+                //TODO: changed from 0.15 to "speed up the crawl mode"
+                stickInputs[0] *= 0.225;
+                stickInputs[1] *= 0.225;
+            } //TODO: add an "else" statement that clamps the normal travel speed if needed
 
             if(robotCentric.getAsBoolean()){
             //if(isRobotCentric){
@@ -270,7 +274,8 @@ public class Drivetrain implements Subsystem, Logged {
                 m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
             } else {
                 DataLogManager.log("Operator perspective blue");
-                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(180));
+                m_swerve.setOperatorPerspectiveForward(Rotation2d.fromDegrees(0));
+                //TODO: This seems to be the configuration that produces desired results
             }
         } else {
             DataLogManager.log("Attempted to check operator perspective, but no alliance was found");
