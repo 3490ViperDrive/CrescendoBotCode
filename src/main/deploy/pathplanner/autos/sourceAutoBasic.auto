@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueStageGetStageNote"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BlueStageReturnStageNote"
+            "pathName": null
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "unused",
   "choreoAuto": false
 }

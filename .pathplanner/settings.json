@@ -5,7 +5,10 @@
   "pathFolders": [
     " centerlineAutofolder",
     "BlueAmpAutoFolder",
+    "BlueAmpScoreAutoFolder",
     "BlueStageAutoFolder",
+    "AllMiddleAutoFolder",
+    "Unused",
     "huh",
     "middleAutoFolder",
     "simpleCenterPaths"
@@ -13,7 +16,8 @@
   "autoFolders": [
     "2noteAutos",
     "3noteAutos",
-    "basic Autos",
+    "4noteAutos",
+    "unused",
     "centerlineAutos",
     "simpleAutos"
   ],

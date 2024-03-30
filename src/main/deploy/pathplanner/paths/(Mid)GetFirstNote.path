@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7067810805987872,
-        "y": 6.76655098038276
+        "x": 1.3842846515935527,
+        "y": 5.4806715034257465
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7623632139606122,
-        "y": 7.280573584454606
+        "x": 2.3842846515935543,
+        "y": 5.4806715034257465
       },
       "isLocked": false,
-      "linkedName": "subwooferLeft"
+      "linkedName": "subwoofer"
     },
     {
       "anchor": {
-        "x": 2.9301150756367123,
-        "y": 6.956236908194216
+        "x": 2.613922488900611,
+        "y": 5.4806715034257465
       },
       "prevControl": {
-        "x": 1.9643006655602657,
-        "y": 6.619687379219376
+        "x": 1.6139224889006112,
+        "y": 5.4806715034257465
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "rightNote"
+      "linkedName": "middleNote"
     }
   ],
   "rotationTargets": [],
@@ -33,15 +33,22 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
+      "waypointRelativePos": 0.3,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
             {
-              "type": "named",
+              "type": "sequential",
               "data": {
-                "name": "PPIntake"
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "PPIntake"
+                    }
+                  }
+                ]
               }
             }
           ]
@@ -57,13 +64,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.06506769044722,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "leftAutoFolder",
+  "folder": "AllMiddleAutoFolder",
   "previewStartingState": {
-    "rotation": -120.51023740611558,
+    "rotation": -179.27904288560063,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath1"
+            "pathName": "(Mid)GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath2"
+            "pathName": "(Mid)ReturnFirstNote"
           }
         },
         {
@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath3"
+            "pathName": "(BlueMid)GetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath4"
+            "pathName": "(BlueMid)ReturnAmpNote"
           }
         },
         {
@@ -56,13 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath5"
+            "pathName": "(BlueMid)GetStageNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "middlePath6"
+            "pathName": "(BlueMid)ReturnStageNote"
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "unused",
   "choreoAuto": false
 }

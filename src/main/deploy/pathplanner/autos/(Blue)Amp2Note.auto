@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpGetAmpNote"
+            "pathName": "(BlueAmp)GetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "BlueAmpReturnAmpNote"
+            "pathName": "(BlueAmp)ReturnAmpNote"
           }
         },
         {

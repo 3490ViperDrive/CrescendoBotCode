@@ -28,7 +28,7 @@ public class CommandContainer {
         NamedCommands.registerCommand("PPIntake", intake.takeInFancy().withTimeout(3));
         //NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
         NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
-        NamedCommands.registerCommand("PPamp",ampHandoffScore().withTimeout(1));
+        //NamedCommands.registerCommand("PPamp",ampHandoffScore().withTimeout(1));
     }
 
     public Command shootFancy(double speed) {

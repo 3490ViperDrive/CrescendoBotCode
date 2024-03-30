@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetFirstNote"
+            "pathName": "(Mid)GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReturnFirstNote"
+            "pathName": "(Mid)ReturnFirstNote"
           }
         },
         {

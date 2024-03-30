@@ -5,7 +5,7 @@
       "x": 1.3842846515935527,
       "y": 5.4806715034257465
     },
-    "rotation": 179.6301653424146
+    "rotation": 179.9027272720028
   },
   "command": {
     "type": "sequential",
@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetFirstNote"
+            "pathName": "(Mid)GetFirstNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReturnFirstNote"
+            "pathName": "(Mid)ReturnFirstNote"
           }
         },
         {
@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetBlueAmpNote"
+            "pathName": "(BlueMid)GetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReturnBlueAmpNote"
+            "pathName": "(BlueMid)ReturnAmpNote"
           }
         },
         {
@@ -56,13 +56,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "GetBlueStageNote"
+            "pathName": "(BlueMid)GetStageNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "ReturnBlueStageNote"
+            "pathName": "(BlueMid)ReturnStageNote"
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "4noteAutos",
   "choreoAuto": false
 }

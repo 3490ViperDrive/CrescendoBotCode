@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3842846515935527,
-        "y": 5.4806715034257465
+        "x": 0.7159600556714989,
+        "y": 4.389196436550476
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3842846515935543,
-        "y": 5.4806715034257465
+        "x": 0.6976021055233173,
+        "y": 4.38919643655583
       },
       "isLocked": false,
-      "linkedName": "subwoofer"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.613922488900611,
-        "y": 5.4806715034257465
+        "x": 2.6373441619921745,
+        "y": 4.04023860829462
       },
       "prevControl": {
-        "x": 1.6139224889006112,
-        "y": 5.4806715034257465
+        "x": 2.790408422104303,
+        "y": 3.9853215333511693
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "middleNote"
+      "linkedName": "leftNote"
     }
   ],
   "rotationTargets": [],
@@ -39,16 +39,9 @@
         "data": {
           "commands": [
             {
-              "type": "sequential",
+              "type": "named",
               "data": {
-                "commands": [
-                  {
-                    "type": "named",
-                    "data": {
-                      "name": "PPIntake"
-                    }
-                  }
-                ]
+                "name": "PPIntake"
               }
             }
           ]
@@ -64,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": -178.31294449619335,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "middleAutoFolder",
+  "folder": "BlueStageAutoFolder",
   "previewStartingState": {
-    "rotation": -179.27904288560063,
+    "rotation": 121.84905131905533,
     "velocity": 0
   },
   "useDefaultConstraints": true
