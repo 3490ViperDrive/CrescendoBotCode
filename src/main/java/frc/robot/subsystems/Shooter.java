@@ -42,8 +42,8 @@ public class Shooter extends SubsystemBase {
         return new StartEndCommand(() -> shooterMotor.set(-speed), () -> shooterMotor.set(0), this);
     }
 
-    /*public Command shoot(double speed){
+    public Command Autoshoot(double speed){
         return new InstantCommand(() -> shooterMotor.set(-speed));
-    } */
+    } 
 }
 
