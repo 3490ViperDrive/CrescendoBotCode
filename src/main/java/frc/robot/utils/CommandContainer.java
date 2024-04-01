@@ -66,7 +66,7 @@ public class CommandContainer {
             ),
             lift.requestPosition(19.5).raceWith(
                 new SequentialCommandGroup(
-                intake.toggleNoteStatus(),
+                // intake.toggleNoteStatus(),
                 new WaitCommand(0.75),
                 pivot.requestPosition(-31).raceWith(
                     new SequentialCommandGroup(
@@ -85,13 +85,13 @@ public class CommandContainer {
         );
     }
 
-    public Command retractIntakeFancier(){
-        //TODO runs the regular "retractIntakeFancy()" command and then toggles the note status
-        return new ParallelCommandGroup(
-            intake.takeIn(-0.75),
-            shooter.shoot(-0.05)
-        ).andThen(intake.toggleNoteStatus());
-    }
+    // public Command retractIntakeFancier(){
+    //     //TODO runs the regular "retractIntakeFancy()" command and then toggles the note status
+    //     return new ParallelCommandGroup(
+    //         intake.takeIn(-0.75),
+    //         shooter.shoot(-0.05)
+    //     ).andThen(intake.toggleNoteStatus());
+    // }
 
     public Command raisePivotLiftForClimb() {
         return new ParallelCommandGroup(

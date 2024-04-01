@@ -69,7 +69,10 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
-    m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
+  //m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
+
+    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks()));
+
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancier());
