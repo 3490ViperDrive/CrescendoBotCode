@@ -28,6 +28,7 @@ public class CommandContainer {
         NamedCommands.registerCommand("PPIntake", intake.takeInFancy().withTimeout(3));
         NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
         //NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
+        //NamedCommands.registerCommand("PPSpinShoot", Shooter.shoot(0.5));
         //TODO: Change made - adjusted command that gets called during Auto to have original delay
     }
 
