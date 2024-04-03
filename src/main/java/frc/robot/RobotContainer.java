@@ -85,7 +85,7 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(8).onTrue(m_drivetrain.toggleCrawling());
 
     //was 45
-    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.6125, 39));
+    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 14.5));
 
     
     //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());

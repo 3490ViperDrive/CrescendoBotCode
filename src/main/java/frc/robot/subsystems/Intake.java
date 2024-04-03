@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -61,6 +62,7 @@ public class Intake extends SubsystemBase implements Logged {
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
+
     public Command takeInFancy() {
         return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());      
     }
@@ -75,6 +77,8 @@ public class Intake extends SubsystemBase implements Logged {
             new WaitCommand(kPullInTime)
         );
     }
+
+
 
     public void setNoteStatus(boolean status){
         noteStatus = status;
