@@ -68,7 +68,9 @@ public class CommandContainer {
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
             ),
-            new ParallelCommandGroup(pivot.requestPosition(53),lift.requestPosition(0).withTimeout(0.125)).withTimeout(0.3)
+            new SequentialCommandGroup(lift.requestPosition(0).withTimeout(1.75),
+            pivot.requestPosition(54).withTimeout(0.2))
+            //new ParallelCommandGroup(pivot.requestPosition(53),lift.requestPosition(0).withTimeout(0.125)).withTimeout(0.3)
             //lift.requestPosition(0).withTimeout(0.125)
         );
     }
