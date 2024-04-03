@@ -34,9 +34,6 @@ public class CommandContainer {
     public Command shootFancy(double speed) {
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
-                new InstantCommand(()->{
-                    SmartDashboard.putString("ocho", "shoot go boom");
-                }),
                 new WaitCommand(0.5), //(went from .5 to .75 )
                 //TODO: nvm, reverted it back because separation wasn't working
                 intake.takeIn(1)
@@ -47,9 +44,6 @@ public class CommandContainer {
     public Command shootFancier(double speed){
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
-                new InstantCommand(()->{
-                    SmartDashboard.putString("ocho", "shoot go boom");
-                }),
                 new WaitCommand(0.75),
                 intake.takeIn(1)
             ));
@@ -74,7 +68,10 @@ public class CommandContainer {
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
             ),
-            lift.requestPosition(0).withTimeout(0.125)
+            new SequentialCommandGroup(lift.requestPosition(0).withTimeout(1.75),
+            pivot.requestPosition(54).withTimeout(0.2))
+            //new ParallelCommandGroup(pivot.requestPosition(53),lift.requestPosition(0).withTimeout(0.125)).withTimeout(0.3)
+            //lift.requestPosition(0).withTimeout(0.125)
         );
     }
 
