@@ -69,7 +69,10 @@ public class RobotContainer implements Logged {
   }
 
   private void configureBindings() {
-    m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
+  //m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
+
+    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks()));
+
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
     //m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancier());
@@ -85,7 +88,7 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(8).onTrue(m_drivetrain.toggleCrawling());
 
     //was 45
-    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.6125, 39));
+    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 14.5));
 
     
     //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());

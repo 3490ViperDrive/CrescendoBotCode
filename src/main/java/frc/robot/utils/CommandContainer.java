@@ -26,26 +26,27 @@ public class CommandContainer {
         this.lift = lift;
 
         NamedCommands.registerCommand("PPIntake", intake.takeInFancy().withTimeout(3));
-        //NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
-        NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
+        NamedCommands.registerCommand("PPShoot", shootFancy(0.5).withTimeout(1));
+        //NamedCommands.registerCommand("PPShoot", shootFancier(0.5, 0.5));
+        //TODO: Change made - adjusted command that gets called during Auto to have original delay
     }
 
     public Command shootFancy(double speed) {
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
-                new InstantCommand(()->{
-                    SmartDashboard.putString("ocho", "shoot go boom");
-                }),
-                new WaitCommand(0.75), //tune this (went from .5 to .75 )
+                new WaitCommand(0.5), //(went from .5 to .75 )
+                //TODO: nvm, reverted it back because separation wasn't working
                 intake.takeIn(1)
             ));
     }
 
-    public Command shootFancier(double speed, double delay){
-        return shooter.shoot(speed).alongWith(new SequentialCommandGroup(
-            new WaitCommand(delay),
-            intake.takeIn(1)
-        ));
+    //TODO: wet code will get converted to main after tournament
+    public Command shootFancier(double speed){
+        return shooter.shoot(speed)
+            .alongWith(new SequentialCommandGroup(
+                new WaitCommand(0.75),
+                intake.takeIn(1)
+            ));
     }
 
     public Command wetShoot(double speed, double angle){
@@ -59,7 +60,7 @@ public class CommandContainer {
             ),
             lift.requestPosition(19.5).raceWith(
                 new SequentialCommandGroup(
-                intake.toggleNoteStatus(),
+                // intake.toggleNoteStatus(),
                 new WaitCommand(0.75),
                 pivot.requestPosition(-31).raceWith(
                     new SequentialCommandGroup(
@@ -67,7 +68,10 @@ public class CommandContainer {
                         shooter.shoot(0.45).withTimeout(0.5))
                 ))
             ),
-            lift.requestPosition(0).withTimeout(0.125)
+            new SequentialCommandGroup(lift.requestPosition(0).withTimeout(1.75),
+            pivot.requestPosition(54).withTimeout(0.2))
+            //new ParallelCommandGroup(pivot.requestPosition(53),lift.requestPosition(0).withTimeout(0.125)).withTimeout(0.3)
+            //lift.requestPosition(0).withTimeout(0.125)
         );
     }
 
@@ -78,13 +82,13 @@ public class CommandContainer {
         );
     }
 
-    public Command retractIntakeFancier(){
-        //TODO runs the regular "retractIntakeFancy()" command and then toggles the note status
-        return new ParallelCommandGroup(
-            intake.takeIn(-0.75),
-            shooter.shoot(-0.05)
-        ).andThen(intake.toggleNoteStatus());
-    }
+    // public Command retractIntakeFancier(){
+    //     //TODO runs the regular "retractIntakeFancy()" command and then toggles the note status
+    //     return new ParallelCommandGroup(
+    //         intake.takeIn(-0.75),
+    //         shooter.shoot(-0.05)
+    //     ).andThen(intake.toggleNoteStatus());
+    // }
 
     public Command raisePivotLiftForClimb() {
         return new ParallelCommandGroup(
