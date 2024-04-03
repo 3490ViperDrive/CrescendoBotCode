@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,7 +23,6 @@ import monologue.Annotations.Log;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
-import java.time.Instant;
 
 public class Intake extends SubsystemBase implements Logged {
 
@@ -30,6 +30,7 @@ public class Intake extends SubsystemBase implements Logged {
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
 
     DigitalInput breaker = new DigitalInput(9);
+    DigitalOutput leds = new DigitalOutput(kLEDChannel);
     //DigitalInput breaker2 = new DigitalInput(8);
     boolean noteStatus = false; // default to false
 
@@ -52,6 +53,7 @@ public class Intake extends SubsystemBase implements Logged {
                 noteStatus = true;
             }
         }
+        leds.set(!noteStatus);
     };
 
     public Command takeIn(double speed) {
