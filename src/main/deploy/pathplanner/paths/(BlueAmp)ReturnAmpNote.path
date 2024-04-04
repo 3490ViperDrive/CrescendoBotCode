@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.0,
-        "y": 1.0
+        "x": 2.9301150756367123,
+        "y": 6.956236908194216
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0,
-        "y": 1.0
+        "x": 1.5138833337248767,
+        "y": 6.956236908194216
       },
       "isLocked": false,
-      "linkedName": "testLink1"
+      "linkedName": "rightNote"
     },
     {
       "anchor": {
-        "x": 1.0,
-        "y": 1.0
+        "x": 0.7067810805987872,
+        "y": 6.76655098038276
       },
       "prevControl": {
-        "x": 0.0,
-        "y": 1.0
+        "x": 1.569604737429028,
+        "y": 6.940951506760561
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "testLink2"
+      "linkedName": "subwooferLeft"
     }
   ],
   "rotationTargets": [],
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -120.76271953450548,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "simpleCenterPaths",
+  "folder": "BlueAmpAutoFolder",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

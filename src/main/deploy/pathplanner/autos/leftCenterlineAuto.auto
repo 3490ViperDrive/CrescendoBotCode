@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "leftSidePath1"
+            "pathName": "(BlueAmp)GetAmpNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftSidePath2"
+            "pathName": "(BlueAmp)ReturnAmpNote"
           }
         },
         {
@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "leftCenterlinePath1"
+            "pathName": "(BlueAmp)GetCenterNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "leftCenterlinePath2"
+            "pathName": "(BlueAmp)ReturnCenterNote"
           }
         },
         {

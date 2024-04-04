@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath1"
+            "pathName": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath2"
+            "pathName": null
           }
         },
         {
@@ -74,6 +74,6 @@
       ]
     }
   },
-  "folder": "basic Autos",
+  "folder": "unused",
   "choreoAuto": false
 }
