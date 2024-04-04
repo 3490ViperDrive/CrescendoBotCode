@@ -60,7 +60,8 @@ public class RobotContainer implements Logged {
     m_chooser.addOption("(All)1 note middle auto(Just shoot)", new PathPlannerAuto("(All)MiddleJustShoot"));
     m_chooser.addOption("(Blue)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
     m_chooser.addOption("(Blue)1 note satge side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
-    m_chooser.addOption("(Red)1 note amp side auto", new PathPlannerAuto("(Blue)StageJustShoot"));
+    m_chooser.addOption("(Red)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
+    m_chooser.addOption("(Red)1 note stage side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
     
