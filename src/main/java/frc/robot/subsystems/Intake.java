@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -37,9 +38,9 @@ public class Intake extends SubsystemBase implements Logged {
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
 
     DigitalInput breaker = new DigitalInput(9);
-    DigitalOutput leds = new DigitalOutput(kLEDChannel);
+    DigitalOutput leds = new DigitalOutput(4);
     //DigitalInput breaker2 = new DigitalInput(8);
-    // boolean noteStatus = false; // default to false
+    boolean noteStatus = false; // default to false
 
     //I found the constructor
     public Intake(){
@@ -63,12 +64,20 @@ public class Intake extends SubsystemBase implements Logged {
     public Command setIntakeMotor(){
         return runOnce(() -> {
         intakeMotor.set(1);
-        }).withInterruptBehavior(InterruptionBehavior.kCancelSelf).andThen();
+        }).withInterruptBehavior(InterruptionBehavior.kCancelSelf).andThen(setNoteStat(true));
+    }
+
+    public Command egads(){
+        return new SequentialCommandGroup(
+            setNoteStat(true),
+            setIntakeMotor()
+        );
     }
 
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Port 9", breaker.get());
+        SmartDashboard.putBoolean("noteStatus", noteStatus);
        //SmartDashboard.putBoolean("Port 8", breaker2.get());
         // if(breaker.get() && !noteStatus){
         //     intakeMotor.stopMotor();
@@ -76,7 +85,7 @@ public class Intake extends SubsystemBase implements Logged {
         // }
 
 
-        leds.set(!noteStatus);
+        leds.set(breaker.get());
         // if(breaker.get() == false){
         //     if(noteStatus == false){
         //         intakeMotor.stopMotor();
@@ -113,6 +122,13 @@ public class Intake extends SubsystemBase implements Logged {
 
     public void setNoteStatus(boolean status){
         noteStatus = status;
+    }
+
+
+    public Command setNoteStat(boolean tf){
+        return(runOnce(()->{
+            setNoteStatus(tf);
+        }));
     }
 
 
