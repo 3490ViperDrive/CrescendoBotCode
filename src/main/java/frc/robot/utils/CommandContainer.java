@@ -63,7 +63,7 @@ public class CommandContainer {
                 new SequentialCommandGroup(
                 // intake.toggleNoteStatus(),
                 new WaitCommand(0.75),
-                pivot.requestPosition(-31).raceWith(
+                pivot.requestPosition(-38).raceWith(
                     new SequentialCommandGroup(
                         new WaitCommand(0.5),
                         shooter.shoot(0.45).withTimeout(0.5))

@@ -44,24 +44,26 @@ public class RobotContainer implements Logged {
     // m_chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
     // m_chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
     // m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
+
+
     m_chooser.setDefaultOption("(All)2 note middle auto",new PathPlannerAuto("simpleCenter"));
-    m_chooser.addOption("(Blue)2 note amp side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
-    m_chooser.addOption("(Blue)2 note stage side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
-    m_chooser.addOption("(Red)2 note amp side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
-    m_chooser.addOption("(Red)2 note stage side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
+    m_chooser.addOption("2 Note Amp Side", new PathPlannerAuto("(Blue)Amp2Note"));
+    m_chooser.addOption("2 Note Stage Side", new PathPlannerAuto("(Blue)Stage2Note"));
+    //m_chooser.addOption("(Red)2 note amp side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
+    //m_chooser.addOption("(Red)2 note stage side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
     m_chooser.addOption("(All)3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
-    m_chooser.addOption("(Blue)3 note amp side centerline Auto", new PathPlannerAuto("leftCenterlineAuto"));
-    m_chooser.addOption("(Blue)3 note stage side centerline Auto", new PathPlannerAuto("rightCenterlineAuto"));
-    m_chooser.addOption("(All)4 note middle Auto", new PathPlannerAuto("(All)Middle4Note"));
-    m_chooser.addOption("(Blue)3 note auto(No amp)", new PathPlannerAuto("BlueAmpless3Note"));
-    m_chooser.addOption("(Blue)3 note auto(No stage)", new PathPlannerAuto("BlueStageless3Note"));
-    m_chooser.addOption("(Red)3 note auto(No amp)", new PathPlannerAuto("BlueStageless3Note"));
-    m_chooser.addOption("(Red)3 note auto(No stage)", new PathPlannerAuto("BlueAmpless3Note"));
-    m_chooser.addOption("(All)1 note middle auto(Just shoot)", new PathPlannerAuto("(All)MiddleJustShoot"));
-    m_chooser.addOption("(Blue)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
-    m_chooser.addOption("(Blue)1 note satge side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
-    m_chooser.addOption("(Red)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
-    m_chooser.addOption("(Red)1 note stage side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
+    m_chooser.addOption("3 Note, Amp -> Center", new PathPlannerAuto("leftCenterlineAuto"));
+    m_chooser.addOption("3 Note, Stage -> Center", new PathPlannerAuto("rightCenterlineAuto"));
+    m_chooser.addOption("4 Note Middle Auto", new PathPlannerAuto("(All)Middle4Note"));
+    m_chooser.addOption("3 Note Auto, NO AMP", new PathPlannerAuto("BlueAmpless3Note"));
+    m_chooser.addOption("3 Note Auto, NO STAGE", new PathPlannerAuto("BlueStageless3Note"));
+    //m_chooser.addOption("(Red)3 note auto(No amp)", new PathPlannerAuto("BlueStageless3Note"));
+    //m_chooser.addOption("(Red)3 note auto(No stage)", new PathPlannerAuto("BlueAmpless3Note"));
+    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(All)MiddleJustShoot"));
+    m_chooser.addOption("1 Note, Just Shoot (FROM AMP)", new PathPlannerAuto("(Blue)AmpJustShoot"));
+    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(Blue)StageJustShoot"));
+    //m_chooser.addOption("(Red)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
+    //m_chooser.addOption("(Red)1 note stage side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
     
@@ -98,8 +100,8 @@ public class RobotContainer implements Logged {
     //TODO make button 8 "crawl" (button press)
     //TODO robot oriented toggle on 12
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
-    m_driverJoystick.button(9).whileTrue(m_climber.climb(0.75));
-    m_driverJoystick.button(11).whileTrue(m_climber.climb(-0.75));
+    m_driverJoystick.button(9).whileTrue(m_climber.climb(-0.75));
+    m_driverJoystick.button(11).whileTrue(m_climber.climb(0.75));
     m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
     m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
     m_driverJoystick.button(7).onTrue(m_drivetrain.toggleRobotCentric());
