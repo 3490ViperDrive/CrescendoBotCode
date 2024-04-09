@@ -4,15 +4,22 @@
   "holonomicMode": true,
   "pathFolders": [
     " centerlineAutofolder",
-    "leftAutoFolder",
+    "BlueAmpAutoFolder",
+    "BlueAmpScoreAutoFolder",
+    "BlueStageAutoFolder",
+    "AllMiddleAutoFolder",
+    "Unused",
+    "huh",
     "middleAutoFolder",
-    "rightAutoFolder",
-    "testFolder"
+    "simpleCenterPaths"
   ],
   "autoFolders": [
     "2noteAutos",
-    "basic Autos",
-    "centerlineAutos"
+    "3noteAutos",
+    "4noteAutos",
+    "unused",
+    "centerlineAutos",
+    "simpleAutos"
   ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,

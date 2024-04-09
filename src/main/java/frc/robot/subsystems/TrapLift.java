@@ -12,8 +12,9 @@ import frc.robot.Robot;
 import frc.robot.io.LiftIO;
 import frc.robot.io.lift.*;
 import frc.robot.utils.Visualizer;
+import monologue.Logged;
 
-public class TrapLift extends SubsystemBase {
+public class TrapLift extends SubsystemBase implements Logged {
     LiftIO lift;
     // PivotIO pivot;
     LiftPivotSetpoint lastSetpoint = LiftPivotSetpoint.kStowed;

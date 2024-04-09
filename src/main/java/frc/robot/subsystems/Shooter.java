@@ -34,12 +34,16 @@ public class Shooter extends SubsystemBase {
 
     public Command shoot(double speed, Intake aIntake) {
         //TODO fix invert of this motor
-        aIntake.setNoteStatus(false);
+        // aIntake.setNoteStatus(false);
         return shoot(speed);
     }
 
     public Command shoot(double speed){
         return new StartEndCommand(() -> shooterMotor.set(-speed), () -> shooterMotor.set(0), this);
     }
+
+    public Command Autoshoot(double speed){
+        return new InstantCommand(() -> shooterMotor.set(-speed));
+    } 
 }
 

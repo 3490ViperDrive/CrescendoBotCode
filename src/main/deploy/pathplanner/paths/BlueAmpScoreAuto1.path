@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.7389214892389893,
-        "y": 4.198201444835939
+        "x": 1.4319201113429978,
+        "y": 7.574300786781374
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8185545680811024,
-        "y": 4.189184713152462
+        "x": 1.4410990864157092,
+        "y": 7.574300786781374
       },
       "isLocked": false,
-      "linkedName": "mp5link"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3842846515935527,
-        "y": 5.4806715034257465
+        "x": 1.8816898899058623,
+        "y": 7.574300786781374
       },
       "prevControl": {
-        "x": 2.1019852916509385,
-        "y": 4.682923638877245
+        "x": 1.872510914833151,
+        "y": 7.565121811708663
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "subwoofer"
+      "linkedName": "ampLink1"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.885883864574,
-    "rotateFast": true
+    "rotation": 90.0,
+    "rotateFast": false
   },
   "reversed": false,
-  "folder": "middleAutoFolder",
+  "folder": "BlueAmpScoreAutoFolder",
   "previewStartingState": {
-    "rotation": 157.38013505195963,
+    "rotation": 90.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -20,13 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath1"
+            "pathName": "(BlueStage)GetStageNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightSidePath2"
+            "pathName": "(BlueStage)ReturnStageNote"
           }
         },
         {
@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "rightCenterlinePath1"
+            "pathName": "(BlueStage)GetCenterNote"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "rightCenterlinePath2"
+            "pathName": "(BlueStage)ReturnCenterNote"
           }
         }
       ]

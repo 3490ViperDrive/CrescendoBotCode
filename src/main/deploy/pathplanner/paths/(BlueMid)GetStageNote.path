@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7159600556714989,
-        "y": 4.389196436550476
+        "x": 1.3842846515935527,
+        "y": 5.4806715034257465
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.6976021055233173,
-        "y": 4.38919643655583
+        "x": 1.4194171612308972,
+        "y": 3.7826002042874274
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "subwoofer"
     },
     {
       "anchor": {
-        "x": 2.6373441619921745,
-        "y": 4.04023860829462
+        "x": 2.719320017812645,
+        "y": 4.133925300660873
       },
       "prevControl": {
-        "x": 2.790408422104303,
-        "y": 3.9853215333511693
+        "x": 2.765214893176202,
+        "y": 4.170641200951718
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "leftNote"
+      "linkedName": "mp5link"
     }
   ],
   "rotationTargets": [],
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "New Event Marker",
-      "waypointRelativePos": 0.6,
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "parallel",
         "data": {
@@ -57,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -178.31294449619335,
+    "rotation": 172.84021991685398,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "rightAutoFolder",
+  "folder": "AllMiddleAutoFolder",
   "previewStartingState": {
-    "rotation": 121.84905131905533,
+    "rotation": 179.91411171884286,
     "velocity": 0
   },
   "useDefaultConstraints": true

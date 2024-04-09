@@ -2,42 +2,48 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6517072301625181,
-      "y": 6.7481930302373385
+      "x": 1.4319201113429978,
+      "y": 7.574300786781374
     },
-    "rotation": -120.4998332334474
+    "rotation": 90.0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "PPShoot"
+            "pathName": "BlueAmpScoreAuto1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "(BlueAmp)GetAmpNote"
+            "pathName": "BlueAmpScoreAuto2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "(BlueAmp)ReturnAmpNote"
+            "pathName": "BlueAmpScoreAuto3"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "PPShoot"
+            "pathName": "BlueAmpScoreAuto4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueAmpScoreAuto5"
           }
         }
       ]
     }
   },
-  "folder": "2noteAutos",
+  "folder": null,
   "choreoAuto": false
 }
