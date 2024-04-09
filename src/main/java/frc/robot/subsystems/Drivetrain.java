@@ -49,7 +49,6 @@ public class Drivetrain implements Subsystem, Logged {
 
     public boolean isRobotCentric = false;
     public boolean isCrawling = false;
-    //TODO: added this terribly-named and poorly-implemented field as a quick-and-dirty solution to slowing crawl turning
     public double rotationSlowingSeverity = 0.5;
 
     public Drivetrain() {
@@ -95,13 +94,11 @@ public class Drivetrain implements Subsystem, Logged {
             this);
     }
 
-    @Override
-    public void periodic() {}
-
     public Command applyRequestCommand(Supplier<SwerveRequest> requestSupplier) {
         return run(() -> m_swerve.setControl(requestSupplier.get()));
     }
 
+    //TODO: combine drive methods under banner of single Omnicontrol
     public Command driveTeleopCommandGeneric(
         DoubleSupplier translationX,
         DoubleSupplier translationY,
@@ -114,7 +111,6 @@ public class Drivetrain implements Subsystem, Logged {
 
             stickInputs[0] *= translationMultiplier;
             stickInputs[1] *= translationMultiplier;
-            //stickInputs[2] *= applyMultiplier(0, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
             stickInputs[2] *= applyMultiplier(rotationSlowingSeverity, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
             //if(crawlMode.getAsBoolean()){

@@ -22,16 +22,6 @@ public class Climber extends SubsystemBase {
     public void periodic() {};
 
     public Command climb(double speed){
-        // return run(() -> {
-        //     liftMotor.set(kLiftSpeed);
-        // });
         return new StartEndCommand(() -> liftMotor.set(speed), () -> liftMotor.stopMotor(), this);
     }
-
-    // public Command stopMotorCommand() {
-    //     return runOnce(() -> {
-    //         liftMotor.set(kLiftMotorStopSpeed);
-    //         liftMotor.stopMotor();
-    //     });
-    // }
 }
