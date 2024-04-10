@@ -20,8 +20,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer implements Logged {
-  CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID);
-  CommandJoystick m_driverJoystick = new CommandJoystick(0); 
+
+  private int player1Port = 0;
+  //TODO: player input will be handled by implementation of omnicontroller/genericHID/yadda
+  CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID); //TODO: constant can live here
+  CommandJoystick m_driverJoystick = new CommandJoystick(player1Port);  
   
   Drivetrain m_drivetrain = new Drivetrain();
   Pivot m_pivot = new Pivot();
@@ -35,107 +38,43 @@ public class RobotContainer implements Logged {
 
   TrapLift m_lift = new TrapLift();
 
+  //TODO: move to UIManager class
   SendableChooser<Command> m_chooser = new SendableChooser<>();
    
+  //TODO address later
   CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   public RobotContainer() {
-    // m_chooser.setDefaultOption("Adam's Auto",new PathPlannerAuto("simpleCenter"));
-    // m_chooser.addOption("2 note left Auto", new PathPlannerAuto("2noteLeftAuto"));
-    // m_chooser.addOption("2 note right Auto", new PathPlannerAuto("2noteRightAuto"));
-    // m_chooser.addOption("3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
-    // m_chooser.addOption("3 note left centerline auto", new PathPlannerAuto("leftCenterlineAuto"));
-    // m_chooser.addOption("3 note right centerline auto", new PathPlannerAuto("rightCenterlineAuto"));
-    // m_chooser.addOption("4 note middle Auto", new PathPlannerAuto("middleAutoBasic"));
-    // m_chooser.addOption("4 note left Auto", new PathPlannerAuto("AmpAutoBasic"));
-    // m_chooser.addOption("4 note right auto", new PathPlannerAuto("sourceAutoBasic"));
 
+    setupChooser();
 
-    m_chooser.setDefaultOption("(All)2 note middle auto",new PathPlannerAuto("simpleCenter"));
-    m_chooser.addOption("2 Note Amp Side", new PathPlannerAuto("(Blue)Amp2Note"));
-    m_chooser.addOption("2 Note Stage Side", new PathPlannerAuto("(Blue)Stage2Note"));
-    //m_chooser.addOption("(Red)2 note amp side Auto", new PathPlannerAuto("(Blue)Stage2Note"));
-    //m_chooser.addOption("(Red)2 note stage side Auto", new PathPlannerAuto("(Blue)Amp2Note"));
-    m_chooser.addOption("(All)3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
-    m_chooser.addOption("3 Note, Amp -> Center", new PathPlannerAuto("leftCenterlineAuto"));
-    m_chooser.addOption("3 Note, Stage -> Center", new PathPlannerAuto("rightCenterlineAuto"));
-    m_chooser.addOption("4 Note Middle Auto", new PathPlannerAuto("(All)Middle4Note"));
-    m_chooser.addOption("3 Note Auto, NO AMP", new PathPlannerAuto("BlueAmpless3Note"));
-    m_chooser.addOption("3 Note Auto, NO STAGE", new PathPlannerAuto("BlueStageless3Note"));
-    //m_chooser.addOption("(Red)3 note auto(No amp)", new PathPlannerAuto("BlueStageless3Note"));
-    //m_chooser.addOption("(Red)3 note auto(No stage)", new PathPlannerAuto("BlueAmpless3Note"));
-    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(All)MiddleJustShoot"));
-    m_chooser.addOption("1 Note, Just Shoot (FROM AMP)", new PathPlannerAuto("(Blue)AmpJustShoot"));
-    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(Blue)StageJustShoot"));
-    //m_chooser.addOption("(Red)1 note amp side auto(just shoot)", new PathPlannerAuto("(Blue)StageJustShoot"));
-    //m_chooser.addOption("(Red)1 note stage side auto(just shoot)", new PathPlannerAuto("(Blue)AmpJustShoot"));
-    m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
-    SmartDashboard.putData("THE AutoChoices", m_chooser);
-    
-    //Temp
-    // m_pivot.setDefaultCommand(
-    //   m_pivot.runOpenLoop(
-    //     m_operatorController::getLeftY, m_operatorController::getRightY));
-    // m_drivetrain.setDefaultCommand(m_drivetrain.sysIDTranslationCommand(6));
-
-    NamedCommands.registerCommand("Shooter", m_shooter.shoot(kShooterSpeed, m_intake));
-    NamedCommands.registerCommand("Intake", m_intake.takeIn(1));
-    // m_shooter.setDefaultCommand(m_shooter.shoot());
-    // m_intake.setDefaultCommand(m_intake.takeIn()); 
-    //TODO USE A BETTER COMMAND THAN THIS
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
 
-    //TODO get "choice" from smartdash/shuffleboard
-    String temp = "Joystick";
-
-    setDriveDefault(m_driverController, temp);
+    //TODO replace "Joystick" magic string with variable retrieved from UIManager
+    setDriveDefault(m_driverController, "Joystick");
     configureBindings();
   }
 
   private void configureBindings() {
-  //m_driverJoystick.button(1).whileTrue(m_intake.takeInFancy());
 
-    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks()));
-
-    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125)); //Shoot regular;
+    //TODO: implement with omnicontroller
+    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks())); //TODO gadzooks is a bad name
+    m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125));
+    m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore());
+    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 37.5));
     m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancy());
-    //m_driverJoystick.button(5).whileTrue(m_commandContainer.retractIntakeFancier());
-    //TODO add shoot low power
-    //TODO make button 8 "crawl" (button press)
-    //TODO robot oriented toggle on 12
-    m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore()); //Score Amp
-    m_driverJoystick.button(9).whileTrue(m_climber.climb(-0.75));
-    m_driverJoystick.button(11).whileTrue(m_climber.climb(0.75));
-    m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
-    m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
     m_driverJoystick.button(7).onTrue(m_drivetrain.toggleRobotCentric());
     m_driverJoystick.button(8).onTrue(m_drivetrain.toggleCrawling());
-
-    //was 45
-    m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 14.5));
-
-    
-    //m_driverController.start().onTrue(m_drivetrain.zeroYawCommand());
-
-    //Temp
-    //m_operatorController.a().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kShoot));
-    // m_operatorController.b().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kAmp));
-    //m_operatorController.x().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kStowed));
-    // m_operatorController.y().whileTrue(m_pivot.setPosition(LiftPivotSetpoint.kTrap));
-    // m_operatorController.b().whileTrue(m_pivot.bruh(50));
-    // m_operatorController.y().whileTrue(m_pivot.bruh(0));
-    //m_driverController.a().whileTrue(m_shooter.shoot());
-    //m_driverController.b().whileTrue(m_intake.takeInFancy());
-    //m_driverController.y().whileTrue(m_intake.takeOut());
+    m_driverJoystick.button(9).whileTrue(m_climber.climb(-0.75));
+    m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
+    m_driverJoystick.button(11).whileTrue(m_climber.climb(0.75));
+    m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
 
   }
   
   public Command getAutonomousCommand() {
     return m_chooser.getSelected();
-    //return Commands.print("No autonomous command(s) configured");
-    //return m_commandContainer.shootFancy(1).withTimeout(3); //THIS SIMPLE AUTO BYPASSES THE SENDABLECHOOSER
-    //return new PathPlannerAuto("simpleCenter"); //This auto is tested and working
   }
 
   //Robot.java needs to call this, but m_drivetrain is not visible. There may be a better way to resolve this
@@ -144,17 +83,9 @@ public class RobotContainer implements Logged {
   }
 
 
-  public void setDriveDefault(CommandGenericHID m_driverJoystick, int whichType){
+  public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
       case "Joystick":
-          // m_drivetrain.setDefaultCommand(
-          // m_drivetrain.driveTeleopCommandGeneric(
-          //   ()-> m_driverJoystick.getRawAxis(1),
-          //   ()-> m_driverJoystick.getRawAxis(0),
-          //   ()-> -m_driverJoystick.getRawAxis(2),
-          //   ()-> m_driverJoystick.button(7).getAsBoolean(),
-          //   ()-> m_driverJoystick.button(8).getAsBoolean())
-          // );
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommandGeneric(
             ()-> m_driverJoystick.getRawAxis(1),
@@ -180,5 +111,22 @@ public class RobotContainer implements Logged {
       default:
         break;
     }
+  }
+
+  void setupChooser(){
+    m_chooser.setDefaultOption("(All)2 note middle auto",new PathPlannerAuto("simpleCenter"));
+    m_chooser.addOption("2 Note Amp Side", new PathPlannerAuto("(Blue)Amp2Note"));
+    m_chooser.addOption("2 Note Stage Side", new PathPlannerAuto("(Blue)Stage2Note"));
+    m_chooser.addOption("(All)3 note middle centerline auto", new PathPlannerAuto("middleCenterlineAuto"));
+    m_chooser.addOption("3 Note, Amp -> Center", new PathPlannerAuto("leftCenterlineAuto"));
+    m_chooser.addOption("3 Note, Stage -> Center", new PathPlannerAuto("rightCenterlineAuto"));
+    m_chooser.addOption("4 Note Middle Auto", new PathPlannerAuto("(All)Middle4Note"));
+    m_chooser.addOption("3 Note Auto, NO AMP", new PathPlannerAuto("BlueAmpless3Note"));
+    m_chooser.addOption("3 Note Auto, NO STAGE", new PathPlannerAuto("BlueStageless3Note"));
+    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(All)MiddleJustShoot"));
+    m_chooser.addOption("1 Note, Just Shoot (FROM AMP)", new PathPlannerAuto("(Blue)AmpJustShoot"));
+    m_chooser.addOption("1 Note, Just Shoot", new PathPlannerAuto("(Blue)StageJustShoot"));
+    m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
+    SmartDashboard.putData("THE AutoChoices", m_chooser);
   }
 }

@@ -5,7 +5,6 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants {
 
-    // My Constant Id's aren't the right ones 
 
     public static final class ShooterConstants {
         public static final double kShooterSpeed = 0.5;
@@ -33,11 +32,6 @@ public final class Constants {
         public static final int kDigitalInputPort = 1;
     }
 
-    // Remove zeros and put meaningful int
-
-    // kp - The proportional coefficient.
-    // ki - The integral coefficient.
-    // kd - The derivative coefficient.
     public static final class ShooterPID {
         public static final double kP = 0;
         public static final double kD = 0;

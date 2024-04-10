@@ -22,16 +22,13 @@ public class TrapLift extends SubsystemBase implements Logged {
     public TrapLift() {
         if (Robot.isReal()) {
             lift = new LiftFalcon();
-            // pivot = new PivotFalcon();
         } else {
             lift = new LiftSim();
-            // pivot = new PivotSim();
         }
     }
 
     @Override
     public void periodic() {
-        // Visualizer.getInstance().setPivotAngle(pivot.getAngle().getDegrees());
         Visualizer.getInstance().setLiftDistance(lift.getDistance());
     }
 
@@ -44,10 +41,8 @@ public class TrapLift extends SubsystemBase implements Logged {
     public Command runOpenLoop(DoubleSupplier liftSup) {
         return run(() -> {
             lift.moveOpenLoop(-liftSup.getAsDouble() * kFwdVoltageLimit);
-            // pivot.moveOpenLoop(-pivotSup.getAsDouble() * 12);
         }).andThen(() -> {
             lift.moveOpenLoop(0);
-            // pivot.moveOpenLoop(0);
         });
     }
 

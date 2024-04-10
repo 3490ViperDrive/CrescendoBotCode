@@ -9,25 +9,20 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.FunctionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
-// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import monologue.Logged;
 import monologue.Annotations.Log;
 
 import static frc.robot.Constants.IntakeConstants.*;
 
 
-// import java.time.Instant;
 import java.util.function.BooleanSupplier;
 
 
@@ -39,27 +34,12 @@ public class Intake extends SubsystemBase implements Logged {
 
     DigitalInput breaker = new DigitalInput(9);
     DigitalOutput leds = new DigitalOutput(4);
-    //DigitalInput breaker2 = new DigitalInput(8);
     boolean noteStatus = false; // default to false
 
-    //I found the constructor
+    //TODO: I found the constructor
     public Intake(){
         intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);
     }
-
-    // public Command runIntakeNew(){
-    //     return new SequentialCommandGroup(
-    //         new WaitUntilCommand(() -> getBeambreaker())
-    //         // Press the button (Toggle)
-    //         // Run the Intake Until The beam is broken
-    //         // Stop the motor for once when the beam is broken 
-    //         // Get shooter ready and up to speed
-    //         // Make sure of the behavior it is supposed to do while retracting 
-    //         // Make the same trigger bind to retract intake
-    //     );
-    // };
-
-    // I don't think we are using "setIntakeMotor"
 
     public Command setIntakeMotor(){
         return runOnce(() -> {
@@ -67,37 +47,14 @@ public class Intake extends SubsystemBase implements Logged {
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf).andThen(setNoteStat(true));
     }
 
-    public Command egads(){
-        return new SequentialCommandGroup(
-            setNoteStat(true),
-            setIntakeMotor()
-        );
-    }
-
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("Port 9", breaker.get());
         SmartDashboard.putBoolean("noteStatus", noteStatus);
-       //SmartDashboard.putBoolean("Port 8", breaker2.get());
-        // if(breaker.get() && !noteStatus){
-        //     intakeMotor.stopMotor();
-        //     noteStatus = true;
-        // }
-
-
         leds.set(breaker.get());
-        // if(breaker.get() == false){
-        //     if(noteStatus == false){
-        //         intakeMotor.stopMotor();
-        //         noteStatus = true;
-        //     }
-        // }
     };
 
     public Command takeIn(double speed) {
-        // return run(() -> {
-        //     intakeMotor.set(kIntakeSpeed);
-        // });
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
@@ -130,20 +87,6 @@ public class Intake extends SubsystemBase implements Logged {
             setNoteStatus(tf);
         }));
     }
-
-
-    // public Command toggleNoteStatus(){
-    //     return(runOnce(()->{
-    //         setNoteStatus(false);
-    //     }));
-    // }
-
-    // public Command stopMotorCommand() {
-    //     return runOnce(() -> {
-    //         intakeMotor.set(kIntakeMotorStopSpeed);
-    //         intakeMotor.stopMotor();
-    //     });
-    // } 
 
     @Log
     public double getVelocity() {

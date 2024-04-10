@@ -22,6 +22,8 @@ public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
+
+  //TODO: move these fields out of Robot.java and into ___ 
   public static final String XboxController = "XboxController";
   public static final String Joystick = "JoyStick";
   public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
@@ -33,11 +35,12 @@ public class Robot extends TimedRobot implements Logged {
     DriverStation.silenceJoystickConnectionWarning(true);
     Monologue.setupMonologue(this, "Robot", false, false);
     DataLogManager.start();
-    DriverStation.startDataLog(DataLogManager.getLog()); //Log joystick data
-    CameraServer.startAutomaticCapture(); //TODO add driver overlay
+    DriverStation.startDataLog(DataLogManager.getLog());
+    CameraServer.startAutomaticCapture(); 
 
+    //TODO: move from Robot.java into <as of yet undefined> UIManager
     dashboardUI();
-    // This does not need to be called every 20ms, but still needs to be called periodically
+    
     addPeriodic(() -> Monologue.setFileOnly(DriverStation.isFMSAttached() && Robot.isReal()), 1);
   }
 
@@ -62,6 +65,7 @@ public class Robot extends TimedRobot implements Logged {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
+    //TODO this can live in RobotContainer's constructor
     m_robotContainer.setDriverPerspective();
   }
 
@@ -76,6 +80,7 @@ public class Robot extends TimedRobot implements Logged {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    //TODO we might not need this to exist
     m_robotContainer.setDriverPerspective();
   }
 
@@ -94,6 +99,7 @@ public class Robot extends TimedRobot implements Logged {
   @Override
   public void testExit() {}
 
+  //TODO move to <as yet undefined> UIManager class
   private void dashboardUI(){
     // Colton's code below ;w;
     m_controllerchoice.setDefaultOption("Xbox Controller", XboxController);
