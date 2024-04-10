@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 import frc.robot.utils.CommandContainer;
+import frc.robot.utils.UImanager;
 import monologue.Logged;
 import static frc.robot.Constants.ShooterConstants.*;
 
@@ -35,6 +36,7 @@ public class RobotContainer implements Logged {
 
   Climber m_climber = new Climber();
 
+  UImanager M_UIManaer = new UImanager();
 
   TrapLift m_lift = new TrapLift();
 
@@ -54,6 +56,7 @@ public class RobotContainer implements Logged {
     //TODO replace "Joystick" magic string with variable retrieved from UIManager
     setDriveDefault(m_driverController, "Joystick");
     configureBindings();
+    M_UIManaer.dashboardControllerChoice();
   }
 
   private void configureBindings() {
@@ -94,7 +97,7 @@ public class RobotContainer implements Logged {
             ()-> m_driverJoystick.button(7).getAsBoolean())
           );
         break;
-      case 1:
+      case "Xbox Controller":
           m_drivetrain.setDefaultCommand(
           m_drivetrain.driveTeleopCommand(
           m_driverController::getLeftY,
@@ -129,4 +132,5 @@ public class RobotContainer implements Logged {
     m_chooser.addOption("No Auto", new PrintCommand("No auto was selected. Why would you do this?"));
     SmartDashboard.putData("THE AutoChoices", m_chooser);
   }
+
 }
