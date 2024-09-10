@@ -95,7 +95,7 @@ public class RobotContainer implements Logged {
           m_drivetrain.driveTeleopCommand(
           m_driverController::getLeftY,
           m_driverController::getLeftX,
-          m_driverController::getRightX,
+          m_driverController::getRightTriggerAxis,
           m_driverController::getLeftTriggerAxis,
           m_driverController.getHID()::getAButton,
           m_driverController.getHID()::getBButton,
