@@ -17,14 +17,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
+
 import monologue.Logged;
 import monologue.Annotations.Log;
 
 import static frc.robot.Constants.IntakeConstants.*;
-
-
-import java.util.function.BooleanSupplier;
-
+import frc.robot.HardwareIds;
 
 public class Intake extends SubsystemBase implements Logged {
 
@@ -32,16 +30,15 @@ public class Intake extends SubsystemBase implements Logged {
 
     ShuffleboardTab testingTab = Shuffleboard.getTab("SEVEN");
 
-    DigitalInput breaker = new DigitalInput(9);
-    DigitalOutput leds = new DigitalOutput(4);
+    DigitalInput breaker = new DigitalInput(HardwareIds.Dio.kBeamBreak);
+    DigitalOutput leds = new DigitalOutput(HardwareIds.Dio.kLeds);
     boolean noteStatus = false; // default to false
 
-    //TODO: I found the constructor
-    public Intake(){
-        intakeMotor = new CANSparkMax(kIntakeMotorID, MotorType.kBrushless);
+    public Intake() {
+        intakeMotor = new CANSparkMax(HardwareIds.Canbus.kIntakeID, MotorType.kBrushless);
     }
 
-    public Command setIntakeMotor(){
+    public Command setIntakeMotor() {
         return runOnce(() -> {
         intakeMotor.set(1);
         }).withInterruptBehavior(InterruptionBehavior.kCancelSelf).andThen(setNoteStat(true));
@@ -104,14 +101,8 @@ public class Intake extends SubsystemBase implements Logged {
     }
 
     @Log
-    public boolean getBeambreaker() {
+    public boolean getBeamBreak() {
         return breaker.get();
     }
 
-    @Log
-    @Deprecated
-    public BooleanSupplier gadzooks(){
-        return () -> !breaker.get();
-        //return breaker.get();
-    }
 }

@@ -10,18 +10,20 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
+
 import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 import frc.robot.utils.CommandContainer;
+
 import monologue.Logged;
+
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer implements Logged {
 
-  private int player1Port = 0;
   //TODO: player input will be handled by implementation of omnicontroller/genericHID/yadda
-  CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID); //TODO: constant can live here
-  CommandJoystick m_driverJoystick = new CommandJoystick(player1Port);  
+  CommandXboxController m_driverController = new CommandXboxController(HardwareIds.Hid.kDriverPort); //TODO: constant can live here
+  CommandJoystick m_driverJoystick = new CommandJoystick(HardwareIds.Hid.kDriverPort);  
   
   Drivetrain m_drivetrain = new Drivetrain();
   Pivot m_pivot = new Pivot();
@@ -51,7 +53,7 @@ public class RobotContainer implements Logged {
   private void configureBindings() {
 
     //TODO: implement with omnicontroller
-    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks())); //TODO gadzooks is a bad name
+    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(() -> !m_intake.getBeamBreak()));
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125));
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore());
     m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 37.5));

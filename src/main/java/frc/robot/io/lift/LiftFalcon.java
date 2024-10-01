@@ -5,6 +5,7 @@ import frc.robot.io.LiftIO;
 import frc.robot.utils.CTREConfigurer;
 
 import static frc.robot.Constants.LiftConstants.*;
+import frc.robot.HardwareIds;
 
 import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -18,7 +19,7 @@ public class LiftFalcon extends LiftIO {
     PositionVoltage m_positionVoltageRequest;
 
     public LiftFalcon() {
-        m_motor = new TalonFX(kMotorID);
+        m_motor = new TalonFX(HardwareIds.Canbus.kLiftID);
         CTREConfigurer.configureMotor(
             CTREConfigurer.getInstance().liftConfig,
             m_motor, 
