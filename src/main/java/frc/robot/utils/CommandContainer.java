@@ -42,13 +42,13 @@ public class CommandContainer {
     }
 
     //TODO: wet code will get converted to main after tournament
-    public Command shootFancier(double speed){
+    /*public Command shootFancier(double speed){
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
                 new WaitCommand(0.75),
                 intake.takeIn(1)
             ));
-    }
+    }*/
 
     public Command wetShoot(double speed, double angle){
         return pivot.requestPosition(angle).alongWith(shootFancy(speed));

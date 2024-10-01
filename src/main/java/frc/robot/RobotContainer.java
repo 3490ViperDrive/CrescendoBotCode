@@ -14,9 +14,6 @@ import frc.robot.Constants.ControllerConstants.DriverXbox;
 import frc.robot.subsystems.*;
 import frc.robot.utils.CommandContainer;
 import monologue.Logged;
-import static frc.robot.Constants.ShooterConstants.*;
-
-import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer implements Logged {
