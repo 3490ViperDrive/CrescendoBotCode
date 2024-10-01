@@ -113,14 +113,12 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(rotationSlowingSeverity, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
-            //if(crawlMode.getAsBoolean()){
-            if(isCrawling == true){
+            if (isCrawling == true) {
                 stickInputs[0] *= 0.225;
                 stickInputs[1] *= 0.225;
             } //TODO: add an "else" statement that clamps the normal travel speed if needed
 
-            if(robotCentric.getAsBoolean()){
-            //if(isRobotCentric){
+            if (robotCentric.getAsBoolean()) {
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
