@@ -3,7 +3,6 @@ package frc.robot.utils.omnihid;
 import java.util.HashMap;
 import java.util.Objects;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -102,18 +101,6 @@ public class OmniHID implements Logged {
             default:
             return ControllerType.kUnrecognized;
         }
-    }
-
-    public static double applyDeadbandSpecial(double value, double deadband) {
-        return MathUtil.inverseInterpolate(deadband, 1, MathUtil.applyDeadband(Math.abs(value), deadband)) * Math.signum(value);
-    }
-
-    public static double squareInput(double value) {
-        return Math.pow(Math.abs(value), 2) * Math.signum(value);
-    }
-
-    public static double applyMultiplier(double value, double multiplier) {
-        return 1 - (value * multiplier);
     }
 
     private void reportStatus(String message, boolean warn) {
