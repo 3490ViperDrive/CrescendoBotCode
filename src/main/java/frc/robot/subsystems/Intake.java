@@ -109,6 +109,7 @@ public class Intake extends SubsystemBase implements Logged {
     }
 
     @Log
+    @Deprecated
     public BooleanSupplier gadzooks(){
         return () -> !breaker.get();
         //return breaker.get();
