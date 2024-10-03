@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.utils.omnihid.OmniHID;
-import frc.robot.utils.omnihid.controlschemes.ControlScheme;
-import frc.robot.utils.omnihid.controlschemes.SingleJoystick;
-import frc.robot.utils.omnihid.controlschemes.SingleXbox;
+import frc.robot.utils.omnihid.controlschemes.*;
 
 public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
@@ -26,12 +24,13 @@ public class Robot extends TimedRobot implements Logged {
 
   ControlScheme m_singleJoystickScheme;
   ControlScheme m_singleXboxScheme;
+  ControlScheme m_experimentalSingleXboxScheme;
   OmniHID m_omniHID;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-
+    m_experimentalSingleXboxScheme = new ExperimentalSingleXbox(m_robotContainer);
     m_singleJoystickScheme = new SingleJoystick(m_robotContainer);
     m_singleXboxScheme = new SingleXbox(m_robotContainer);
     m_omniHID = new OmniHID(m_robotContainer::configureControllerAgnosticBindings, 
@@ -42,6 +41,7 @@ public class Robot extends TimedRobot implements Logged {
                        m_robotContainer.m_intake,
                        m_robotContainer.m_climber,
                        m_robotContainer.m_lift},
+      m_experimentalSingleXboxScheme,
       m_singleJoystickScheme,
       m_singleXboxScheme);
 
@@ -55,7 +55,7 @@ public class Robot extends TimedRobot implements Logged {
     dashboardUI();
     
     addPeriodic(() -> Monologue.setFileOnly(DriverStation.isFMSAttached() && Robot.isReal()), 1);
-    addPeriodic(m_omniHID::refreshControllers, 3);
+    addPeriodic(m_omniHID::refreshControllers, 0.5);
   }
 
   @Override

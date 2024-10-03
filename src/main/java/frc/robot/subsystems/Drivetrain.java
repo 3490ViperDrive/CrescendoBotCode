@@ -51,6 +51,12 @@ public class Drivetrain implements Subsystem, Logged {
     public boolean isCrawling = false;
     public double rotationSlowingSeverity = 0.5;
 
+    public static enum DriveMode {
+        kFieldCentric,
+        kRobotCentric,
+        kFieldCentricFacingAngle
+    }
+
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
         m_headingPID = new PhoenixPIDController(7.5, 0, 0.3);
@@ -186,6 +192,53 @@ public class Drivetrain implements Subsystem, Logged {
             }
         });
     } //Command driveTeleopCommand 
+
+    //TODO cleanup this method
+
+    /**
+     * Tell the drive subsystem how it should move in Teleop.
+     * No input filtering shenanigans; your controls will have to apply deadband and any other
+     * desired input filtering before passing it in.
+     * @param xSup [-1, 1] Forward/backward (upfield/downfield) speed.
+     * Joysticks default up = -1 so you'll probably want to invert it.
+     * @param ySup [-1, 1] Strafe left/right speed.
+     * @param thetaSup [-1, 1] (kFieldCentric, kRobotCentric) Turn left/right speed.
+     * [0, 360) (kFieldCentricFacingAngle) Angle the robot should face where 0 = downfield.
+     * @param mode The drive mode to use.
+     * @return a Command that will use the above options to drive the robot.
+     */
+    public Command driveTeleopSimpleCmd(DoubleSupplier xSup, DoubleSupplier ySup, DoubleSupplier thetaSup, DriveMode mode) {
+        Command driveCommand;
+        switch(mode) {
+            case kRobotCentric:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withRotationalRate(thetaSup.getAsDouble() * kMaxRotationSpeed));
+                });
+            break;
+            case kFieldCentricFacingAngle:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withTargetDirection(Rotation2d.fromDegrees(thetaSup.getAsDouble())));
+                });
+            break;
+            case kFieldCentric:
+            default:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withRotationalRate(thetaSup.getAsDouble() * kMaxRotationSpeed));
+                });
+            break;
+        }
+        driveCommand = driveCommand.withName("Drive Teleop Simple (" + mode + ")");
+        return driveCommand;
+    }
 
 
 

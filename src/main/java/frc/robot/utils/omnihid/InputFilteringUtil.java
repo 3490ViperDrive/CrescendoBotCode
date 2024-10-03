@@ -21,6 +21,6 @@ public class InputFilteringUtil {
     }
 
     public static double triggerToAxis(double leftTrigger, double rightTrigger) {
-        return leftTrigger - rightTrigger;
+        return rightTrigger - leftTrigger;
     }
 }
