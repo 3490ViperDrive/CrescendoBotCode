@@ -49,7 +49,7 @@ public class RobotContainer implements Logged {
     //TODO replace "Joystick" magic string with variable retrieved from UIManager
     setDriveDefault(m_driverController, "Joystick");
     configureBindings();
-  }
+  } // piss
 
   private void configureBindings() {
 
@@ -104,6 +104,14 @@ public class RobotContainer implements Logged {
           () -> m_driverController.getRightTriggerAxis() > DriverXbox.kThumbstickDeadband)
           );
         break;
+      case "ArcadeStick":
+        /*m_drivetrain.setDefaultCommand(
+          m_drivetrain.driveTeleopArcadeEdition(
+            ()-> getX,
+            ()-> getY,
+            ()-> getZ,
+            ()-> getCrawl.getAsBoolean)
+        );*/
       default:
         break;
     }

@@ -1,0 +1,15 @@
+package frc.robot.subsystems;
+
+public class inputSpoofer extends subsystemBase{
+
+    double speedMultiplier;
+    
+    private double xOutput;
+    private double yOutput;
+    
+    public double getZRot
+
+}
+
+
+

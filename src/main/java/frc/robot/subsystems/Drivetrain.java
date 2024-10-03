@@ -11,6 +11,7 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
 
 import com.ctre.phoenix6.mechanisms.swerve.utility.PhoenixPIDController;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.RotationTarget;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -134,6 +135,24 @@ public class Drivetrain implements Subsystem, Logged {
                 
             });
         }
+
+        //I'm about to hack the mainframe
+        //sdbhfsk hgjadk thasdjfk hsjf  ;fhdasj gpfahgahfjd kabhjskbfjskaghsk gfewf hbsdahfbsah j
+        //anfjksh jafwhardsuigahdsjkfhbr sgrfhl
+        //Damn
+        //mainframe got hands
+
+        public Command driveTeleopArcadeEdition(
+            DoubleSupplier movementX,
+            DoubleSupplier movementY,
+            DoubleSupplier rotationR,
+            DoubleSupplier rotationL, 
+            BooleanSupplier robotCentric){
+               return run(() -> {
+                    
+                });
+            }
+        
 
         void softerInputs(double[] inputs){
             for(int i = 0; i < inputs.length; i++){
