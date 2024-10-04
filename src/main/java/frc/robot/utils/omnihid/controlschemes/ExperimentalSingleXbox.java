@@ -1,17 +1,17 @@
 package frc.robot.utils.omnihid.controlschemes;
 
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
 import frc.robot.utils.omnihid.InputFilteringUtil;
+import frc.robot.utils.omnihid.OmniHID.ControllerPairing;
 
 import static frc.robot.utils.omnihid.OmniHID.ControllerType.*;
-
-import java.util.function.BooleanSupplier;
 
 import static frc.robot.utils.omnihid.OmniHID.ControllerPairing;
 import frc.robot.subsystems.Drivetrain.DriveMode;
@@ -29,6 +29,10 @@ public class ExperimentalSingleXbox extends ControlScheme {
 
     private CommandXboxController driverController = new CommandXboxController(1); 
     private XboxController driverControllerHID = driverController.getHID();
+
+    //trusting that this class won't put itself into an invalid state
+    private boolean isAngleBound = false;
+    private double angle = 0;
 
     public ExperimentalSingleXbox(RobotContainer robotContainer) {
         super("Experimental Single Xbox Controller Scheme",
@@ -61,24 +65,54 @@ public class ExperimentalSingleXbox extends ControlScheme {
 
     @Override
     public void configureBindings() {
-        driverController.rightBumper().whileTrue(
+        driverController.back().onTrue(robotContainer.m_drivetrain.zeroYawCommand());
+
+        driverController.rightBumper().whileTrue( //backup cam driving
             robotContainer.m_drivetrain.driveTeleopSimpleCmd(
-                () -> filterAxis(-driverController.getLeftY(), kThumbstickDeadband) * kCrawlMultiplier,
-                () -> filterAxis(-driverController.getLeftX(), kThumbstickDeadband) * kCrawlMultiplier,
+                () -> filterAxis(driverController.getLeftY(), kThumbstickDeadband) * kCrawlMultiplier,
+                () -> filterAxis(driverController.getLeftX(), kThumbstickDeadband) * kCrawlMultiplier,
                 () -> filterAxis(driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), kTriggerDeadband) * kCrawlMultiplier,
                 DriveMode.kRobotCentric));
-        
-        driverController.back().onTrue(robotContainer.m_drivetrain.zeroYawCommand());
+
+        driverController.rightBumper().negate().and(() -> isAngleBound).whileTrue(robotContainer.m_drivetrain.driveTeleopSimpleCmd(
+                () -> filterAxis(-driverController.getLeftY(), kThumbstickDeadband),
+                () -> filterAxis(-driverController.getLeftX(), kThumbstickDeadband),
+                () -> angle,
+                DriveMode.kFieldCentricFacingAngle));
+
+        new Trigger(() -> axesAreActive(kTriggerDeadband, driverController.getLeftTriggerAxis(), driverController.getRightTriggerAxis()))
+            .and(() -> isAngleBound)
+            .onTrue(disableAngleBindCmd());
 
         // driverController.a().and(bindAngleMode(true))
         //     .onTrue(new PrintCommand("yippee"));
         //     driverController.a().and(bindAngleMode(false))
         //     .onTrue(new PrintCommand("wahoo"));
 
-        //TODO add actual controls
-        driverController.a().onFalse(new ConditionalCommand(
-            new PrintCommand("bind angle a"),
-            new PrintCommand("intake"), 
+        //TODO constantify and finish controls
+        driverController.a().whileTrue(new ConditionalCommand( //shoot
+            enableAngleBindCmd(180),
+            robotContainer.m_commandContainer.shootFancy(0.6125), 
+            driverController.leftBumper()));
+        
+        driverController.start().whileTrue(new ConditionalCommand( //amp
+            enableAngleBindCmd(90),
+            robotContainer.m_commandContainer.ampHandoffScore(), 
+            driverController.leftBumper()));
+
+        driverController.y().whileTrue(new ConditionalCommand( //intake
+            enableAngleBindCmd(125),
+            robotContainer.m_intake.takeInFancy().until(() -> !robotContainer.m_intake.getBeamBreak()), 
+            driverController.leftBumper()));
+
+        driverController.b().whileTrue(new ConditionalCommand( //downfield 45 deg to the right ; retract intake
+            enableAngleBindCmd(205),
+            robotContainer.m_commandContainer.retractIntakeFancy(), 
+            driverController.leftBumper()));
+
+        driverController.x().whileTrue(new ConditionalCommand( //downfield 45 deg to the left ; alt shoot cmd
+            enableAngleBindCmd(135),
+            robotContainer.m_commandContainer.wetShoot(0.8, 37.5), 
             driverController.leftBumper()));
     }    
 
@@ -107,4 +141,17 @@ public class ExperimentalSingleXbox extends ControlScheme {
     //     return mode;
     // }
 
+    private Command enableAngleBindCmd(double angle) {
+        return new InstantCommand(() -> {
+            this.angle = angle;
+            isAngleBound = true;
+        });
+    }
+
+    private Command disableAngleBindCmd() {
+        return new InstantCommand(() -> {
+            isAngleBound = false;
+            this.angle = 0;
+        });
+    }
 }

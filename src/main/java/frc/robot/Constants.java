@@ -12,7 +12,7 @@ public final class Constants {
     public static final class IntakeConstants {
         public static final double kIntakeSpeed = 1;
         public static final double kCurrentThreshold = 18; //amps
-        public static final double kCurrentSpikeTime = 0.2; //secs
+        public static final double kCurrentSpikeTime = 0.12; //secs
         //1 second is literally perfect for a handoff at 0.75 intake speed
         public static final double kPullInTime = 0.3127;
     }
