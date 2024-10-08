@@ -20,7 +20,7 @@ import monologue.Annotations.IgnoreLogged;
 public class ExperimentalSingleXbox extends ControlScheme {
     
     public static double kThumbstickDeadband = 0.1;
-    public static double kTriggerDeadband = 0.3;
+    public static double kTriggerDeadband = 0.15;
     public static double kCrawlMultiplier = 0.225;
     public static double kBindAngleDebounce = 2; //seconds
 
@@ -102,7 +102,7 @@ public class ExperimentalSingleXbox extends ControlScheme {
 
         driverController.y().whileTrue(new ConditionalCommand( //intake
             enableAngleBindCmd(125),
-            robotContainer.m_intake.takeInFancy().until(() -> !robotContainer.m_intake.getBeamBreak()), 
+            robotContainer.m_intake.takeIn().until(() -> !robotContainer.m_intake.getBeamBreak()), 
             driverController.leftBumper()));
 
         driverController.b().whileTrue(new ConditionalCommand( //downfield 45 deg to the right ; retract intake

@@ -35,7 +35,7 @@ public class SingleJoystick extends ControlScheme {
 
     @Override
     public void configureBindings() {
-        driverJoystick.button(1).onTrue(robotContainer.m_intake.takeInFancy().until(() -> !robotContainer.m_intake.getBeamBreak()));
+        driverJoystick.button(1).onTrue(robotContainer.m_intake.takeIn().until(() -> !robotContainer.m_intake.getBeamBreak()));
         driverJoystick.button(2).whileTrue(robotContainer.m_commandContainer.shootFancy(0.6125));
         driverJoystick.button(3).onTrue(robotContainer.m_commandContainer.ampHandoffScore());
         driverJoystick.button(4).whileTrue(robotContainer.m_commandContainer.wetShoot(0.8, 37.5));

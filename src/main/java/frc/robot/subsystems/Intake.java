@@ -55,6 +55,10 @@ public class Intake extends SubsystemBase implements Logged {
         return new StartEndCommand(() -> intakeMotor.set(speed), () -> intakeMotor.stopMotor(), this);
     }
 
+    public Command takeIn() {
+        return takeIn(1);
+    }
+
 
     public Command takeInFancy() {
         return new ParallelRaceGroup(takeIn(1), takeInFancyDeadline());      
