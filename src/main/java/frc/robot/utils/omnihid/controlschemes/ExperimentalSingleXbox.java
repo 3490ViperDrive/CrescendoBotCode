@@ -26,6 +26,12 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
     public static double kCrawlMultiplier = 0.225;
     //public static double kBindAngleDebounce = 2; //seconds
 
+    public static double kAmpAngle = 90;
+    public static double kShootCenterAngle = 180;
+    public static double kIntakeAngle = 125;
+    public static double kShootLeftAngle = 135; //driver's left and right
+    public static double kShootRightAngle = 205;
+
     @IgnoreLogged
     private final RobotContainer robotContainer;
 
@@ -99,34 +105,28 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
             .and(() -> isAngleBound)
             .onTrue(disableAngleBindCmd());
 
-        // driverController.a().and(bindAngleMode(true))
-        //     .onTrue(new PrintCommand("yippee"));
-        //     driverController.a().and(bindAngleMode(false))
-        //     .onTrue(new PrintCommand("wahoo"));
-
-        //TODO constantify and finish controls
         driverController.a().whileTrue(new ConditionalCommand( //shoot
-            enableAngleBindCmd(180),
+            enableAngleBindCmd(kShootCenterAngle),
             robotContainer.m_commandContainer.shootFancy(0.6125), 
             driverController.leftBumper()));
         
         driverController.start().whileTrue(new ConditionalCommand( //amp
-            enableAngleBindCmd(90),
+            enableAngleBindCmd(kAmpAngle),
             robotContainer.m_commandContainer.ampHandoffScore(), 
             driverController.leftBumper()));
 
         driverController.y().whileTrue(new ConditionalCommand( //intake
-            enableAngleBindCmd(125),
+            enableAngleBindCmd(kIntakeAngle),
             robotContainer.m_intake.takeIn().until(() -> !robotContainer.m_intake.getBeamBreak()), 
             driverController.leftBumper()));
 
         driverController.b().whileTrue(new ConditionalCommand( //downfield 45 deg to the right ; retract intake
-            enableAngleBindCmd(205),
+            enableAngleBindCmd(kShootRightAngle),
             robotContainer.m_commandContainer.retractIntakeFancy(), 
             driverController.leftBumper()));
 
         driverController.x().whileTrue(new ConditionalCommand( //downfield 45 deg to the left ; alt shoot cmd
-            enableAngleBindCmd(135),
+            enableAngleBindCmd(kShootLeftAngle),
             robotContainer.m_commandContainer.wetShoot(0.8, 37.5), 
             driverController.leftBumper()));
     }    
@@ -166,16 +166,6 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
         }
         return activeAxisExists;
     }
-
-    // private BooleanSupplier bindAngleMode(boolean checkIfEnabled) {
-    //     BooleanSupplier mode;
-    //     if (checkIfEnabled) {
-    //         mode = driverController.leftBumper();
-    //     } else {
-    //         mode = driverController.leftBumper().negate().debounce(kBindAngleDebounce, DebounceType.kFalling);
-    //     }
-    //     return mode;
-    // }
 
     private Command enableAngleBindCmd(double angle) {
         return new InstantCommand(() -> {
