@@ -19,6 +19,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -50,6 +51,12 @@ public class Drivetrain implements Subsystem, Logged {
     public boolean isRobotCentric = false;
     public boolean isCrawling = false;
     public double rotationSlowingSeverity = 0.5;
+
+    public static enum DriveMode {
+        kFieldCentric,
+        kRobotCentric,
+        kFieldCentricFacingAngle
+    }
 
     public Drivetrain() {
         m_swerve = TunerConstants.Drivetrain;
@@ -113,14 +120,12 @@ public class Drivetrain implements Subsystem, Logged {
             stickInputs[1] *= translationMultiplier;
             stickInputs[2] *= applyMultiplier(rotationSlowingSeverity, Math.sqrt(DriverXbox.kCrawlRotationMultiplier));
 
-            //if(crawlMode.getAsBoolean()){
-            if(isCrawling == true){
+            if (isCrawling == true) {
                 stickInputs[0] *= 0.225;
                 stickInputs[1] *= 0.225;
             } //TODO: add an "else" statement that clamps the normal travel speed if needed
 
-            if(robotCentric.getAsBoolean()){
-            //if(isRobotCentric){
+            if (robotCentric.getAsBoolean()) {
                     m_swerve.setControl(m_OpenLoopRobotCentricRequest
                         .withVelocityX(stickInputs[0] * kMaxTranslationSpeed) //Moustafa likes robot-oriented being forward
                         .withVelocityY(stickInputs[1] * kMaxTranslationSpeed) //for some reason
@@ -189,7 +194,56 @@ public class Drivetrain implements Subsystem, Logged {
         });
     } //Command driveTeleopCommand 
 
+    //TODO cleanup this method
 
+    /**
+     * Tell the drive subsystem how it should move in Teleop.
+     * No input filtering shenanigans; your controls will have to apply deadband and any other
+     * desired input filtering before passing it in.
+     * @param xSup [-1, 1] Forward/backward (upfield/downfield) speed.
+     * Joysticks default up = -1 so you'll probably want to invert it.
+     * @param ySup [-1, 1] Strafe left/right speed.
+     * @param thetaSup [-1, 1] (kFieldCentric, kRobotCentric) Turn left/right speed.
+     * [0, 360) (kFieldCentricFacingAngle) Angle the robot should face where 0 = downfield.
+     * @param mode The drive mode to use.
+     * @return a Command that will use the above options to drive the robot.
+     */
+    public Command driveTeleopSimpleCmd(DoubleSupplier xSup, DoubleSupplier ySup, DoubleSupplier thetaSup, DriveMode mode) {
+        Command driveCommand;
+        switch(mode) {
+            case kRobotCentric:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopRobotCentricRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withRotationalRate(thetaSup.getAsDouble() * kMaxRotationSpeed));
+                });
+            break;
+            case kFieldCentricFacingAngle:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopControlledHeadingRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withTargetDirection(Rotation2d.fromDegrees(thetaSup.getAsDouble())));
+                });
+            break;
+            case kFieldCentric:
+            default:
+                driveCommand = run(() -> {
+                    m_swerve.setControl(m_OpenLoopFieldCentricRequest
+                        .withVelocityX(xSup.getAsDouble() * kMaxTranslationSpeed)
+                        .withVelocityY(ySup.getAsDouble() * kMaxTranslationSpeed)
+                        .withRotationalRate(thetaSup.getAsDouble() * kMaxRotationSpeed));
+                });
+            break;
+        }
+        driveCommand = driveCommand.withName("Drive Teleop Simple (" + mode + ")");
+        return driveCommand;
+    }
+
+    public Command driveTeleopSimpleCmd(Supplier<Translation2d> translation, DoubleSupplier rotation, DriveMode mode) { //is this bad for performance?
+        return driveTeleopSimpleCmd(() -> translation.get().getX(), () -> translation.get().getY(), rotation, mode);
+    }
 
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */

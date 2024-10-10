@@ -5,10 +5,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
+
+import monologue.Annotations.Log;
+
 import frc.robot.io.PivotIO;
 import frc.robot.utils.CTREConfigurer;
-import monologue.Annotations.Log;
 import static frc.robot.Constants.PivotConstants.*;
+import frc.robot.HardwareIds;
 
 import com.ctre.phoenix6.controls.CoastOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -21,8 +24,8 @@ public class PivotFalcon extends PivotIO {
     PositionVoltage m_positionVoltageRequest;
     
     public PivotFalcon() {
-        m_motor = new TalonFX(kMotorID);
-        m_absEncoder = new DutyCycleEncoder(kEncoderChannel);
+        m_motor = new TalonFX(HardwareIds.Canbus.kPivotID);
+        m_absEncoder = new DutyCycleEncoder(HardwareIds.Dio.kPivotEncoder);
         m_absEncoder.setDutyCycleRange(0, 1);
         CTREConfigurer.configureMotor(
             CTREConfigurer.getInstance().pivotConfig,

@@ -3,17 +3,16 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.*;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-//import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import static frc.robot.Constants.ShooterConstants.*;
+import frc.robot.HardwareIds;
 
 public class Shooter extends SubsystemBase {
 
     TalonFX shooterMotor;
     
     public Shooter() {
-        shooterMotor = new TalonFX(kShooterMotorID);
+        shooterMotor = new TalonFX(HardwareIds.Canbus.kShooterID);
 
         var slot0Configs = new Slot0Configs();
         slot0Configs.kS = 0.05; // Add 0.05 V output to overcome static friction

@@ -5,27 +5,20 @@ import frc.robot.generated.TunerConstants;
 
 public final class Constants {
 
-
     public static final class ShooterConstants {
         public static final double kShooterSpeed = 0.5;
-        public static final int kShooterMotorID = 13;
-        public static final double kShooterMotorStopSpeed = 0;
     }
 
     public static final class IntakeConstants {
         public static final double kIntakeSpeed = 1;
-        public static final int kIntakeMotorID = 20;
-        public static final double kIntakeMotorStopSpeed = 0;
         public static final double kCurrentThreshold = 18; //amps
-        public static final double kCurrentSpikeTime = 0.2; //secs
+        public static final double kCurrentSpikeTime = 0.12; //secs
         //1 second is literally perfect for a handoff at 0.75 intake speed
         public static final double kPullInTime = 0.3127;
     }
 
     public static final class ClimberConstants {
         public static final double kLiftSpeed = 0.25;
-        public static final int kLiftMotorID = 21;
-        public static final double kLiftMotorStopSpeed = 0;
     }
 
     public static final class DigitalInputConstants {
@@ -39,7 +32,6 @@ public final class Constants {
 
     public static final class ControllerConstants {
         public static final class DriverXbox {
-            public static final int kControllerID = 0;
             public static final double kThumbstickDeadband = 0.2;
             public static final double kJoystickDeadband = 0.2;
             public static final double kTriggerDeadband = 0.3;
@@ -47,9 +39,6 @@ public final class Constants {
             public static final double kCrawlTranslationMultiplier = 0.65;
             public static final double kCrawlRotationMultiplier = 0.3;
             public static final double kRotationDesaturationFactor = 0.3;
-        }
-        public static final class OperatorXbox {
-            public static final int kControllerID = 1;
         }
     }
 
@@ -81,8 +70,6 @@ public final class Constants {
     }
 
     public static final class LiftConstants {
-        public static final int kMotorID = 14;
-
         public static final double kHeightFromGround = 5.94; //All in inches
         public static final double kLowerLimitHeight = 12.5; //Relative to height from ground
         public static final double kUpperLimitHeight = 32.5;
@@ -109,8 +96,6 @@ public final class Constants {
     }
 
     public static final class PivotConstants {
-        public static final int kMotorID = 15;
-        public static final int kEncoderChannel = 0;
         public static final double kEncoderOffset = 273; //degrees; adjust such that 0 degrees matches with horizontal
 
         public static final double kLowerLimit = -45;
@@ -153,8 +138,4 @@ public final class Constants {
             return name;
         }
     }
-
-    public static final class VisionConstants{
-            public static final int kLidarPort = 0;
-        }
 }
