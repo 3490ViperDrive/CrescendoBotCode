@@ -2,9 +2,7 @@ package frc.robot.utils;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -42,13 +40,13 @@ public class CommandContainer {
     }
 
     //TODO: wet code will get converted to main after tournament
-    public Command shootFancier(double speed){
+    /*public Command shootFancier(double speed){
         return shooter.shoot(speed)
             .alongWith(new SequentialCommandGroup(
                 new WaitCommand(0.75),
                 intake.takeIn(1)
             ));
-    }
+    }*/
 
     public Command wetShoot(double speed, double angle){
         return pivot.requestPosition(angle).alongWith(shootFancy(speed));
@@ -63,7 +61,7 @@ public class CommandContainer {
                 new SequentialCommandGroup(
                 // intake.toggleNoteStatus(),
                 new WaitCommand(0.75),
-                pivot.requestPosition(-38).raceWith(
+                pivot.requestPosition(-58).raceWith(
                     new SequentialCommandGroup(
                         new WaitCommand(0.5),
                         shooter.shoot(0.45).withTimeout(0.5))

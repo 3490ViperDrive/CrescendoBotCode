@@ -60,6 +60,9 @@
     "Retained Values": {
       "open": false
     },
+    "Transitory Values": {
+      "open": false
+    },
     "transitory": {
       "Preferences": {
         "open": true
@@ -67,6 +70,9 @@
     }
   },
   "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
     "visible": true
   }
 }

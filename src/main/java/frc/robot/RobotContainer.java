@@ -4,57 +4,45 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
-import frc.robot.Constants.ControllerConstants.DriverXbox;
+
 import frc.robot.subsystems.*;
 import frc.robot.utils.CommandContainer;
-import monologue.Logged;
-import static frc.robot.Constants.ShooterConstants.*;
 
-import com.pathplanner.lib.auto.NamedCommands;
+import monologue.Logged;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 public class RobotContainer implements Logged {
-
-  private int player1Port = 0;
-  //TODO: player input will be handled by implementation of omnicontroller/genericHID/yadda
-  CommandXboxController m_driverController = new CommandXboxController(DriverXbox.kControllerID); //TODO: constant can live here
-  CommandJoystick m_driverJoystick = new CommandJoystick(player1Port);  
   
-  Drivetrain m_drivetrain = new Drivetrain();
-  Pivot m_pivot = new Pivot();
-  Shooter m_shooter = new Shooter();
-  Intake m_intake = new Intake();
-  Climber m_climber = new Climber();
-  TrapLift m_lift = new TrapLift();
+  public Drivetrain m_drivetrain = new Drivetrain();
+  public Pivot m_pivot = new Pivot();
+  public Shooter m_shooter = new Shooter();
+  public Intake m_intake = new Intake();
+  public Climber m_climber = new Climber();
+  public TrapLift m_lift = new TrapLift();
 
   //TODO: move to UIManager class
   SendableChooser<Command> m_chooser = new SendableChooser<>();
    
   //TODO address later
-  CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
+  public CommandContainer m_commandContainer = new CommandContainer(m_intake, m_pivot, m_shooter, m_climber, m_lift);
 
   public RobotContainer() {
-
     setupChooser();
 
     m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
     m_lift.setDefaultCommand(m_lift.idle());
 
-    //TODO replace "Joystick" magic string with variable retrieved from UIManager
-    setDriveDefault(m_driverController, "Joystick");
     configureBindings();
   } // piss
 
   private void configureBindings() {
 
     //TODO: implement with omnicontroller
-    m_driverJoystick.button(1).onTrue(m_intake.takeInFancy().until(m_intake.gadzooks())); //TODO gadzooks is a bad name
+    /*
+    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(() -> !m_intake.getBeamBreak()));
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125));
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore());
     m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 37.5));
@@ -65,7 +53,18 @@ public class RobotContainer implements Logged {
     m_driverJoystick.button(10).toggleOnTrue(m_commandContainer.raisePivotLiftForClimb());
     m_driverJoystick.button(11).whileTrue(m_climber.climb(0.75));
     m_driverJoystick.button(12).onTrue(m_drivetrain.zeroYawCommand());
+    */
+    
+    //TODO get "choice" from smartdash/shuffleboard
+    //String temp = "Joystick";
 
+    //setDriveDefault(m_driverController, temp);
+    //configureControllerAgnosticBindings();
+  }
+
+  public void configureControllerAgnosticBindings() {
+    m_pivot.setDefaultCommand(m_pivot.requestPosition(55));
+    m_lift.setDefaultCommand(m_lift.idle());
   }
   
   public Command getAutonomousCommand() {
@@ -78,8 +77,7 @@ public class RobotContainer implements Logged {
   }
 
 
-  //TODO move implementation from here to OmniController
-  public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
+  /*public void setDriveDefault(CommandGenericHID m_driverJoystick, String whichType){
     switch(whichType){
       case "Joystick":
           m_drivetrain.setDefaultCommand(
@@ -111,11 +109,11 @@ public class RobotContainer implements Logged {
             ()-> getY,
             ()-> getZ,
             ()-> getCrawl.getAsBoolean)
-        );*/
+        );
       default:
         break;
     }
-  }
+  }*/
 
   void setupChooser(){
     m_chooser.setDefaultOption("(All)2 note middle auto",new PathPlannerAuto("simpleCenter"));

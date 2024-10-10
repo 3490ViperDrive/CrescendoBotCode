@@ -11,36 +11,51 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.utils.omnihid.OmniHID;
+import frc.robot.utils.omnihid.controlschemes.*;
 
 public class Robot extends TimedRobot implements Logged {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
 
 
-  //TODO: move these fields out of Robot.java and into ___ 
-  public static final String XboxController = "XboxController";
-  public static final String Joystick = "JoyStick";
-  public static final SendableChooser<String> m_controllerchoice = new SendableChooser<>();
+  ControlScheme m_singleJoystickScheme;
+  ControlScheme m_singleXboxScheme;
+  ControlScheme m_experimentalSingleXboxScheme;
+  OmniHID m_omniHID;
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    m_experimentalSingleXboxScheme = new ExperimentalSingleXbox(m_robotContainer);
+    m_singleJoystickScheme = new SingleJoystick(m_robotContainer);
+    m_singleXboxScheme = new SingleXbox(m_robotContainer);
+    m_omniHID = new OmniHID(m_robotContainer::configureControllerAgnosticBindings, 
+      //Ugly
+      new Subsystem[] {m_robotContainer.m_drivetrain,
+                       m_robotContainer.m_pivot, 
+                       m_robotContainer.m_shooter,
+                       m_robotContainer.m_intake,
+                       m_robotContainer.m_climber,
+                       m_robotContainer.m_lift},
+      m_experimentalSingleXboxScheme,
+      m_singleJoystickScheme,
+      m_singleXboxScheme);
 
     DriverStation.silenceJoystickConnectionWarning(true);
     Monologue.setupMonologue(this, "Robot", false, false);
     DataLogManager.start();
-    DriverStation.startDataLog(DataLogManager.getLog());
-    CameraServer.startAutomaticCapture(); 
+    DriverStation.startDataLog(DataLogManager.getLog(), true); //Log joystick data
+    CameraServer.startAutomaticCapture(); //TODO add driver overlay
 
     //TODO: move from Robot.java into <as of yet undefined> UIManager
     dashboardUI();
     
     addPeriodic(() -> Monologue.setFileOnly(DriverStation.isFMSAttached() && Robot.isReal()), 1);
+    addPeriodic(m_omniHID::refreshControllers, 0.5);
   }
 
   @Override
@@ -101,8 +116,9 @@ public class Robot extends TimedRobot implements Logged {
   //TODO move to <as yet undefined> UIManager class
   private void dashboardUI(){
     // Colton's code below ;w;
+    /*
     m_controllerchoice.setDefaultOption("Xbox Controller", XboxController);
     m_controllerchoice.addOption("Joystick", Joystick);
-    SmartDashboard.putData("Controller Choice", m_controllerchoice);
+    SmartDashboard.putData("Controller Choice", m_controllerchoice);*/
   }
 }
