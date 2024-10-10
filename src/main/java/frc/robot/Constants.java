@@ -17,7 +17,7 @@ public final class Constants {
         public static final int kIntakeMotorID = 20;
         public static final double kIntakeMotorStopSpeed = 0;
         public static final double kCurrentThreshold = 18; //amps
-        public static final double kCurrentSpikeTime = 0.2; //secs
+        public static final double kCurrentSpikeTime = 0.1; //secs
         //1 second is literally perfect for a handoff at 0.75 intake speed
         public static final double kPullInTime = 0.3127;
     }

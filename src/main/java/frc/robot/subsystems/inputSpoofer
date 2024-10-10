@@ -3,13 +3,41 @@ package frc.robot.subsystems;
 public class inputSpoofer extends subsystemBase{
 
     double speedMultiplier;
-    
+    double rotationMultiplier;
+
     private double xOutput;
     private double yOutput;
     
-    public double getZRot
+    public double zRot;
+
+
+    public double zRot(){
+        if ((CommandXboxController.getRightTriggerAxis()))&&
+        ((!CommandXboxController.getLeftTriggerAxis())){
+            return 1 * rotationMultiplier;//right rotation
+        } else if ((CommandXboxController.getRightTriggerAxis()))&&
+        ((!CommandXboxController.getLeftTriggerAxis())){
+            return -1 * rotationMultiplier;//left rotation
+        }
+    }
+
+   /* public double xOutput(){
+        if ((CommandXboxController.povRight()))&&
+        ((!CommandXboxController.povLeft())){
+            return 1 * speedMultiplier;//right movement
+        } else if ((CommandXboxController.povRight()))&&
+        ((!CommandXboxController.povLeft())){
+            return -1 * speedMultiplier;
+        }
+    }*/
 
 }
+
+@Override
+public void periodic(){
+    get zRot
+}
+
 
 
 

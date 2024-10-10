@@ -54,7 +54,7 @@ public class RobotContainer implements Logged {
   private void configureBindings() {
 
     //TODO: implement with omnicontroller
-    m_driverJoystick.button(1).onTrue(m_intake.takeIn(1).until(m_intake.gadzooks())); //TODO gadzooks is a bad name
+    m_driverJoystick.button(1).onTrue(m_intake.takeInFancy().until(m_intake.gadzooks())); //TODO gadzooks is a bad name
     m_driverJoystick.button(2).whileTrue(m_commandContainer.shootFancy(0.6125));
     m_driverJoystick.button(3).onTrue(m_commandContainer.ampHandoffScore());
     m_driverJoystick.button(4).whileTrue(m_commandContainer.wetShoot(0.8, 37.5));
