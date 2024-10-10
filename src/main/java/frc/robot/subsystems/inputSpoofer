@@ -12,13 +12,7 @@ public class inputSpoofer extends subsystemBase{
 
 
     public double zRot(){
-        if ((CommandXboxController.getRightTriggerAxis()))&&
-        ((!CommandXboxController.getLeftTriggerAxis())){
-            return 1 * rotationMultiplier;//right rotation
-        } else if ((CommandXboxController.getRightTriggerAxis()))&&
-        ((!CommandXboxController.getLeftTriggerAxis())){
-            return -1 * rotationMultiplier;//left rotation
-        }
+        return CommamndXboxController.getLeftTriggerAxis()
     }
 
    /* public double xOutput(){
