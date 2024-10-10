@@ -1,5 +1,6 @@
 package frc.robot.utils.omnihid.controlschemes;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -15,14 +16,15 @@ import static frc.robot.utils.omnihid.OmniHID.ControllerType.*;
 
 import static frc.robot.utils.omnihid.OmniHID.ControllerPairing;
 import frc.robot.subsystems.Drivetrain.DriveMode;
+import monologue.Logged;
 import monologue.Annotations.IgnoreLogged;
 
-public class ExperimentalSingleXbox extends ControlScheme {
+public class ExperimentalSingleXbox extends ControlScheme implements Logged {
     
     public static double kThumbstickDeadband = 0.1;
     public static double kTriggerDeadband = 0.15;
     public static double kCrawlMultiplier = 0.225;
-    public static double kBindAngleDebounce = 2; //seconds
+    //public static double kBindAngleDebounce = 2; //seconds
 
     @IgnoreLogged
     private final RobotContainer robotContainer;
@@ -55,12 +57,24 @@ public class ExperimentalSingleXbox extends ControlScheme {
                 () -> false,
                 () -> driverControllerHID.getRightBumper()));
         */
+
+        /*
         robotContainer.m_drivetrain.setDefaultCommand(
             robotContainer.m_drivetrain.driveTeleopSimpleCmd(
                 () -> filterAxis(-driverController.getLeftY(), kThumbstickDeadband),
                 () -> filterAxis(-driverController.getLeftX(), kThumbstickDeadband),
                 () -> filterAxis(driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), kTriggerDeadband),
                 DriveMode.kFieldCentric));
+        */
+
+        robotContainer.m_drivetrain.setDefaultCommand(
+            robotContainer.m_drivetrain.driveTeleopSimpleCmd(
+                () -> filterLeftStick(driverController.getLeftX(), 
+                                      driverController.getLeftY()),
+                () -> filterTriggers(driverController.getLeftTriggerAxis(),
+                                     driverController.getRightTriggerAxis()),
+            DriveMode.kFieldCentric)
+        );
     }
 
     @Override
@@ -69,14 +83,15 @@ public class ExperimentalSingleXbox extends ControlScheme {
 
         driverController.rightBumper().whileTrue( //backup cam driving
             robotContainer.m_drivetrain.driveTeleopSimpleCmd(
-                () -> filterAxis(driverController.getLeftY(), kThumbstickDeadband) * kCrawlMultiplier,
-                () -> filterAxis(driverController.getLeftX(), kThumbstickDeadband) * kCrawlMultiplier,
-                () -> filterAxis(driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), kTriggerDeadband) * kCrawlMultiplier,
+                () -> filterLeftStick(driverController.getLeftX(), 
+                                      -driverController.getLeftY()).times(kCrawlMultiplier),
+                () -> filterTriggers(driverController.getLeftTriggerAxis(),
+                                     driverController.getRightTriggerAxis()) * kCrawlMultiplier,
                 DriveMode.kRobotCentric));
 
         driverController.rightBumper().negate().and(() -> isAngleBound).whileTrue(robotContainer.m_drivetrain.driveTeleopSimpleCmd(
-                () -> filterAxis(-driverController.getLeftY(), kThumbstickDeadband),
-                () -> filterAxis(-driverController.getLeftX(), kThumbstickDeadband),
+                () -> filterLeftStick(driverController.getLeftX(), 
+                                      driverController.getLeftY()),
                 () -> angle,
                 DriveMode.kFieldCentricFacingAngle));
 
@@ -116,9 +131,30 @@ public class ExperimentalSingleXbox extends ControlScheme {
             driverController.leftBumper()));
     }    
 
+    //should these methods get moved to InputFilteringUtil?
     private double filterAxis(double axisValue, double deadband) {
         return InputFilteringUtil.squareInput(
             InputFilteringUtil.applyDeadbandSpecial(axisValue, deadband));
+    }
+
+    private double filterTriggers(double leftTrigger, double rightTrigger) {
+        return InputFilteringUtil.squareInput(
+            InputFilteringUtil.applyDeadbandSpecial(leftTrigger, kTriggerDeadband)
+            - InputFilteringUtil.applyDeadbandSpecial(rightTrigger, kTriggerDeadband));
+    }
+
+    private Translation2d filterLeftStick(double leftX, double leftY) {
+        //Convert cartesian to polar
+        double translationDistance = Math.hypot(-leftX, -leftY);
+        double translationAngle = Math.atan2(-leftY, -leftX);
+        translationDistance = filterAxis(Math.min(translationDistance, 1), kThumbstickDeadband);
+        //Convert (filtered) polar back to cartesian
+        double x = translationDistance * Math.cos(translationAngle);
+        double y = translationDistance * Math.sin(translationAngle);
+        //Use the "X right, Y up" option; center origin; 2x2
+        log("Controller X for Ascope", new double[]{leftX, -x, 0});
+        log("Controller Y for Ascope", new double[]{-leftY, y, 0});
+        return new Translation2d(y, x); //Y up, X left (controller axes) -> X up, Y left (WPILib NWU convention)
     }
 
     private boolean axesAreActive(double deadband, double... axes) {

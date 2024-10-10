@@ -19,6 +19,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -240,7 +241,9 @@ public class Drivetrain implements Subsystem, Logged {
         return driveCommand;
     }
 
-
+    public Command driveTeleopSimpleCmd(Supplier<Translation2d> translation, DoubleSupplier rotation, DriveMode mode) { //is this bad for performance?
+        return driveTeleopSimpleCmd(() -> translation.get().getX(), () -> translation.get().getY(), rotation, mode);
+    }
 
 
     /* X and Y should be in m/s and no more than the max speed of the robot. Angle should be angle of the robot in degrees relative to downfield */
