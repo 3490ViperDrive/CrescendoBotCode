@@ -35,8 +35,7 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
     @IgnoreLogged
     private final RobotContainer robotContainer;
 
-    private CommandXboxController driverController = new CommandXboxController(1); 
-    private XboxController driverControllerHID = driverController.getHID();
+    private CommandXboxController driverController = new CommandXboxController(1);
 
     //trusting that this class won't put itself into an invalid state
     private boolean isAngleBound = false;
@@ -50,29 +49,6 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
 
     @Override
     public void addDefaultCommands() {
-        /*
-        robotContainer.m_drivetrain.setDefaultCommand( //TODO swap to driveTeleopGeneric and do input filtering here
-            robotContainer.m_drivetrain.driveTeleopCommand(
-                driverController::getLeftY,
-                driverController::getLeftX,
-                () -> driverController.getRightTriggerAxis() - driverController.getLeftTriggerAxis(),
-                () -> (driverControllerHID.getLeftBumper()) ? 1 : 0,
-                () -> false,
-                () -> false,
-                () -> false,
-                () -> false,
-                () -> driverControllerHID.getRightBumper()));
-        */
-
-        /*
-        robotContainer.m_drivetrain.setDefaultCommand(
-            robotContainer.m_drivetrain.driveTeleopSimpleCmd(
-                () -> filterAxis(-driverController.getLeftY(), kThumbstickDeadband),
-                () -> filterAxis(-driverController.getLeftX(), kThumbstickDeadband),
-                () -> filterAxis(driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), kTriggerDeadband),
-                DriveMode.kFieldCentric));
-        */
-
         robotContainer.m_drivetrain.setDefaultCommand(
             robotContainer.m_drivetrain.driveTeleopSimpleCmd(
                 () -> filterLeftStick(driverController.getLeftX(), 
