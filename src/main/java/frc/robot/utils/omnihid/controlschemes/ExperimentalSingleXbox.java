@@ -21,16 +21,16 @@ import monologue.Annotations.IgnoreLogged;
 
 public class ExperimentalSingleXbox extends ControlScheme implements Logged {
     
-    public static double kThumbstickDeadband = 0.1;
-    public static double kTriggerDeadband = 0.15;
-    public static double kCrawlMultiplier = 0.225;
+    public static final double kThumbstickDeadband = 0.1;
+    public static final double kTriggerDeadband = 0.15;
+    public static final double kCrawlMultiplier = 0.225;
     //public static double kBindAngleDebounce = 2; //seconds
 
-    public static double kAmpAngle = 90;
-    public static double kShootCenterAngle = 180;
-    public static double kIntakeAngle = 125;
-    public static double kShootLeftAngle = 135; //driver's left and right
-    public static double kShootRightAngle = 205;
+    public static final double kAmpAngle = 90;
+    public static final double kShootCenterAngle = 180;
+    public static final double kIntakeAngle = 125;
+    public static final double kShootLeftAngle = 135; //driver's left and right
+    public static final double kShootRightAngle = 205;
 
     @IgnoreLogged
     private final RobotContainer robotContainer;
