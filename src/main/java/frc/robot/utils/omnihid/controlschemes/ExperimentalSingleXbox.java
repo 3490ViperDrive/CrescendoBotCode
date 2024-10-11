@@ -65,7 +65,7 @@ public class ExperimentalSingleXbox extends ControlScheme implements Logged {
 
         driverController.rightBumper().whileTrue( //backup cam driving
             robotContainer.m_drivetrain.driveTeleopSimpleCmd(
-                () -> filterLeftStick(driverController.getLeftX(), 
+                () -> filterLeftStick(-driverController.getLeftX(), 
                                       -driverController.getLeftY()).times(kCrawlMultiplier),
                 () -> filterTriggers(driverController.getLeftTriggerAxis(),
                                      driverController.getRightTriggerAxis()) * kCrawlMultiplier,
